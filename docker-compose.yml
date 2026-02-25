@@ -1,0 +1,30 @@
+version: '3.8'    #check if there is a new docker compose version
+services:
+  web:
+    build: .
+    ports:
+      - "8077:80"    #this line maps your pc port to the container port
+    depends_on:
+      - db    #this line links this container to the db container
+  #seems like overkill to have a whole container for a one-off, but this is all I can make work
+  seed:
+    build: .
+    command: ["/var/www/wait_and_seed.sh"]
+    depends_on:
+      - db     
+  db:
+    image: mysql:8.1.0 
+    environment:
+      MYSQL_ROOT_PASSWORD: davmysqlpwd    #you can change the mysql root password here
+      MYSQL_DATABASE: dav    #you can change the database name here
+      MYSQL_USER: davuser
+      MYSQL_PASSWORD: davpassword
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8076:80"    #this line maps your pc port to the container port
+    depends_on:
+      - db    #this line links this container to the db container
+    environment:
+      PMA_HOST: db
+
