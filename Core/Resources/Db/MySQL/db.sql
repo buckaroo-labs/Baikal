@@ -138,9 +138,10 @@ CREATE TABLE propertystorage (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE UNIQUE INDEX path_property ON propertystorage (path(600), name(100));
-CREATE TABLE users (
+CREATE TABLE user (
     id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    username VARBINARY(50),
-    password VARBINARY(200),
+    username VARCHAR(50),
+    password_hash VARBINARY(200),
+    access_token VARCHAR(200),
     UNIQUE(username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

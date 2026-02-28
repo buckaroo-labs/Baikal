@@ -135,8 +135,9 @@ CREATE TABLE propertystorage (
 );
 
 CREATE UNIQUE INDEX path_property ON propertystorage (path, name);
-CREATE TABLE users (
+CREATE TABLE user (
     id SERIAL PRIMARY KEY,
     username TEXT,
-    digesta1 TEXT
+    password_hash TEXT,
+    access_token TEXT
 );

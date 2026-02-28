@@ -132,10 +132,10 @@ class Server {
 
         if ($this->authType === 'Basic') {
             //$authBackend = new \Baikal\Core\PDOBasicAuth($this->pdo, $this->authRealm);
-            //modified 27 FEB 2026 by buckaroo-labs: digesta1->password
+            //modified 27 FEB 2026 by buckaroo-labs: digesta1->password_hash; users->user
             //https://github.com/sabre-io/dav/pull/1284
             $options = array(
-                'digestColumn'  => 'password',
+                'digestColumn'  => 'password_hash',
                 'uuidColumn'	=> 'username',
                 'tableName'		=> 'users',
                 'digestPrefix'	=> ''

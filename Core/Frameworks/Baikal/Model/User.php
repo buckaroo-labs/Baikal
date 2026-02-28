@@ -30,13 +30,14 @@ namespace Baikal\Model;
 use Symfony\Component\Yaml\Yaml;
 
 class User extends \Flake\Core\Model\Db {
-    const DATATABLE = "users";
+    //modified 27 FEB 2026 by buckaroo-labs: users->user
+    const DATATABLE = "user";
     const PRIMARYKEY = "id";
     const LABELFIELD = "username";
     //modified 27 FEB 2026 by buckaroo-labs: digesta1->password
     protected $aData = [
         "username" => "",
-        "password" => "",
+        "password_hash" => "",
     ];
 
     protected $oIdentityPrincipal;
@@ -106,7 +107,7 @@ class User extends \Flake\Core\Model\Db {
             if ($sPropName === "password" && $sPropValue !== "") {
                 //modified 27 FEB 2026 by buckaroo-labs: digesta1->password
                 parent::set(
-                    "password",
+                    "password_hash",
                     $this->getPasswordHashForPassword($sPropValue)
                 );
             }

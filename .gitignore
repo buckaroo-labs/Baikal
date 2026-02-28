@@ -25,3 +25,6 @@ nbproject
 # Tests
 .php-cs-fixer.cache
 .php_cs.cache
+
+### added by buckaroo-labs:
+html/settingsPasswords.php

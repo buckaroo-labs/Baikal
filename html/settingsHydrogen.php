@@ -1,0 +1,83 @@
+<?php
+
+/*
+If these color settings are not set here, defaults may be assigned elsewhere in the code. These aren't colors per se, but classes assigned to elements, which by default will be colored according to w3.css specs. You can use the w3 color classes or something else defined in your styles.css file. ... or even override the colors of the w3 classes in your css. 
+*/
+
+//navbar and footer color
+$settings['color1']="w3-black";
+//secondary footer color
+$settings['color2']="w3-red";
+//navbar hover color
+$settings['color3']="w3-hover-white";
+//sidebar hover color
+$settings['color4']="w3-hover-red";
+$settings['color5']="w3-hover-black";
+
+
+$logo_image="res/core/Baikal/Images/logo-baikal.png";
+$settings['login_page']="cadence.php?p=login";
+$settings['registration_page']="cadence.php?p=register";
+$hideSearchForm=true;
+$settings['footer_text1']='&copy;2026 buckaroo-labs';
+$settings['footer_text2']="https://github.com/buckaroo-labs";
+
+//2-week expiry
+$settings['JWTExpireTime'] = 1209600;
+$settings['JWTTokenName'] = 'persistentLogin';
+
+$navbar_links=array();  
+$sidebar_links=array();  
+if (!isset($_GET['menu'])) {
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"cadence.php?p=contacts","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"cadence.php?p=events","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Reminders',"href"=>"cadence.php?p=todo","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Journal',"href"=>"cadence.php?p=journal","class"=>$settings['color4']);
+} elseif($_GET['menu']=="admin") {
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Mail setup',"href"=>"admin.php?p=Mail","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin.php?p=Users","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Roles',"href"=>"admin.php?p=Roles","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Privileges',"href"=>"admin.php?p=Privs","class"=>$settings['color4']);
+} elseif($_GET['menu']=="baikal") {
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Dashboard',"href"=>"admin.php?p=baikaldashboard","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin.php?p=baikalusers","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Config',"href"=>"admin.php?p=baikalconfig","class"=>$settings['color4']);
+} elseif($_GET['menu']=="sabre") {
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"cadence.php?p=sabrecontacts","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"cadence.php?p=sabreevents","class"=>$settings['color4']);
+}
+
+
+$active_menu_class="w3-hide-small " . $settings['color5'];
+$other_menu_class="w3-hide-small " . $settings['color5'];
+
+$navbar_links[sizeof($navbar_links)]=array("name"=>'<img src="'. $logo_image .'" height="20">',"href"=>"index.php","class"=>"w3-theme-l2");
+$navbar_links[sizeof($navbar_links)]=array("name"=>"Home","href"=>"cadence.php","class"=> $settings['color3']);
+if (isset($_SESSION['username'])) {
+	//$navbar_links[sizeof($navbar_links)]=array("name"=>"Admin","href"=>"admin.php?menu=admin","class"=> $settings['color3']);
+}
+//Best to hide most navbar links on smaller screens, or else they overlap the sidebar
+$navbar_links[sizeof($navbar_links)]=array("name"=>"Admin","href"=>"cadence.php?menu=baikal","class"=>"w3-hide-small " .$settings['color3']);
+$navbar_links[sizeof($navbar_links)]=array("name"=>"Explorer","href"=>"cadence.php?menu=sabre","class"=>"w3-hide-small " .$settings['color3']);
+$navbar_links[sizeof($navbar_links)]=array("name"=>"About","href"=>"cadence.php?p=About","class"=>"w3-hide-small " .$settings['color3']);
+
+//GET variables to persist between page clicks
+$stateVarList=array('menu','id');
+
+//defaults:
+$settings['DEFAULT_DB_TYPE'] = "mysql";
+//The following settings would be needed for an Oracle or MySQL connection:
+$settings['DEFAULT_DB_USER'] = "davuser";
+$settings['DEFAULT_DB_HOST'] = "db";
+$settings['DEFAULT_DB_PORT'] = "1521";
+$settings['DEFAULT_DB_INST'] = "dav";
+$settings['DEFAULT_DB_MAXRECS'] = 150;
+//Because this file may not be ignored by git, don't put a password 
+//  in this file, but do use this format:
+$settings['DEFAULT_DB_PASS'] = "password"; 
+//put any required passwords in this file instead:
+@include ("settingsPasswords.php");
+
+//settingsPasswords.php can also contain any values for framework testing
+// that we don't want checked into the git repo for this project. 
+// Will override anything above.
