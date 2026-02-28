@@ -137,7 +137,7 @@ class Server {
             $options = array(
                 'digestColumn'  => 'password_hash',
                 'uuidColumn'	=> 'username',
-                'tableName'		=> 'users',
+                'tableName'		=> 'user',
                 'digestPrefix'	=> ''
             );
             $authBackend = new \Sabre\DAV\Auth\Backend\PDOBasicAuth($this->pdo,$options);
