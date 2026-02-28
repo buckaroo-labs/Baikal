@@ -8,8 +8,8 @@ RUN apt-get update  && apt-get install -y \
   rm -rf /var/lib/apt/lists/* &&\
   docker-php-ext-install curl pdo pdo_mysql pdo_pgsql pgsql
 
-RUN apt-get update && apt-get install -y unzip git sqlite3 default-mysql-client vim 
-#(vim for troubleshooting while testing)
+RUN apt-get update && apt-get install -y unzip git sqlite3 default-mysql-client vim wget
+#(vim, wget for troubleshooting while testing)
 #(mysql client for running table creation script)
 #(git for Hydrogen framework install)
 #(unzip for composer)
@@ -37,6 +37,7 @@ ENV PATH="$PATH:/usr/local/bin"
 #Run the Baikal composer.json file
 RUN composer install
 #RUN composer require sabre/dav ~4.7.0
+#RUN composer require sabre/vobject ~4.5
 
 #Get Hydrogen framework
 WORKDIR /var/www/html 
