@@ -16,8 +16,8 @@ $settings['color5']="w3-hover-black";
 
 
 $logo_image="res/core/Baikal/Images/logo-baikal.png";
-$settings['login_page']="cadence.php?p=login";
-$settings['registration_page']="cadence.php?p=register";
+$settings['login_page']="index.php?p=login";
+$settings['registration_page']="index.php?p=register";
 $hideSearchForm=true;
 $settings['footer_text1']='&copy;2026 buckaroo-labs';
 $settings['footer_text2']="https://github.com/buckaroo-labs";
@@ -29,22 +29,23 @@ $settings['JWTTokenName'] = 'persistentLogin';
 $navbar_links=array();  
 $sidebar_links=array();  
 if (!isset($_GET['menu'])) {
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"cadence.php?p=contacts","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"cadence.php?p=events","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Reminders',"href"=>"cadence.php?p=todo","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Journal',"href"=>"cadence.php?p=journal","class"=>$settings['color4']);
-} elseif($_GET['menu']=="admin") {
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"index.php?p=contacts","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"index.php?p=events","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Reminders',"href"=>"index.php?p=todo","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Journal',"href"=>"index.php?p=journal","class"=>$settings['color4']);
+} elseif($_GET['menu']=="hadmin") {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Mail setup',"href"=>"admin.php?p=Mail","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin.php?p=Users","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Roles',"href"=>"admin.php?p=Roles","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Privileges',"href"=>"admin.php?p=Privs","class"=>$settings['color4']);
 } elseif($_GET['menu']=="baikal") {
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Dashboard',"href"=>"admin.php?p=baikaldashboard","class"=>$settings['color4']);
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin.php?p=baikalusers","class"=>$settings['color4']);
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Config',"href"=>"admin.php?p=baikalconfig","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Dashboard',"href"=>"admin./","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin/?/users/","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Config',"href"=>"admin/?/settings/standard/","class"=>$settings['color4']);
 } elseif($_GET['menu']=="sabre") {
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"cadence.php?p=sabrecontacts","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"cadence.php?p=sabreevents","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'DAV Home',"href"=>"dav.php","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"dav.php/addressbooks/","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"dav.php/calendars/","class"=>$settings['color4']);
 }
 
 
@@ -52,14 +53,14 @@ $active_menu_class="w3-hide-small " . $settings['color5'];
 $other_menu_class="w3-hide-small " . $settings['color5'];
 
 $navbar_links[sizeof($navbar_links)]=array("name"=>'<img src="'. $logo_image .'" height="20">',"href"=>"index.php","class"=>"w3-theme-l2");
-$navbar_links[sizeof($navbar_links)]=array("name"=>"Home","href"=>"cadence.php","class"=> $settings['color3']);
+$navbar_links[sizeof($navbar_links)]=array("name"=>"Home","href"=>"index.php","class"=> $settings['color3']);
 if (isset($_SESSION['username'])) {
 	//$navbar_links[sizeof($navbar_links)]=array("name"=>"Admin","href"=>"admin.php?menu=admin","class"=> $settings['color3']);
 }
 //Best to hide most navbar links on smaller screens, or else they overlap the sidebar
-$navbar_links[sizeof($navbar_links)]=array("name"=>"Admin","href"=>"cadence.php?menu=baikal","class"=>"w3-hide-small " .$settings['color3']);
-$navbar_links[sizeof($navbar_links)]=array("name"=>"Explorer","href"=>"cadence.php?menu=sabre","class"=>"w3-hide-small " .$settings['color3']);
-$navbar_links[sizeof($navbar_links)]=array("name"=>"About","href"=>"cadence.php?p=About","class"=>"w3-hide-small " .$settings['color3']);
+$navbar_links[sizeof($navbar_links)]=array("name"=>"Admin","href"=>"index.php?menu=baikal","class"=>"w3-hide-small " .$settings['color3']);
+$navbar_links[sizeof($navbar_links)]=array("name"=>"Explorer","href"=>"index.php?menu=sabre","class"=>"w3-hide-small " .$settings['color3']);
+$navbar_links[sizeof($navbar_links)]=array("name"=>"About","href"=>"index.php?p=About","class"=>"w3-hide-small " .$settings['color3']);
 
 //GET variables to persist between page clicks
 $stateVarList=array('menu','id');
@@ -81,3 +82,6 @@ $settings['DEFAULT_DB_PASS'] = "password";
 //settingsPasswords.php can also contain any values for framework testing
 // that we don't want checked into the git repo for this project. 
 // Will override anything above.
+
+#Not sure what to call this project/product, so going to keep it flexible
+$settings['appname']='Dauriya';

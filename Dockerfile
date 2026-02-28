@@ -45,8 +45,10 @@ RUN git clone https://github.com/buckaroo-labs/Hydrogen.git
 
 #Fix the broken links (probably due to this repo having been cloned to
 # a Windows laptop)
-RUN rm index.php
-RUN ln -s ../Core/Frameworks/Baikal/WWWRoot/index.php
+
+#Commented below is Baikal 0.11's link; we replaced it with a file
+#RUN rm index.php
+#RUN ln -s ../Core/Frameworks/Baikal/WWWRoot/index.php
 RUN rm admin/install/index.php
 WORKDIR /var/www/html/admin/install
 RUN ln -s ../../../Core/Frameworks/BaikalAdmin/WWWRoot/install/index.php

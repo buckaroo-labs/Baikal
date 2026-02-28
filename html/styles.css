@@ -4,3 +4,6 @@ span.vcarddata {
 td.bold {
     font-weight: bold;
 }
+div#HLogo img {
+    max-height: 100px;
+}
