@@ -131,7 +131,17 @@ class Server {
         }
 
         if ($this->authType === 'Basic') {
-            $authBackend = new \Baikal\Core\PDOBasicAuth($this->pdo, $this->authRealm);
+            //$authBackend = new \Baikal\Core\PDOBasicAuth($this->pdo, $this->authRealm);
+            //modified 27 FEB 2026 by buckaroo-labs: digesta1->password
+            //https://github.com/sabre-io/dav/pull/1284
+            $options = array(
+                'digestColumn'  => 'password',
+                'uuidColumn'	=> 'username',
+                'tableName'		=> 'users',
+                'digestPrefix'	=> ''
+            );
+            $authBackend = new \Sabre\DAV\Auth\Backend\PDOBasicAuth($this->pdo,$options);
+            $authBackend->setRealm($this->authRealm); 
         } elseif ($this->authType === 'Apache') {
             $authBackend = new \Sabre\DAV\Auth\Backend\Apache();
         } else {

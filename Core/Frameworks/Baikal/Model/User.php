@@ -33,10 +33,10 @@ class User extends \Flake\Core\Model\Db {
     const DATATABLE = "users";
     const PRIMARYKEY = "id";
     const LABELFIELD = "username";
-
+    //modified 27 FEB 2026 by buckaroo-labs: digesta1->password
     protected $aData = [
         "username" => "",
-        "digesta1" => "",
+        "password" => "",
     ];
 
     protected $oIdentityPrincipal;
@@ -104,8 +104,9 @@ class User extends \Flake\Core\Model\Db {
             # Special handling for password and passwordconfirm
 
             if ($sPropName === "password" && $sPropValue !== "") {
+                //modified 27 FEB 2026 by buckaroo-labs: digesta1->password
                 parent::set(
-                    "digesta1",
+                    "password",
                     $this->getPasswordHashForPassword($sPropValue)
                 );
             }
@@ -285,6 +286,8 @@ class User extends \Flake\Core\Model\Db {
             error_log('Error reading baikal.yaml file : ' . $e->getMessage());
         }
 
-        return md5($this->get("username") . ':' . $config['system']['auth_realm'] . ':' . $sPassword);
+        //return md5($this->get("username") . ':' . $config['system']['auth_realm'] . ':' . $sPassword);
+        //modified 27 FEB 2026 by buckaroo-labs
+        return password_hash($sPassword,PASSWORD_BCRYPT);
     }
 }
