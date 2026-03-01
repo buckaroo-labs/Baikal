@@ -52,7 +52,7 @@ require_once("Hydrogen/db/clsDataSource.php");
 <!-- Main content: shift it to the right when the sidebar is visible -->
 <div class="w3-main">
 
-  <div class="w3-row w3-padding-64" style="display: grid; grid-template-columns: auto auto">
+  <div class="w3-padding-64" style="display: grid; grid-template-columns: auto auto">
 
 		<?php 
         
@@ -66,7 +66,7 @@ require_once("Hydrogen/db/clsDataSource.php");
 			echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
 			echo "<p>Use the Admin link for Ba&iuml;kal&apos;s management features. Use the Explorer link for sabre&apos;s folder navigation interface. Use the Contacts, Events, Reminders and Journal links for viewing your data.</p>";
-			echo '<div>';
+			echo '</div>';
         }      
         
         ?>

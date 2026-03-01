@@ -39,7 +39,7 @@ if (!isset($_GET['menu'])) {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Roles',"href"=>"admin.php?p=Roles","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Privileges',"href"=>"admin.php?p=Privs","class"=>$settings['color4']);
 } elseif($_GET['menu']=="baikal") {
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Dashboard',"href"=>"admin./","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Dashboard',"href"=>"admin/","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin/?/users/","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Config',"href"=>"admin/?/settings/standard/","class"=>$settings['color4']);
 } elseif($_GET['menu']=="sabre") {
