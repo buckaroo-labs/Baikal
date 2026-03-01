@@ -11,6 +11,19 @@ A German tutorial about installation of Baïkal, using it together with Thunderb
 
 With the same objective, a French guide, about installation on Debian, database maintenance, security and dealing with iOS clients can be found [here][7]. Its focus is also for people with not so much IT experience.
 
+This fork
+---------
+
+Significant changes in this fork include:
+- Add VJOURNAL to default calendar for new user
+- Use salted hash for stored passwords (table and column names, auth backend are different)
+- Add Docker files
+- Add UI for navigating Contact, Event, ToDo and Journal data
+- Add apps for Grocery list, project time tracking
+
+Planned changes include a solution to prevent various CalDAV clients from erasing each others' recurrence rules on VTODOs.
+
+
 Upgrading
 ---------
 
@@ -28,3 +41,4 @@ Many thanks to Daniel Aleksandersen (@zcode) for greatly improving the quality o
 [5]: https://sabre.io/baikal/upgrade/
 [6]: https://github.com/JsBergbau/BaikalAnleitung
 [7]: https://github.com/criticalsool/Baikal-Guide-FR
+
