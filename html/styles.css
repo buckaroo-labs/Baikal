@@ -39,3 +39,7 @@ li#activeCalendarName a {
 li.calendarname {
     padding-left: 5px;
 }
+li.active {
+     color: white;
+    background-color: rgb(99, 6, 6);   
+}

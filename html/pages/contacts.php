@@ -44,9 +44,11 @@ if (isset($_SESSION['username'])) {
             $addresses .= ": " . str_replace(";","|",$adr) . "<BR>\n";
         }
         $temp=(string)$vcard->CATEGORIES;
+        $temp2=str_replace(" ","",$temp);
+        $temp2=str_replace("&","-",$temp2);
         if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
         if (!array_key_exists($rrow['book_name'],$books)) $books[$rrow['book_name']]=0;
-        echo ('<tr class="vcard '.str_replace(","," ",$temp).'"><td><a href="index.php?p=contact&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$vcard->CATEGORIES.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
+        echo ('<tr class="vcard '.str_replace(","," ",$temp2).'"><td><a href="index.php?p=contact&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$vcard->CATEGORIES.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
         //        echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['carddata'].'</span></td><td>'.$vcard->CATEGORIES.'</td><td>'.$telephone.'</td><td>'.$addresses.'</td><td>'.$email.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$vcard->N.'</td><td>'.$vcard->ORG.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
     }
 echo "</table>\n</div>";
@@ -54,7 +56,9 @@ echo '<div id="vcardgroups" class="w3-container" >';
 echo '<div id="vcardcategories"><h4 class="datagrouplist">Categories</h4><ul>';
 ksort($categories);
 foreach($categories as $key=>$value) {
-    if (strlen($key)>0 && !strpos($key,",")) echo '<li class="vcardcategory">' . $key . '</li>';
+    $keyid=str_replace(" ","",$key);
+    $keyid=str_replace("&","-",$keyid);
+    if (strlen($key)>0 && !strpos($key,",")) echo '<li id="' . $keyid . '" class="vcardcategory active">' . $key . '</li>';
 }
 echo '</ul></div>';
 
