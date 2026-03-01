@@ -16,6 +16,7 @@ if (isset($_SESSION['username'])) {
     error_reporting(E_ERROR | E_PARSE);
     $categories=[];
     $books=[];
+    $orgs=[];
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
         $vcard = VObject\Reader::read($rrow['carddata']);
@@ -46,9 +47,14 @@ if (isset($_SESSION['username'])) {
         $temp=(string)$vcard->CATEGORIES;
         $temp2=str_replace(" ","",$temp);
         $temp2=str_replace("&","-",$temp2);
+        $temp3=(string)$vcard->ORG;
+        $temp4=str_replace(" ","",$temp3);
+        $temp4=str_replace("'","",$temp4);
+        $temp4="org_" . str_replace("&","-",$temp4);
         if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
         if (!array_key_exists($rrow['book_name'],$books)) $books[$rrow['book_name']]=0;
-        echo ('<tr class="vcard '.str_replace(","," ",$temp2).'"><td><a href="index.php?p=contact&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$vcard->CATEGORIES.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
+        if (!array_key_exists($temp3,$orgs)) $orgs[$temp3]=0;
+        echo ('<tr class="vcard '.str_replace(","," ",$temp2). " " .str_replace(","," ",$temp4).'"><td><a href="index.php?p=contact&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$vcard->CATEGORIES.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
         //        echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['carddata'].'</span></td><td>'.$vcard->CATEGORIES.'</td><td>'.$telephone.'</td><td>'.$addresses.'</td><td>'.$email.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$vcard->N.'</td><td>'.$vcard->ORG.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
     }
 echo "</table>\n</div>";
@@ -65,6 +71,16 @@ echo '</ul></div>';
 echo '<div id="vcardbooks"><h4 class="datagrouplist">Address books</h4><ul>';
 foreach($books as $key=>$value) {
     echo '<li class="vcardbook">' . $key . '</li>';
+}
+echo '</ul></div>';
+
+echo '<div id="vcardorgs"><h4 class="datagrouplist">Organizations</h4><ul>';
+ksort($orgs);
+foreach($orgs as $key=>$value) {
+    $keyid=str_replace(" ","",$key);
+    $keyid=str_replace("'","",$keyid);
+    $keyid=str_replace("&","-",$keyid);
+    if (strlen($key)>0 && !strpos($key,",")) echo '<li id="org_' . $keyid . '" class="vcardorg">' . $key . '</li>';
 }
 echo '</ul></div>';
 
