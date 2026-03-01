@@ -154,7 +154,8 @@ class User extends \Flake\Core\Model\Db {
                 "Default calendar"
             )->set(
                 "components",
-                "VEVENT,VTODO"
+                #buckaroo-labs 28-FEB-2026 add VJOURNAL as default
+                "VEVENT,VTODO,VJOURNAL"
             );
 
             $oDefaultCalendar->persist();
