@@ -28,21 +28,41 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "pages/contacts.php";  
 	$pagetitle="Contacts";
 	$headline = '<h1>Contacts</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'contact')==0) {
+	$include= "pages/contact.php";  
+	$pagetitle="Contact";
+	$headline = '<h1>Contact</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'events')==0) {
 	$include= "pages/events.php";  
 	$pagetitle="Events";
 	$headline = '<h1>Events</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'event')==0) {
+	$include= "pages/event.php";  
+	$pagetitle="Event";
+	$headline = '<h1>Event</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'reminders')==0) {
 	$include= "pages/reminders.php";  
 	$pagetitle="Reminders";
 	$headline = '<h1>Reminders</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'reminder')==0) {
+	$include= "pages/reminder.php";  
+	$pagetitle="Reminder";
+	$headline = '<h1>Reminder</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'journal')==0) {
 	$include= "pages/journal.php";  
 	$pagetitle="Journal";
 	$headline = '<h1>Journal</h1>' ;
 } else {
- 	$pagetitle="Home";
-	$headline = '<h1>Home</h1>' ;   
+	if (isset($_GET['menu']) && $_GET['menu']=="baikal") {
+		$pagetitle="Admin";
+		$headline = '<h1>Admin</h1>' ; 
+	} 	if (isset($_GET['menu']) && $_GET['menu']=="sabre") {
+		$pagetitle="Explorer";
+		$headline = '<h1>Explorer</h1>' ; 
+	} else {
+		$pagetitle="Home";
+		$headline = '<h1>Home</h1>' ;   
+	}
 }
 
 include "Hydrogen/pgTemplate.php";
@@ -63,10 +83,22 @@ require_once("Hydrogen/db/clsDataSource.php");
         } else {
 			include "Hydrogen/elements/LogoHeadline.php";
 			echo '<div class="w3-twothird w3-container">';
-			echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
+			if ($pagetitle=="Admin") {
+				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
-			echo "<p>Use the Admin link for Ba&iuml;kal&apos;s management features. Use the Explorer link for sabre&apos;s folder navigation interface. Use the Contacts, Events, Reminders and Journal links for viewing your data.</p>";
-			echo '</div>';
+				echo "<p>Use the Dashboard, Users and Config links for Ba&iuml;kal&apos;s management features, logging in as <q>admin</q>.";
+				echo '</div>';
+			} elseif ($pagetitle=="Explorer") {
+				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
+
+				echo "<p>Use the DAV Home, Calendars and Contacts links for sabre/dav&apos;s folder navigation interface, logging in with your application credentials.</p>";	
+				echo '</div>';
+			} else {
+				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
+
+				echo "<p>Use the Admin link for Ba&iuml;kal&apos;s management features. Use the Explorer link for sabre&apos;s folder navigation interface. Use the Contacts, Events, Reminders and Journal links for viewing your data.</p>";
+				echo '</div>';
+			}
         }      
         
         ?>

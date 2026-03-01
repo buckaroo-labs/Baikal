@@ -9,6 +9,7 @@ if (isset($_SESSION['username'])) {
     $sql="SELECT count(*) " . $from . $where;
     $resultcount=$dds->getInt($sql);
     $sql="SELECT " . $columns . $from . $where;
+    $dds->setMaxRecs(9999);
     $result=$dds->setSQL($sql);
     echo '<div id="Events" class="w3-twothird w3-container" style="overflow:hidden">';
     //echo '<h2>Events ('.$resultcount.')</h2>';
@@ -26,7 +27,7 @@ if (isset($_SESSION['username'])) {
             $starttime= $dtstart->format(\DateTime::W3C);
             $dtend = $vevent->DTEND->getDateTime();
             $endtime= $dtend->format(\DateTime::W3C);
-            echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
+            echo ('<tr><td><a href="index.php?p=event&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
              //echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['calendardata'].'</span></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
         } 
 

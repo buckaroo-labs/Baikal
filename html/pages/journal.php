@@ -9,6 +9,7 @@ if (isset($_SESSION['username'])) {
     $sql="SELECT count(*) " . $from . $where;
     $resultcount=$dds->getInt($sql);
     $sql="SELECT " . $columns . $from . $where;
+    $dds->setMaxRecs(9999);
     $result=$dds->setSQL($sql);
     echo '<div id="Journal" class="w3-twothird w3-container" style="overflow:hidden">';
     //echo '<h2>Events ('.$resultcount.')</h2>';

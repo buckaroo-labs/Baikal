@@ -6,6 +6,7 @@ if (isset($_SESSION['username'])) {
     $sql="SELECT c.id, c.uri, c.carddata, a.principaluri as owner, a.displayname as book_name FROM cards c
     INNER JOIN addressbooks a on c.addressbookid=a.id
     WHERE a.principaluri='principals/" . $_SESSION['username'] . "'";
+    $dds->setMaxRecs(9999);
     $result=$dds->setSQL($sql);
     //echo '<div id="contacts" class="w3-twothird w3-container">';
     echo '<div id="contacts" class="w3-twothird w3-container" style="overflow:hidden">' . "\n";
@@ -45,7 +46,7 @@ if (isset($_SESSION['username'])) {
         $temp=(string)$vcard->CATEGORIES;
         if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
         if (!array_key_exists($rrow['book_name'],$books)) $books[$rrow['book_name']]=0;
-        echo ('<tr><td>'.$rrow['id'].'</td><td>'.$vcard->CATEGORIES.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
+        echo ('<tr><td><a href="index.php?p=contact&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$vcard->CATEGORIES.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
         //        echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['carddata'].'</span></td><td>'.$vcard->CATEGORIES.'</td><td>'.$telephone.'</td><td>'.$addresses.'</td><td>'.$email.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$vcard->N.'</td><td>'.$vcard->ORG.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
     }
 echo "</table>\n</div>";

@@ -44,8 +44,9 @@ if (!isset($_GET['menu'])) {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Config',"href"=>"admin/?/settings/standard/","class"=>$settings['color4']);
 } elseif($_GET['menu']=="sabre") {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'DAV Home',"href"=>"dav.php","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Calendars',"href"=>"dav.php/calendars/","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"dav.php/addressbooks/","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"dav.php/calendars/","class"=>$settings['color4']);
+
 }
 
 
