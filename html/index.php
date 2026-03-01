@@ -48,6 +48,14 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "pages/reminder.php";  
 	$pagetitle="Reminder";
 	$headline = '<h1>Reminder</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'todo')==0) {
+	$include= "pages/todo.php";  
+	$pagetitle="To Do";
+	$headline = '<h1>To Do</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'todos')==0) {
+	$include= "pages/todos.php";  
+	$pagetitle="To Do";
+	$headline = '<h1>To Do</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'journal')==0) {
 	$include= "pages/journal.php";  
 	$pagetitle="Journal";
