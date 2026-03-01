@@ -14,7 +14,7 @@ if (isset($_SESSION['username'])) {
     echo '<div id="Events" class="w3-twothird w3-container" style="overflow:hidden">';
     //echo '<h2>Events ('.$resultcount.')</h2>';
     echo '<h2>Events</h2>';
-    echo ('<table id="veventtable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>End</th></tr>');
+    echo ('<table id="veventtable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Calendar</th></tr>');
     // echo ('<table id="veventtable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Data</th><th>Summary</th><th>Start</th><th>End</th></tr>');
     error_reporting(E_ERROR | E_PARSE);
     while ($rrow=$dds->getNextRow('assoc')) {
@@ -28,7 +28,7 @@ if (isset($_SESSION['username'])) {
             $dtend = $vevent->DTEND->getDateTime();
             $endtime= $dtend->format(\DateTime::W3C);
             echo ('<tr><td><a href="index.php?p=event&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
-             //echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['calendardata'].'</span></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
+             //echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['calendardata'].'</span></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$rrow['calendarname'].'</td></tr>'); 
         } 
 
     //start, end, summary

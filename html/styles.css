@@ -16,3 +16,7 @@ h4.datagrouplist {
         color: white;  
         padding: 10px; 
 }
+img.menu-icon {
+    max-height: 16px;
+    margin-right: 10px;
+}

@@ -29,10 +29,15 @@ $settings['JWTTokenName'] = 'persistentLogin';
 $navbar_links=array();  
 $sidebar_links=array();  
 if (!isset($_GET['menu'])) {
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"index.php?p=contacts","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"index.php?p=events","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Reminders',"href"=>"index.php?p=reminders","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Journal',"href"=>"index.php?p=journal","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'🪪 Contacts',"href"=>"index.php?p=contacts","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#128198; Events',"href"=>"index.php?p=events","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#10004; To Do',"href"=>"index.php?p=todo","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#9200; Reminders',"href"=>"index.php?p=reminders","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'🛒 List',"href"=>"index.php?p=groceries","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#128348; Time',"href"=>"index.php?p=time","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'📋 Journal',"href"=>"index.php?p=journal","class"=>$settings['color4']);
+
+
 } elseif($_GET['menu']=="hadmin") {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Mail setup',"href"=>"admin.php?p=Mail","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin.php?p=Users","class"=>$settings['color4']);
