@@ -8,11 +8,15 @@ if (isset($_SESSION['username'])) {
     } else {
         $eventid=0;
     }
+
 $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname ";
     $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
     $where=" WHERE i.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $eventid;
     $sql="SELECT count(*) " . $from . $where;
     $resultcount=$dds->getInt($sql);
+
+
+
     $dds->setMaxRecs(9999);
     $sql="SELECT " . $columns . $from . $where;
     $result=$dds->setSQL($sql);
@@ -39,6 +43,13 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
             echo "</table>\n";
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);
             echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
+
+            echo '<form method="get" action="index.php" id="conversionform">
+            <input type="hidden" name="convert" value="1">
+            <input type="hidden" name="p" value="entry">
+            <input type="hidden" name="id" value="' . $eventid . '">
+            <input type="submit" value="Convert to VJOURNAL">
+            </form>'; 
         } 
 
     }

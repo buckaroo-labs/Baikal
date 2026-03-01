@@ -33,7 +33,7 @@ if (!isset($_GET['menu'])) {
     $sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#128198; Events',"href"=>"index.php?p=events","class"=>$settings['color4']);
     $sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#10004; To Do',"href"=>"index.php?p=todo","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#9200; Reminders',"href"=>"index.php?p=reminders","class"=>$settings['color4']);
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'🛒 List',"href"=>"index.php?p=groceries","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'🛒 Lists',"href"=>"index.php?p=groceries","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#128348; Time',"href"=>"index.php?p=time","class"=>$settings['color4']);
     $sidebar_links[sizeof($sidebar_links)]=array("name"=>'📋 Journal',"href"=>"index.php?p=journal","class"=>$settings['color4']);
 
