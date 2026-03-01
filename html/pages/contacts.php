@@ -52,6 +52,7 @@ if (isset($_SESSION['username'])) {
 echo "</table>\n</div>";
 echo '<div id="vcardgroups" class="w3-container" >';
 echo '<div id="vcardcategories"><h4 class="datagrouplist">Categories</h4><ul>';
+ksort($categories);
 foreach($categories as $key=>$value) {
     if (strlen($key)>0 && !strpos($key,",")) echo '<li class="vcardcategory">' . $key . '</li>';
 }
