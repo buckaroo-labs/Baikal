@@ -56,7 +56,7 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	if (isset($_GET['menu']) && $_GET['menu']=="baikal") {
 		$pagetitle="Admin";
 		$headline = '<h1>Admin</h1>' ; 
-	} 	if (isset($_GET['menu']) && $_GET['menu']=="sabre") {
+	} elseif (isset($_GET['menu']) && $_GET['menu']=="sabre") {
 		$pagetitle="Explorer";
 		$headline = '<h1>Explorer</h1>' ; 
 	} else {
@@ -72,10 +72,14 @@ require_once("Hydrogen/db/clsDataSource.php");
 <!-- Main content: shift it to the right when the sidebar is visible -->
 <div class="w3-main">
 
-  <div class="w3-padding-64" style="display: grid; grid-template-columns: auto auto">
-
-		<?php 
-        
+	<?php 
+		if (isset($_GET['p']) && $_GET['p']=="login") {
+			echo '<div class="w3-padding-64" style="display: grid; grid-template-columns: auto">';
+		} else {
+			echo '<div class="w3-padding-64" style="display: grid; grid-template-columns: auto auto">';
+		}
+  
+       
         if(isset($include)) {
 			
             include $include; 
@@ -83,12 +87,12 @@ require_once("Hydrogen/db/clsDataSource.php");
         } else {
 			include "Hydrogen/elements/LogoHeadline.php";
 			echo '<div class="w3-twothird w3-container">';
-			if ($pagetitle=="Admin") {
+			if (isset($_GET['menu']) && $_GET['menu']=="baikal") {
 				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
 				echo "<p>Use the Dashboard, Users and Config links for Ba&iuml;kal&apos;s management features, logging in as <q>admin</q>.";
 				echo '</div>';
-			} elseif ($pagetitle=="Explorer") {
+			} elseif (isset($_GET['menu']) && $_GET['menu']=="sabre") {
 				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
 				echo "<p>Use the DAV Home, Calendars and Contacts links for sabre/dav&apos;s folder navigation interface, logging in with your application credentials.</p>";	
