@@ -31,7 +31,7 @@ $sidebar_links=array();
 if (!isset($_GET['menu'])) {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"index.php?p=contacts","class"=>$settings['color4']);
     $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Events',"href"=>"index.php?p=events","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Reminders',"href"=>"index.php?p=todo","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Reminders',"href"=>"index.php?p=reminders","class"=>$settings['color4']);
     $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Journal',"href"=>"index.php?p=journal","class"=>$settings['color4']);
 } elseif($_GET['menu']=="hadmin") {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Mail setup',"href"=>"admin.php?p=Mail","class"=>$settings['color4']);
@@ -65,23 +65,32 @@ $navbar_links[sizeof($navbar_links)]=array("name"=>"About","href"=>"index.php?p=
 //GET variables to persist between page clicks
 $stateVarList=array('menu','id');
 
-//defaults:
+
+
+#Not sure what to call this project/product, so going to keep it flexible
+$settings['appname']='Dauriya';
+
+require_once("../vendor/autoload.php");
+define ("PROJECT_PATH_CONFIG","/var/www/config/");
+use Symfony\Component\Yaml\Yaml;
+$config = Yaml::parseFile(PROJECT_PATH_CONFIG . "baikal.yaml");
+//map Baikal's yaml configuration file to the Hydrogen framework's settings
+//DB defaults:
 $settings['DEFAULT_DB_TYPE'] = "mysql";
 //The following settings would be needed for an Oracle or MySQL connection:
-$settings['DEFAULT_DB_USER'] = "davuser";
-$settings['DEFAULT_DB_HOST'] = "db";
-$settings['DEFAULT_DB_PORT'] = "1521";
-$settings['DEFAULT_DB_INST'] = "dav";
+$settings['DEFAULT_DB_USER'] = $config['database']['mysql_username'];
+$settings['DEFAULT_DB_HOST'] = $config['database']['mysql_host'];
+$settings['DEFAULT_DB_PORT'] = "3306";
+$settings['DEFAULT_DB_INST'] = $config['database']['mysql_dbname'];
 $settings['DEFAULT_DB_MAXRECS'] = 150;
 //Because this file may not be ignored by git, don't put a password 
 //  in this file, but do use this format:
 $settings['DEFAULT_DB_PASS'] = "password"; 
-//put any required passwords in this file instead:
+//Normally put any required passwords in this file instead:
 @include ("settingsPasswords.php");
+//But in this case we are working with Baikal's yaml file
+$settings['DEFAULT_DB_PASS'] = $config['database']['mysql_password'];
 
 //settingsPasswords.php can also contain any values for framework testing
 // that we don't want checked into the git repo for this project. 
 // Will override anything above.
-
-#Not sure what to call this project/product, so going to keep it flexible
-$settings['appname']='Dauriya';

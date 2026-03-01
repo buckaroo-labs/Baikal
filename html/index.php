@@ -15,14 +15,31 @@ if (empty($settings['JWT_SECRET_KEY'])) {
 }
 /*****CONFIG-END *****/
 
+
 if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "Hydrogen/pages/Login.php";  
 		$pagetitle="Log In";
 	$headline = '<h1>Log In</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'register')==0) {
 	$include= "Hydrogen/pages/Register.php";  
-		$pagetitle="Register";
+	$pagetitle="Register";
 	$headline = '<h1>Register</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'contacts')==0) {
+	$include= "pages/contacts.php";  
+	$pagetitle="Contacts";
+	$headline = '<h1>Contacts</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'events')==0) {
+	$include= "pages/events.php";  
+	$pagetitle="Events";
+	$headline = '<h1>Events</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'reminders')==0) {
+	$include= "pages/reminders.php";  
+	$pagetitle="Reminders";
+	$headline = '<h1>Reminders</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'journal')==0) {
+	$include= "pages/journal.php";  
+	$pagetitle="Journal";
+	$headline = '<h1>Journal</h1>' ;
 } else {
  	$pagetitle="Home";
 	$headline = '<h1>Home</h1>' ;   
@@ -30,30 +47,33 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 
 include "Hydrogen/pgTemplate.php";
 
+require_once("Hydrogen/db/clsDataSource.php");
 ?>
 <!-- Main content: shift it to the right when the sidebar is visible -->
 <div class="w3-main">
 
-  <div class="w3-row w3-padding-64">
-    <div class="w3-twothird w3-container">
+  <div class="w3-row w3-padding-64" style="display: grid; grid-template-columns: auto auto">
+
 		<?php 
         
         if(isset($include)) {
+			
             include $include; 
+
         } else {
 			include "Hydrogen/elements/LogoHeadline.php";
-
+			echo '<div class="w3-twothird w3-container">';
 			echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
+			echo "<p>Use the Admin link for Ba&iuml;kal&apos;s management features. Use the Explorer link for sabre&apos;s folder navigation interface. Use the Contacts, Events, Reminders and Journal links for viewing your data.</p>";
+			echo '<div>';
         }      
         
         ?>
-	</div>
-    <div class="w3-third w3-container">
-  	</div>
-  </div>
+	<!--</div>-->
+    </div> <!--end row div-->
 
-</div>
+</div> <!--end main div -->
 <?php
 	//Yes, it goes at the top, but it may use variables (session status) that are set by what happens in the middle -
 	//   so include it at the end and then let it float to the top
