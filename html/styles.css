@@ -43,3 +43,13 @@ li.active {
      color: white;
     background-color: rgb(99, 6, 6);   
 }
+.status_COMPLETED td {
+    color: #666666;
+    text-decoration: line-through;
+}
+.status_unknown td {
+    color: #ea3107;
+}
+.status_OPEN td {
+    color: rgb(2, 2, 73);
+}
