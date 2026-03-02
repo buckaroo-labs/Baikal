@@ -10,7 +10,7 @@ if (isset($_SESSION['username'])) {
     }
     $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname ";
     $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-    $where=" WHERE i.principaluri='principals/" . $_SESSION['username'] . "'";
+    $where=" WHERE c.componenttype='VEVENT' AND i.principaluri='principals/" . $_SESSION['username'] . "'";
     $sql="SELECT count(*) " . $from . $where . $and;
     $resultcount=$dds->getInt($sql);
     $sql="SELECT " . $columns . $from . $where . $and;

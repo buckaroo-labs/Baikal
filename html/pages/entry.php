@@ -19,7 +19,7 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
         //Convert to VJOURNAL from VEVENT
         //At this point we have confirmed that the ID exists and belongs to the current user
         //Next confirm the object type and make the change
-        $sql="select calendardata from calendarobjects where id=" . $journalid;
+        $sql="select calendardata, calendarid from calendarobjects where id=" . $journalid;
         $result=$dds->setSQL($sql);
         $rrow=$dds->getNextRow('assoc');
         $vcalendar = VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
@@ -27,7 +27,9 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
             $newdata=str_replace("\nBEGIN:VEVENT","\nBEGIN:VJOURNAL",$rrow['calendardata']);
             $newdata=str_replace("\nEND:VEVENT","\nEND:VJOURNAL",$newdata);
             $newdata=str_replace("'","''",$newdata);
-            $sql="update calendarobjects set calendardata='" . $newdata . "' where id=" . $journalid;
+            $sql="update calendarobjects set size=size+4, componenttype='VJOURNAL', calendardata='" . $newdata . "', etag='. md5($newdata) .' where id=" . $journalid;
+            $result=$dds->setSQL($sql);
+            $sql="UPDATE calendarinstances SET synctoken=synctoken+1 WHERE id=" . $rrow['calendarid'];
             $result=$dds->setSQL($sql);
         //}
 
