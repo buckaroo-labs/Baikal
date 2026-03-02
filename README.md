@@ -20,6 +20,7 @@ Significant changes in this fork include:
 - Add Docker files
 - Add UI for navigating Contact, Event, ToDo and Journal data; allow user to convert VEVENT to VJOURNAL
 - Add apps for Grocery list, project time tracking
+- Some (new) features depend on having MySQL as the RDBMS; some steps have been taken to continue supporting SQLite and PGSQL as well, but this effort is incomplete and untested.
 
 Planned changes include a solution to prevent various CalDAV clients from erasing each others' recurrence rules on VTODOs.
 
