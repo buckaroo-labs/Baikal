@@ -1,5 +1,5 @@
 <?php 
-
+require_once("lib/clsReminder.php");
 //https://sabre.io/vobject/vcard/
 use Sabre\VObject;
 if (isset($_SESSION['username'])) {
@@ -8,6 +8,14 @@ if (isset($_SESSION['username'])) {
     } else {
         $reminderid=0;
     }
+    if (isset($_GET['markcomplete']) || isset($_GET['markincomplete'])) {
+        if(isset($reminderid)) {
+            $r=new Reminder($reminderid);
+            if (isset($_GET['markcomplete'])) $r->markComplete(); else $r->markIncomplete();
+            $r->save();
+        }
+    }
+
     $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname ";
     $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
     $where=" WHERE i.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $reminderid;
@@ -33,12 +41,25 @@ if (isset($_SESSION['username'])) {
                 $dtend = $vtodo->DTEND->getDateTime();
                 $endtime= $dtend->format(\DateTime::W3C);
             }
-
+            if (isset($vtodo->COMPLETED)) $completed=true; else $completed=false;
             echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
 
             echo "</table>\n";
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);
             echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
+
+            echo '<form method="get" action="index.php" id="conversionform">
+            <input type="hidden" name="p" value="reminder">
+            <input type="hidden" name="id" value="' . $reminderid . '">';
+            if ($completed) {
+                echo '<input type="hidden" name="markincomplete" value="1">
+                    <input type="submit" value="Mark Incomplete">';
+            } else {
+                echo '<input type="hidden" name="markcomplete" value="1">
+                    <input type="submit" value="Mark Complete">';
+            }
+            echo '</form>'; 
+
         } 
 
     }

@@ -53,3 +53,6 @@ li.active {
 .status_OPEN td {
     color: rgb(2, 2, 73);
 }
+.status_NEEDS-ACTION td {
+    color: rgb(218, 2, 182);
+}
