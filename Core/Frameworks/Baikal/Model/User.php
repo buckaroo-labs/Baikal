@@ -160,6 +160,52 @@ class User extends \Flake\Core\Model\Db {
 
             $oDefaultCalendar->persist();
 
+            ############################################
+            ### buckaroo-labs 01-MAR-2026 additional calendars 
+            ### for every new user
+            ############################################
+            # Creating 'projecttime' calendar for user
+            $oDefaultCalendar = new \Baikal\Model\Calendar();
+            $oDefaultCalendar->set(
+                "principaluri",
+                "principals/" . $this->get("username")
+            )->set(
+                "displayname",
+                "Time Entry"
+            )->set(
+                "uri",
+                "projecttime"
+            )->set(
+                "description",
+                "Project time tracking"
+            )->set(
+                "components",
+                "VJOURNAL"
+            );
+
+            $oDefaultCalendar->persist();
+
+            # Creating 'lists' calendar for user
+            $oDefaultCalendar = new \Baikal\Model\Calendar();
+            $oDefaultCalendar->set(
+                "principaluri",
+                "principals/" . $this->get("username")
+            )->set(
+                "displayname",
+                "To-Do Lists"
+            )->set(
+                "uri",
+                "lists"
+            )->set(
+                "description",
+                "Groceries and more"
+            )->set(
+                "components",
+                "VTODO"
+            );
+
+            $oDefaultCalendar->persist();
+
             # Creating default address book for user
             $oDefaultAddressBook = new \Baikal\Model\AddressBook();
             $oDefaultAddressBook->set(
