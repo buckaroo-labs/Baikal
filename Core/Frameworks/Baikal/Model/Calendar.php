@@ -197,15 +197,17 @@ class Calendar extends \Flake\Core\Model\Db {
             ],
         ]));
 
-        $oMorpho->add(new \Formal\Element\Text([
+        # buckaroo-labs 2026-MAR-01 Change to Color Picker
+        //require_once ("../Core/Frameworks/Formal/Element/ColorPicker.php");
+        $oMorpho->add(new \Formal\Element\ColorPicker([
             "prop"       => "calendarcolor",
             "label"      => "Calendar color",
             "validation" => "color",
             "popover"    => [
                 "title"   => "Calendar color",
-                "content" => "This is the color that will be displayed in your CalDAV client.<br/>" .
-                "Must be supplied in format '#RRGGBBAA' (alpha channel optional) with hexadecimal values.<br/>" .
-                "This value is optional.",
+                "content" => "This is the color that will be displayed in your CalDAV client."
+                //. "<br/>" .  "Must be supplied in format '#RRGGBBAA' (alpha channel optional) with hexadecimal values.<br/>" .                "This value is optional."
+                ,
             ],
         ]));
 
