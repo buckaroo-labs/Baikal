@@ -64,6 +64,10 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "pages/entry.php";  
 	$pagetitle="Journal Entry";
 	$headline = '<h1>Journal Entry</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'lists')==0) {
+	$include= "pages/lists.php";  
+	$pagetitle="Lists";
+	$headline = '<h1>To-Do Lists</h1>' ;
 } else {
 	if (isset($_GET['menu']) && $_GET['menu']=="baikal") {
 		$pagetitle="Admin";
