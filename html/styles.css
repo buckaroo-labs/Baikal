@@ -23,6 +23,7 @@ img.menu-icon {
 li#activeCalendarName {
     color: white;
     background-color: rgb(99, 6, 6);
+
 }
 li#activeCalendarName a {
     color: inherit;
@@ -41,7 +42,9 @@ li.calendarname {
 }
 li.active {
      color: white;
-    background-color: rgb(99, 6, 6);   
+    background-color: rgb(99, 6, 6);  
+        border-radius: 5px;
+    margin: 3px; 
 }
 .status_COMPLETED td {
     color: #666666;
