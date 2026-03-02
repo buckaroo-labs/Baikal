@@ -18,7 +18,7 @@ Significant changes in this fork include:
 - Add VJOURNAL to default calendar for new user
 - Use salted hash for stored passwords (table and column names, auth backend are different)
 - Add Docker files
-- Add UI for navigating Contact, Event, ToDo and Journal data
+- Add UI for navigating Contact, Event, ToDo and Journal data; allow user to convert VEVENT to VJOURNAL
 - Add apps for Grocery list, project time tracking
 
 Planned changes include a solution to prevent various CalDAV clients from erasing each others' recurrence rules on VTODOs.
