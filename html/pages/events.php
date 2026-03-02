@@ -32,7 +32,14 @@ if (isset($_SESSION['username'])) {
             $starttime= $dtstart->format(\DateTime::W3C);
             $dtend = $vevent->DTEND->getDateTime();
             $endtime= $dtend->format(\DateTime::W3C);
-            echo ('<tr><td><a href="index.php?p=event&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$rrow['calendarname'].'</td></tr>'); 
+            if ($vevent->CATEGORIES) {
+                $category=(string)$vevent->CATEGORIES;
+                $categories[$category]=0;
+            } else {
+                $category='';
+            }
+            if ($vevent->STATUS) $status="status_" .$vevent->STATUS; else $status="vevent";
+            echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=event&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$rrow['calendarname'].'</td></tr>'); 
              //echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['calendardata'].'</span></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$rrow['calendarname'].'</td></tr>'); 
         } 
 

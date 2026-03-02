@@ -30,8 +30,14 @@ if (isset($_SESSION['username'])) {
                 $dtend = $vtodo->DTEND->getDateTime();
                 $endtime= $dtend->format(\DateTime::W3C);
             }
-
-            echo ('<tr><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$rrow['calendarname'].'</td></tr>'); 
+            if ($vtodo->CATEGORIES) {
+                $category=(string)$vtodo->CATEGORIES;
+                $categories[$category]=0;
+            } else {
+                $category='';
+            }
+            if ($vtodo->STATUS) $status="status_" .$vtodo->STATUS; else $status="status_unknown";
+            echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$rrow['calendarname'].'</td></tr>'); 
              //echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['calendardata'].'</span></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
         } 
 
