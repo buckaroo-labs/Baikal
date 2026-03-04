@@ -55,5 +55,16 @@ class DAVObject {
         $this->modified=true;
     }
 
+    public function setProperties($nvp) {
+        //takes an associative array of name-value pairs (e.g. $_POST) and applies 
+        //any of them which are relevant to the object;
+        //child classes should implement their specifics, then call parent method
+
+    }
+
+    public function delete() {
+        //not implemented here. see child classes.
+    }
+
 } //end class
 

@@ -61,6 +61,22 @@ if (isset($_SESSION['username'])) {
 
     }
     echo "</table>\n</div>";
+
+    echo '<div id="newitem">
+        <h4 class="formheader">New Item</h4>
+        <form action="index.php?p=lists" method="POST" id="newitemform">
+            <input type="hidden" name="action" value="create">
+            <input type="hidden" name="type"  value="VTODO">
+            <input type="hidden" name="parenturi" value="lists">
+            <label for="title">Item Name:</label><br>
+            <input type="text" name="title"  value=""><br>
+            <label for="CATEGORIES">List:</label><br>
+            <input type="text" name="CATEGORIES"  value=""><br>
+        </form><br>
+        <button type="submit" form="newitemform" value="Submit">Submit</button>
+    </div>';
+
+
     if (!isset($categoryname)) {
         echo '<div class="w3-container" id="listcategories">
         <h4 class="datagrouplist">Lists</h4>

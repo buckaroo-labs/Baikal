@@ -16,6 +16,11 @@ h4.datagrouplist {
         color: white;  
         padding: 10px; 
 }
+h4.formheader {
+        background-color: #4d2b4d; 
+        color: white;  
+        padding: 10px; 
+}
 img.menu-icon {
     max-height: 16px;
     margin-right: 10px;
@@ -23,6 +28,7 @@ img.menu-icon {
 li#activeCalendarName {
     color: white;
     background-color: rgb(99, 6, 6);
+    border-radius: 5px;
 
 }
 li#activeCalendarName a {
@@ -36,6 +42,7 @@ li#activeCalendarName a {
         background-color: #666666; 
         color: white;  
         padding: 10px; 
+        
 }
 li.calendarname {
     padding-left: 5px;
@@ -44,7 +51,12 @@ li.active {
      color: white;
     background-color: rgb(99, 6, 6);  
         border-radius: 5px;
-    margin: 3px; 
+}
+.vcardcategory:hover {
+    background-color: rgb(203, 27, 86);  
+}
+.vcardcategory {
+    margin: 3px;
 }
 .status_COMPLETED td {
     color: #666666;
