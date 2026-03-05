@@ -7,7 +7,7 @@ class VCALENDAR extends DAVObject {
     protected function fetch($id,$parenturi='') {
         $columns=" c.id, c.uri, c.calendardata, i.displayname as calendarname, i.uri as parenturi, i.id as calendarid ";
         $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-        $where=" WHERE c.componenttype=".$this->componenttype." and i.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $id;
+        $where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $id;
         if (strlen($parenturi)>0) $where .= " AND i.uri='" . $parenturi . "'";
         $sql="SELECT " . $columns . $from . $where;
         $result=$this->ds->setSQL($sql);
@@ -48,8 +48,14 @@ class VCALENDAR extends DAVObject {
         foreach ($nvp as $key => $value) {
             if ($key==strtoupper($key)) {
                 debug("Setting VCALENDAR property " . $key . " to " . $value);
-                $this->vobject->add($key,$value);
+                if ($this->componenttype=='VTODO') {
+                    $this->vobject->VTODO->add($key,$value);
+                } elseif ($this->componenttype=='VEVENT') {
+                    $this->vobject->VEVENT->add($key,$value);
+                } elseif ($this->componenttype=='VJOURNAL') {
+                    $this->vobject->VJOURNAL->add($key,$value);
                 }
+            }
         }
     }
 
@@ -84,7 +90,7 @@ class VCALENDAR extends DAVObject {
                     $datasize=strlen($newdata); 
                     $stmt->execute();
                     $stmt=$this->dbconn->prepare($sql2);
-                    $stmt->bind_param("i",$this->calendarID);
+                    $stmt->bind_param("i",$this->parentID);
                     $stmt->execute();
                 } else {
                     //uh-oh!

@@ -9,6 +9,7 @@ class VTODO extends VCALENDAR {
         if ($id==0) {
             $this->vobject->add('VTODO', [
                 'SUMMARY' => $summary,
+                'STATUS' > 'OPEN',
                 'DTSTART' => new \DateTime()
             ]);
         } else {
