@@ -48,25 +48,13 @@ class VCALENDAR extends DAVObject {
         foreach ($nvp as $key => $value) {
             if ($key==strtoupper($key)) {
                 debug("Setting VCALENDAR property " . $key . " to " . $value);
-                if ($this->componenttype=='VTODO') {
-                    $this->vobject->VTODO->add($key,$value);
-                } elseif ($this->componenttype=='VEVENT') {
-                    $this->vobject->VEVENT->add($key,$value);
-                } elseif ($this->componenttype=='VJOURNAL') {
-                    $this->vobject->VJOURNAL->add($key,$value);
-                }
+                $this->vobject->{$this->componenttype}->add($key,$value);
             }
         }
     }
 
     private function setModificationTimeToNow() {
-        if ($this->componenttype=='VTODO') {
-            $this->vobject->VTODO->{'LAST-MODIFIED'} = new \DateTime();
-        } elseif ($this->componenttype=='VEVENT') {
-            $this->vobject->VEVENT->{'LAST-MODIFIED'} = new \DateTime();
-        } elseif ($this->componenttype=='VJOURNAL') {
-            $this->vobject->VJOURNAL->{'LAST-MODIFIED'} = new \DateTime();
-        }
+        $this->vobject->{$this->componenttype}->{'LAST-MODIFIED'} = new \DateTime();
     }
 
     public function save() {
@@ -81,6 +69,7 @@ class VCALENDAR extends DAVObject {
                 $this->setModificationTimeToNow();
                 $newdata= $this->vobject->serialize();
                 $sql="UPDATE calendarobjects SET size=?, lastmodified=?, calendardata=?, etag=? WHERE id=?";
+
                 $sql2="UPDATE calendars SET synctoken=synctoken+1 WHERE id=?";
                 debug ("Preparing SQL update");
                 if ($stmt=$this->dbconn->prepare($sql)) {
@@ -108,7 +97,7 @@ class VCALENDAR extends DAVObject {
             debug ("Preparing SQL update");
             $this->setModificationTimeToNow();
             $newdata= $this->vobject->serialize();
-            $uid=md5(uniqid());
+            $uid =$this->vobject->{$this->componenttype}->UID;
             $uri=$uid . ".ics";
             $lastmod=time();
             $etag=md5($newdata);
