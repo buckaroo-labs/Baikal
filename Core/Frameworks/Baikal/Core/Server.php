@@ -27,7 +27,11 @@
 
 namespace Baikal\Core;
 
+use RecurrencePlugin;
 use Symfony\Component\Yaml\Yaml;
+
+# 2026-03-04 buckaroo-labs add RecurrencePlugin
+require_once("../RecurrencePlugin.php");
 
 /**
  * The Baikal Server.
@@ -185,6 +189,9 @@ class Server {
             if (isset($config['system']["invite_from"]) && $config['system']["invite_from"] !== "") {
                 $this->server->addPlugin(new \Sabre\CalDAV\Schedule\IMipPlugin($config['system']["invite_from"]));
             }
+            # 2026-03-04 buckaroo-labs add RecurrencePlugin
+            $recurrencePlugin = new \RecurrencePlugin();
+            $this->server->addPlugin($recurrencePlugin);
         }
         if ($this->enableCardDAV) {
             $this->server->addPlugin(new \Sabre\CardDAV\Plugin());
