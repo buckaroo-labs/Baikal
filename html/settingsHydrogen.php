@@ -31,11 +31,12 @@ $sidebar_links=array();
 if (!isset($_GET['menu'])) {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'🪪 Contacts',"href"=>"index.php?p=contacts","class"=>$settings['color4']);
     $sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#128198; Events',"href"=>"index.php?p=events","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#10004; To Do',"href"=>"index.php?p=todo","class"=>$settings['color4']);
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#9200; Reminders',"href"=>"index.php?p=reminders","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#10004; Tasks',"href"=>"index.php?p=tasks","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#9200; Alarms',"href"=>"index.php?p=alarms","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'📋 Reminders',"href"=>"index.php?p=reminders","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'🛒 Lists',"href"=>"index.php?p=lists","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'&#128348; Time',"href"=>"index.php?p=time","class"=>$settings['color4']);
-    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'📋 Journal',"href"=>"index.php?p=journal","class"=>$settings['color4']);
+    $sidebar_links[sizeof($sidebar_links)]=array("name"=>'📖 Journal',"href"=>"index.php?p=journal","class"=>$settings['color4']);
 
 
 } elseif($_GET['menu']=="hadmin") {

@@ -1,6 +1,6 @@
 <?php
 
-
+debug("determining page routing");
 if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "Hydrogen/pages/Login.php";  
 		$pagetitle="Log In";
@@ -37,9 +37,9 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "pages/todo.php";  
 	$pagetitle="To Do";
 	$headline = '<h1>To Do</h1>' ;
-} elseif (isset($_GET['p']) && strcmp($_GET['p'],'todos')==0) {
-	$include= "pages/todos.php";  
-	$pagetitle="To Do";
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'tasks')==0) {
+	$include= "pages/tasks.php";  
+	$pagetitle="Tasks";
 	$headline = '<h1>To Do</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'journal')==0) {
 	$include= "pages/journal.php";  

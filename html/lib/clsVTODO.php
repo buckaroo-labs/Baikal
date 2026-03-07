@@ -34,5 +34,13 @@ class VTODO extends VCALENDAR {
         }
     }
 
+    public function getCategories() {
+        $returnValue='';
+        if (isset($this->vobject->VTODO->CATEGORIES)) {
+            $returnValue=(string)$this->vobject->VTODO->CATEGORIES;
+        }
+        return $returnValue;
+    }
+
 } //end class
 

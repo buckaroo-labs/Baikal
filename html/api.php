@@ -1,5 +1,6 @@
 <?php
-
+require_once("lib/functions.php");
+require_once("Hydrogen/lib/Debug.php");
 //This file will parse incoming POST data, call the appropriate functions from 
 // another file to handle the data changes, and then as appropriate for context
 // will do data output or set variables indicating what the including script should do next
@@ -9,9 +10,11 @@ if(isset($_POST['action'])) {
   //use case is for this file being included from index.php
   //handle any data POSTed to index.php along with $_POST['action']
   //generally expect an action, an object type, one or more attributes, and an ID
+
+  debug("Responding to POST data");
   if (!isset($_SESSION['username'])) goto errors;
   if (!isset($_POST['type'])) goto errors;
-  if ($_POST['action']!='create' && !isset($_POST['id'])) goto errors;
+  if ($_POST['action']!='create' && $_POST['type']!='list' && !isset($_POST['id'])) goto errors;
   loadClassHierarchy();
 
   switch ($_POST['action']) {
@@ -36,10 +39,27 @@ if(isset($_POST['action'])) {
         case 'VEVENT':
           //code
           break;
+        case 'list':
+          //code
+          break;
         default:
           //code          
       }
       break;
+    case 'reset':
+      //code
+      switch ($_POST['type']) {
+        case 'list':
+          //reset all completed tasks in list
+          if(isset($_GET['category'])) {
+            $categoryname=htmlspecialchars($_GET['category']);
+            //loop through all VTODOS in user's calendar having calendar uri of "lists." If VTODO category matches and has COMPLETED property, remove it and set STATUS to OPEN  
+            resetTaskList($categoryname,$_SESSION['username']);
+          }
+          break;
+        default:
+      break;
+      }
     case 'update':
     case 'delete':
       //code block;
@@ -55,6 +75,9 @@ if(isset($_POST['action'])) {
         case 'VJOURNAL':
           //this needs to be more specific when the VJOURNAL class is written
           $object=new VCALENDAR($_POST['id']);
+          break;
+        case 'list':
+          //code
           break;
         default:
           //code          
@@ -82,6 +105,7 @@ if(isset($_POST['action'])) {
 
 function reject($reason) {
       $errorOutput=$reason;
+      debug($reason);
 }
 
 function loadClassHierarchy() {
@@ -101,6 +125,7 @@ function loadClassHierarchy() {
 }
 
 errors:
+debug("Error encountered in POST data");
 if (!isset($_SESSION['username'])) reject("Unauthenticated user");
 if (!isset($_POST['type'])) reject("Unspecified type");
 if ($_POST['action']!='create' && !isset($_POST['id'])) reject("Unspecified ID");

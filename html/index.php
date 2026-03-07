@@ -20,10 +20,10 @@ require("routes.inc.php");
 
 //Hydrogen/pgTemplate.php handles general page layout, menus, cookies
 require "Hydrogen/pgTemplate.php";
-debug ("index.php line 23 SESSION USERNAME: " . $_SESSION['username']);
+
 //this file will handle POST data for performing updates
 if (isset($_POST['action'])) require ("api.php");
-debug ("index.php line 26 SESSION USERNAME: " . $_SESSION['username']);
+
 require_once("Hydrogen/db/clsDataSource.php");
 ?>
 <!-- Main content: shift it to the right when the sidebar is visible -->

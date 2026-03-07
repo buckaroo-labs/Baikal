@@ -12,12 +12,50 @@ if (isset($_SESSION['username'])) {
         $calendarid=$rrow[0];
     } 
     */
-    if(isset($_GET['category'])) {
-        $categoryname=htmlspecialchars($_GET['category']);
-        $pageheader=ucwords($categoryname);
-    } else {
-        $pageheader="List items";
-    }
+
+    
+    function newItemForm() {
+        global $categoryname;
+        global $categories;
+        echo '<div id="newitem">';
+        if (!isset($categoryname)) { 
+            echo '<h4 class="formheader">New Item</h4>';
+            echo '    <form action="index.php?p=lists" method="POST" id="newitemform">';
+        } else {
+            echo '    <form action="index.php?p=lists&category='.$categoryname.'" method="POST" id="newitemform">';
+        }
+        echo '  <input type="hidden" name="action" value="create">
+                <input type="hidden" name="type"  value="VTODO">
+                <input type="hidden" name="parenturi" value="lists">';
+        if (!isset($categoryname)) echo '        <label for="title">Item Name:</label><br>';
+        echo '        <input type="text" name="title"  value="">';
+                if (!isset($categoryname)) {
+                    echo '<br><label for="CATEGORIES">List:</label><br>
+                        <input type="text" name="CATEGORIES"  value=""><br>';
+                    echo '    </form><br>
+                        <button type="submit" form="newitemform" value="Submit">Submit</button>
+                    </div>';
+                } else {
+                    echo '<input type="hidden" name="CATEGORIES"  value="'.$categoryname.'">';
+                    echo '<input type="submit" value="Add new">   </form>  
+                    </div>';
+                }
+                
+
+        if (!isset($categoryname)) {
+            echo '<div class="w3-container" id="listcategories">
+            <h4 class="datagrouplist">Lists</h4>
+            <ul>';
+            ksort($categories);
+            foreach($categories as $key=>$value) {
+                $keyid=str_replace(" ","",$key);
+                $keyid=str_replace("'","",$keyid);
+                $keyid=str_replace("&","-",$keyid);
+                if (strlen($key)>0 && !strpos($key,",")) echo '<li id="' . $keyid . '" class="vlistcat"><a href="index.php?p=lists&category=' . $key . '">' . $key . '</a></li>';
+            }
+            echo '</ul></div>';
+        }
+    } //newItemForm
 
     $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname ";
     $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
@@ -27,10 +65,30 @@ if (isset($_SESSION['username'])) {
     $dds->setMaxRecs(9999);
     $sql="SELECT " . $columns . $from . $where;
     $result=$dds->setSQL($sql);
-    echo '<div id="ListItems" class="w3-twothird w3-container" style="overflow:hidden">';
-     echo '<h2>'.$pageheader.'</h2>';
-    echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Category</th></tr>');
-    // echo ('<table id="veventtable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Data</th><th>Summary</th><th>Start</th><th>End</th></tr>');
+    echo '<div id="ListItems" class="w3-container" style="overflow:hidden">';
+
+    if(isset($_GET['category'])) {
+        $categoryname=htmlspecialchars($_GET['category']);
+        $pageheader=ucwords($categoryname);
+        echo '<form id="resetAllListedTasks" method="POST" action="index.php?p=lists&category='.$categoryname .'">
+        <input type="hidden" name="action" value="reset">
+        <input type="hidden" name="type" value="list">
+        <input type="submit" value="Reset all">
+        </form>';
+    } else {
+        $pageheader="List items";
+    }
+
+
+
+    echo '<h2>'.$pageheader.'</h2>';
+    if (isset($categoryname)) {
+        echo newItemForm();
+        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th></tr>');
+    } else {
+        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Category</th></tr>');
+    }
+
     error_reporting(E_ERROR | E_PARSE);
             $categories=[];
     while ($rrow=$dds->getNextRow('assoc')) {
@@ -53,10 +111,14 @@ if (isset($_SESSION['username'])) {
                 $category='';
             }
             if ($vtodo->STATUS) $status="status_" .$vtodo->STATUS; else $status="status_unknown";
+            if ($vtodo->COMPLETED) $checked=" checked"; else $checked="";
+            
             if (isset($categoryname)) {
                 if(strpos($category,$categoryname)!==false) $echo=true; else $echo=false;
             } else $echo=true;
-            if ($echo) echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$category.'</td></tr>'); 
+            $field3=$category;
+            if (isset($categoryname)) $field3=$starttime;
+            if ($echo) echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$field3.' <input type="checkbox" ' .$checked .' /></td></tr>'); 
        
         } 
 
@@ -64,45 +126,9 @@ if (isset($_SESSION['username'])) {
 
     }
     echo "</table>\n</div>";
-
-    echo '<div id="newitem">';
-    if (!isset($categoryname)) { 
-        echo '<h4 class="formheader">New Item</h4>';
-        echo '    <form action="index.php?p=lists" method="POST" id="newitemform">';
-    } else {
-        echo '    <form action="index.php?p=lists&category='.$categoryname.'" method="POST" id="newitemform">';
-    }
-    echo '  <input type="hidden" name="action" value="create">
-            <input type="hidden" name="type"  value="VTODO">
-            <input type="hidden" name="parenturi" value="lists">';
-    if (!isset($categoryname)) echo '        <label for="title">Item Name:</label><br>';
-    echo '        <input type="text" name="title"  value="">';
-            if (!isset($categoryname)) {
-                echo '<br><label for="CATEGORIES">List:</label><br>
-                    <input type="text" name="CATEGORIES"  value=""><br>';
-                echo '    </form><br>
-                    <button type="submit" form="newitemform" value="Submit">Submit</button>
-                </div>';
-            } else {
-                echo '<input type="hidden" name="CATEGORIES"  value="'.$categoryname.'">';
-                echo '<input type="submit" value="Add new">   </form>  
-                </div>';
-            }
-            
-
-    if (!isset($categoryname)) {
-        echo '<div class="w3-container" id="listcategories">
-        <h4 class="datagrouplist">Lists</h4>
-        <ul>';
-        ksort($categories);
-        foreach($categories as $key=>$value) {
-            $keyid=str_replace(" ","",$key);
-            $keyid=str_replace("'","",$keyid);
-            $keyid=str_replace("&","-",$keyid);
-            if (strlen($key)>0 && !strpos($key,",")) echo '<li id="' . $keyid . '" class="vlistcat"><a href="index.php?p=lists&category=' . $key . '">' . $key . '</a></li>';
-        }
-        echo '</ul></div>';
-    }
+    echo "<div id='rhs'>";
+    if (!isset($categoryname)) echo newItemForm();
+    echo "</div>"; //rhs
 
 } else {
     //must log in
