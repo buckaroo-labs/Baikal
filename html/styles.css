@@ -76,3 +76,8 @@ li.active {
 .status_NEEDS-ACTION td {
     color: rgb(218, 2, 182);
 }
+.contactphoto {
+    float:right;
+    margin: 30px;
+    max-width: 400px;
+}
