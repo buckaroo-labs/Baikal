@@ -10,7 +10,7 @@ if (isset($_SESSION['username'])) {
     }
     $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname ";
     $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-    $where=" WHERE c.componenttype='VEVENT' AND i.principaluri='principals/" . $_SESSION['username'] . "'";
+    $where=" WHERE c.componenttype='VEVENT' AND i.uri NOT IN ('lists','projecttime') AND i.principaluri='principals/" . $_SESSION['username'] . "'";
     $sql="SELECT count(*) " . $from . $where . $and;
     $resultcount=$dds->getInt($sql);
     $sql="SELECT " . $columns . $from . $where . $and;
@@ -50,7 +50,7 @@ if (isset($_SESSION['username'])) {
     echo "</table>\n</div>";
 
     echo '<div id="calendarlist"><h4>Calendars</h4><ul>';
-    $sql="SELECT id, displayname FROM calendarinstances WHERE principaluri='principals/" . $_SESSION['username'] . "' order by FIELD(displayname," .'"Default Calendar"' .") DESC, displayname";
+    $sql="SELECT id, displayname FROM calendarinstances WHERE uri NOT IN ('lists','projecttime') AND principaluri='principals/" . $_SESSION['username'] . "' order by FIELD(displayname," .'"Default Calendar"' .") DESC, displayname";
     $result=$dds->setSQL($sql);
     while ($rrow=$dds->getNextRow('assoc')) {
         $liClassAndID=' class="calendarname"';
