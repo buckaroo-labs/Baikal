@@ -51,10 +51,12 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
             $endtime='';
             $summary= (string)$vjournal->SUMMARY;
             $dtstart = $vjournal->DTSTART->getDateTime();
-            $starttime= $dtstart->format(\DateTime::W3C);
+            //$starttime= $dtstart->format(\DateTime::W3C);
+            $starttime=displayFormatDateTime($dtstart);
             if ( $vjournal->DTEND) {
                 $dtend = $vjournal->DTEND->getDateTime();
-                $endtime= $dtend->format(\DateTime::W3C);
+                //$endtime= $dtend->format(\DateTime::W3C);
+                $endtime=displayFormatDateTime($dtend);
             }
 
             echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 

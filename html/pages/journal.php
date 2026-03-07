@@ -28,11 +28,13 @@ if (isset($_SESSION['username'])) {
             $summary= (string)$vevent->SUMMARY;
             if ($vevent->DTSTART) {
                 $dtstart = $vevent->DTSTART->getDateTime();
-                $starttime= $dtstart->format(\DateTime::W3C);
+                //$starttime= $dtstart->format(\DateTime::W3C);
+                $starttime=displayFormatDateTime($dtstart);
             } 
             if ($vevent->DTEND) {
                 $dtend = $vevent->DTEND->getDateTime();
-                $endtime= $dtend->format(\DateTime::W3C);
+                //$endtime= $dtend->format(\DateTime::W3C);
+                $endtime=displayFormatDateTime($dtend);
             }
             echo ('<tr><td><a href="index.php?p=entry&id='.$rrow['id'].'">' . $rrow['id'].'</a></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$rrow['calendarname'].'</td></tr>'); 
              //echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['calendardata'].'</span></td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 

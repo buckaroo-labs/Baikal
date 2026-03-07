@@ -36,10 +36,12 @@ if (isset($_SESSION['username'])) {
             $endtime='';
             $summary= (string)$vtodo->SUMMARY;
             $dtstart = $vtodo->DTSTART->getDateTime();
-            $starttime= $dtstart->format(\DateTime::W3C);
+            //$starttime= $dtstart->format(\DateTime::W3C);
+            $starttime=displayFormatDateTime($dtstart);
             if ( $vtodo->DTEND) {
                 $dtend = $vtodo->DTEND->getDateTime();
-                $endtime= $dtend->format(\DateTime::W3C);
+                //$endtime= $dtend->format(\DateTime::W3C);
+                $endtime=displayFormatDateTime($dtend);
             }
             if (isset($vtodo->COMPLETED)) $completed=true; else $completed=false;
             echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 

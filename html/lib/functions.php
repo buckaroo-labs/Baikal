@@ -25,6 +25,9 @@ function resetTaskList($listname,$principal) {
         }
 
     }
-    
+}
 
+function displayFormatDateTime ($datetime,$timezone='UTC') {
+    date_default_timezone_set($timezone);
+    return $datetime->format('Y-m-d H:i:s (P)');
 }

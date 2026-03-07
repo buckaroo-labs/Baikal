@@ -29,9 +29,11 @@ if (isset($_SESSION['username'])) {
 
             $summary= (string)$vevent->SUMMARY;
             $dtstart = $vevent->DTSTART->getDateTime();
-            $starttime= $dtstart->format(\DateTime::W3C);
+            //$starttime= $dtstart->format(\DateTime::W3C);
+            $starttime =displayFormatDateTime($dtstart);
             $dtend = $vevent->DTEND->getDateTime();
-            $endtime= $dtend->format(\DateTime::W3C);
+            //$endtime= $dtend->format(\DateTime::W3C);
+            $endtime=displayFormatDateTime($dtend);
             if ($vevent->CATEGORIES) {
                 $category=(string)$vevent->CATEGORIES;
                 $categories[$category]=0;
