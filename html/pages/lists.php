@@ -120,7 +120,7 @@ if (isset($_SESSION['username'])) {
             } else $echo=true;
             $field3=$category;
             if (isset($categoryname)) $field3=$starttime;
-            if ($echo) echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$field3.' <input type="checkbox" ' .$checked .' /></td></tr>'); 
+            if ($echo) echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$field3.' <input type="checkbox" ' .$checked .' /> 🗑️</td></tr>'); 
        
         } 
 
