@@ -55,7 +55,7 @@ if (isset($_GET['category']) && $_GET['category']==htmlspecialchars($_GET['categ
 }
 $columns=" c.id, c.uri, c.calendardata as objdata, i.principaluri as owner, i.displayname as subfolder_name, i.id as subfolder_id ";
 $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-$where=" WHERE i.uri NOT IN ('lists','projecttime')";
+$where=" WHERE i.uri NOT IN ('lists','projecttime','recurring')";
 if(isset($componenttype)) $and .=" AND  c.componenttype='".$componenttype."'";
 $and .="  AND i.principaluri='principals/" . $_SESSION['username'] . "'";
 if(!isset($sql)) $sql="SELECT " . $columns . $from . $where . $and;
