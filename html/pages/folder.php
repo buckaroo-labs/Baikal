@@ -1,10 +1,10 @@
 <?php 
 /*This file will serve as the basis for pages listing contacts, events, journal entries and tasks 
 o contacts.php
-o events.php
+x events.php
 o reminders.php
-o tasks.php
-o journal.php
+x tasks.php
+x journal.php
 
 include this file after setting the following:
 $sql for main listing:  must return object primary key as id, principaluri as owner, calendar/book displayname as subfolder_name, calendar/book id as subfolder_id, and calendar/card data as objdata
@@ -25,7 +25,7 @@ $tdata_xform two-by-n array for table data transformations
     ['datetimeformat'][''] indicates to reformat as a date/time
     [''][''] indicates no change.
 
-    defaults follow (for testing or perhaps later for general DAV application):
+    defaults follow:
 */
 if (!isset($pagevar)) $pagevar="folder";
 if (!isset($pagevar2)) $pagevar2="file";
@@ -33,7 +33,7 @@ if (!isset($pageheader)) {
     $pageheader="Folder";
     $componenttype='VEVENT';
 }
-if (!isset($thead)) $thead=array("ID", "Summary", "Start", "Subfolder");
+if (!isset($thead)) $thead=array("ID", "Summary", "Start", "Calendar");
 if (!isset($tdata)) {
         $tdata[0]=array('Q','id');
         $tdata[1]=array('V','SUMMARY');
@@ -55,7 +55,9 @@ if (isset($_GET['category']) && $_GET['category']==htmlspecialchars($_GET['categ
 }
 $columns=" c.id, c.uri, c.calendardata as objdata, i.principaluri as owner, i.displayname as subfolder_name, i.id as subfolder_id ";
 $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-$where=" WHERE c.componenttype='VEVENT' AND i.uri NOT IN ('lists','projecttime') AND i.principaluri='principals/" . $_SESSION['username'] . "'";
+$where=" WHERE i.uri NOT IN ('lists','projecttime')";
+if(isset($componenttype)) $and .=" AND  c.componenttype='".$componenttype."'";
+$and .="  AND i.principaluri='principals/" . $_SESSION['username'] . "'";
 if(!isset($sql)) $sql="SELECT " . $columns . $from . $where . $and;
 
 use Sabre\VObject;
@@ -73,7 +75,7 @@ if (isset($_SESSION['username'])) {
     $orgs=[];
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
-        $vobj = VObject\Reader::read($rrow['objdata']);
+        $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
 
         if(isset($componenttype)) {
             $temp=(string)$vobj->{$componenttype}->CATEGORIES;

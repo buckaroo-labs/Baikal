@@ -1,92 +1,21 @@
 <?php 
 
-//https://sabre.io/vobject/vcard/
-use Sabre\VObject;
-if (isset($_SESSION['username'])) {
-    $sql="SELECT c.id, c.uri, c.carddata, a.principaluri as owner, a.displayname as book_name FROM cards c
+$pagevar="contacts";
+$pagevar2="contact";
+$pageheader="Contacts";
+
+$thead=array("ID", "Display Name", "Categories", "Address Book");
+
+$tdata[0]=array('Q','id');
+$tdata[1]=array('V','FN');
+$tdata[2]=array('V','CATEGORIES');
+$tdata[3]=array('Q','subfolder_name');
+
+$tdata_xform[0]=array('link','index.php?p=contact');
+
+$sql="SELECT c.id, c.uri, c.carddata as objdata, a.principaluri as owner, a.displayname as subfolder_name, a.id as subfolder_id FROM cards c
     INNER JOIN addressbooks a on c.addressbookid=a.id
     WHERE a.principaluri='principals/" . $_SESSION['username'] . "'";
-    $dds->setMaxRecs(9999);
-    $result=$dds->setSQL($sql);
-    //echo '<div id="contacts" class="w3-twothird w3-container">';
-    echo '<div id="contacts" class="w3-twothird w3-container" style="overflow:hidden">' . "\n";
-    echo '<h2>Contacts</h2>' . "\n";
-    echo ('<table id="vcardtable" class="table sortable" style="clear:both">' . "\n" . '<tr><th>ID</th><th>Categories</th><th>Display Name</th><th>Book</th></tr>' . "\n");
-        //echo ('<table id="vcardtable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Data</th><th>Categories</th><th>Telephone</th><th>Addresses</th><th>email</th><th>Display Name</th><th>Name</th><th>Org</th><th>Book</th></tr>');
-    error_reporting(E_ERROR | E_PARSE);
-    $categories=[];
-    $books=[];
-    $orgs=[];
-    while ($rrow=$dds->getNextRow('assoc')) {
-        $owner=str_replace('principals/','',$rrow['owner']);
-        $vcard = VObject\Reader::read($rrow['carddata']);
-        $telephone='';
-        foreach($vcard->TEL as $tel) {
-            $telephone.="Phone";
-            if ($tel['TYPE']) {
-                $telephone .= " (" . strtolower($tel['TYPE']) . ")";
-            }
-            $telephone .= ": " .$tel . ": <BR>\n";
-        }
-        $email='';
-        foreach($vcard->EMAIL as $eml) {
-            $email.="email";
-            if ($eml['TYPE']) {
-                $email .= " (" . strtolower($eml['TYPE']) . ")";
-            }
-            $email .= ": ". $eml . "<BR>\n";
-        }
-        $addresses="";
-        foreach($vcard->ADR as $adr) {
-            $addresses.="Address";
-            if ($adr['TYPE']) {
-                $addresses .= " (" . strtolower($adr['TYPE']) . ")";
-            }
-            $addresses .= ": " . str_replace(";","|",$adr) . "<BR>\n";
-        }
-        $temp=(string)$vcard->CATEGORIES;
-        $temp2=str_replace(" ","",$temp);
-        $temp2=str_replace("&","-",$temp2);
-        $temp3=(string)$vcard->ORG;
-        $temp4=str_replace(" ","",$temp3);
-        $temp4=str_replace("'","",$temp4);
-        $temp4="org_" . str_replace("&","-",$temp4);
-        if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
-        if (!array_key_exists($rrow['book_name'],$books)) $books[$rrow['book_name']]=0;
-        if (!array_key_exists($temp3,$orgs)) $orgs[$temp3]=0;
-        echo ('<tr class="vcard '.str_replace(","," ",$temp2). " " .str_replace(","," ",$temp4).'"><td><a href="index.php?p=contact&id='.$rrow['id'].'">'.$rrow['id'].'</a></td><td>'.$vcard->CATEGORIES.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
-        //        echo ('<tr><td>'.$rrow['id'].'</td><td><span class="vcarddata">'.$rrow['carddata'].'</span></td><td>'.$vcard->CATEGORIES.'</td><td>'.$telephone.'</td><td>'.$addresses.'</td><td>'.$email.'</td><td class="bold">'.$vcard->FN.'</td><td>'.$vcard->N.'</td><td>'.$vcard->ORG.'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
-    }
-echo "</table>\n</div>";
-echo '<div id="vcardgroups" class="w3-container" >';
-echo '<div id="vcardcategories"><h4 class="datagrouplist">Categories</h4><ul>';
-ksort($categories);
-foreach($categories as $key=>$value) {
-    $keyid=str_replace(" ","",$key);
-    $keyid=str_replace("&","-",$keyid);
-    if (strlen($key)>0 && !strpos($key,",")) echo '<li id="' . $keyid . '" class="vcardcategory active">' . $key . '</li>';
-}
-echo '</ul></div>';
 
-echo '<div id="vcardbooks"><h4 class="datagrouplist">Address books</h4><ul>';
-foreach($books as $key=>$value) {
-    echo '<li class="vcardbook">' . $key . '</li>';
-}
-echo '</ul></div>';
+include("pages/folder.php");
 
-echo '<div id="vcardorgs"><h4 class="datagrouplist">Organizations</h4><ul>';
-ksort($orgs);
-foreach($orgs as $key=>$value) {
-    $keyid=str_replace(" ","",$key);
-    $keyid=str_replace("'","",$keyid);
-    $keyid=str_replace("&","-",$keyid);
-    if (strlen($key)>0 && !strpos($key,",")) echo '<li id="org_' . $keyid . '" class="vcardorg">' . $key . '</li>';
-}
-echo '</ul></div>';
-
-echo '</div>';
-echo '<script src="js/vcard-filter.js"></script>';
-} else {
-    //must log in
-    echo "You must be logged in to use this page.";
-}
