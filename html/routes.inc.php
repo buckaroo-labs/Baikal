@@ -21,6 +21,10 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "pages/events.php";  
 	$pagetitle="Events";
 	$headline = '<h1>Events</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'folder')==0) {
+	$include= "pages/folder.php";  
+	$pagetitle="Folder";
+	$headline = '<h1>Folder</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'event')==0) {
 	$include= "pages/event.php";  
 	$pagetitle="Event";

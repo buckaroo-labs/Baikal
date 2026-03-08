@@ -1,0 +1,22 @@
+$(document).ready(function(){
+  $(".vcardcategory").on("click", function() {
+  
+    $(this).toggleClass("active");
+    var category=$(this).attr("id");
+    //category = category.replace(/ /g, '');
+    //category = category.replace(/&/g, '-');
+    if ($(this).hasClass("active")) $("#folderitems tr." + category).show(); else $("#folderitems tr." + category).hide();
+    
+  });
+    $(".vobjorg").on("click", function() {
+  
+    $(this).toggleClass("activeorg");
+    var category=$(this).attr("id");
+    //category = category.replace(/ /g, '');
+    //category = category.replace(/&/g, '-');
+    if ($(this).hasClass("activeorg")) $("#folderitems tr").filter(function() {
+      $(this).toggle($(this).hasClass(category));
+    });
+    
+  });
+});

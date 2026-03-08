@@ -57,6 +57,11 @@ li.active {
     background-color: rgb(99, 6, 6);  
         border-radius: 5px;
 }
+td.active {
+     color: white;
+    background-color: rgb(99, 6, 6);  
+        border-radius: 5px;
+}
 .vcardcategory:hover {
     background-color: rgb(203, 27, 86);  
 }
