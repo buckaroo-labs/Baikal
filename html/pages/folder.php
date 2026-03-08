@@ -76,9 +76,10 @@ if (isset($_SESSION['username'])) {
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
         $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
-
+        $status="status_unknown";
         if(isset($componenttype)) {
             $temp=(string)$vobj->{$componenttype}->CATEGORIES;
+            if ($vobj->{$componenttype}->STATUS) $status="status_" .$vobj->{$componenttype}->STATUS;  
         } else $temp=(string)$vobj->CATEGORIES;
 
         $temp2=str_replace(" ","",$temp);
@@ -92,7 +93,8 @@ if (isset($_SESSION['username'])) {
         if (!array_key_exists($temp3,$orgs)) $orgs[$temp3]=0;
         $hidden="";
         if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
-        echo ('<tr '. $hidden .'class="vobject '.str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
+        
+        echo ('<tr '. $hidden .'class="vobject ' . $status . " " .str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
         
         for ($i=0; $i<count($tdata); $i++) {
             //if(!isset($category) || $category==$temp) {
