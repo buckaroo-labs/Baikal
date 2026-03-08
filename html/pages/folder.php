@@ -76,8 +76,9 @@ if (isset($_SESSION['username'])) {
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
         $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
-        $status="status_unknown";
+        $status="";
         if(isset($componenttype)) {
+            if ($componenttype=='VTODO') $status="status_unknown";
             $temp=(string)$vobj->{$componenttype}->CATEGORIES;
             if ($vobj->{$componenttype}->STATUS) $status="status_" .$vobj->{$componenttype}->STATUS;  
         } else $temp=(string)$vobj->CATEGORIES;
