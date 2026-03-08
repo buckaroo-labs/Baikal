@@ -84,9 +84,9 @@ if (isset($_SESSION['username'])) {
     echo '<h2>'.$pageheader.'</h2>';
     if (isset($categoryname)) {
         echo newItemForm();
-        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th></tr>');
+        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Actions</th></tr>');
     } else {
-        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Category</th></tr>');
+        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Category</th><th>Actions</th></tr>');
     }
 
     error_reporting(E_ERROR | E_PARSE);
@@ -116,11 +116,15 @@ if (isset($_SESSION['username'])) {
             if ($vtodo->COMPLETED) $checked=" checked"; else $checked="";
             
             if (isset($categoryname)) {
+                $append="&category=" .$categoryname;
                 if(strpos($category,$categoryname)!==false) $echo=true; else $echo=false;
-            } else $echo=true;
+            } else {
+                $append="";
+                $echo=true;
+                }
             $field3=$category;
             if (isset($categoryname)) $field3=$starttime;
-            if ($echo) echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$field3.' <input type="checkbox" ' .$checked .' /> 🗑️</td></tr>'); 
+            if ($echo) echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$field3.' </td><td><form style="float:left" method="POST" action="index.php?p=lists'.$append .'" id="taskstatusform_'.$rrow['id'].'"><input type="hidden" name="type" value="VTODO"><input type="hidden" name="action" value="togglestatus"><input type="hidden" name="id" value="'.$rrow['id'].'"><input onChange="this.form.submit()" id="taskstatus_'.$rrow['id'].'" class="taskstatusbox" type="checkbox" ' .$checked .' /></form> <form method="POST" action="index.php?p=lists'.$append .'" onClick="this.submit()" class="itemdeleteform" id="deletetask_'.$rrow['id'].'"><input type="hidden" name="type" value="VTODO"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="'.$rrow['id'].'"><label >🗑️</label></form></td></tr>'); 
        
         } 
 

@@ -9,7 +9,7 @@ class VTODO extends VCALENDAR {
         if ($id==0) {
             $this->vobject->add('VTODO', [
                 'SUMMARY' => $summary,
-                'STATUS' > 'OPEN',
+                'STATUS' => 'OPEN',
                 'DTSTART' => new \DateTime()
             ]);
         } else {
@@ -41,6 +41,18 @@ class VTODO extends VCALENDAR {
         }
         return $returnValue;
     }
+
+    public function toggle() {
+        if (!isset($this->vobject->VTODO->COMPLETED)) {
+            $this->vobject->VTODO->COMPLETED = new \DateTime();
+            $this->vobject->VTODO->STATUS = 'COMPLETED';
+            $this->modified=true;
+        } else {
+            unset($this->vobject->VTODO->COMPLETED);
+            $this->vobject->VTODO->STATUS = 'OPEN';
+            $this->modified=true;
+        }
+    }    
 
 } //end class
 

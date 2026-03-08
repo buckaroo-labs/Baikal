@@ -46,6 +46,18 @@ if(isset($_POST['action'])) {
           //code          
       }
       break;
+    case 'togglestatus':
+      //code
+      switch ($_POST['type']) {
+        case 'VTODO':
+          //if complete, mark incomplete; vice versa
+          if (isset($_POST['id']) && is_numeric($_POST['id'])) $object=new VTODO($_POST['id']);
+          $object->toggle();
+          $object->save();
+          break;
+        default:
+      break;
+      }
     case 'reset':
       //code
       switch ($_POST['type']) {

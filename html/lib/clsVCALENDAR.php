@@ -56,7 +56,11 @@ class VCALENDAR extends DAVObject {
     private function setModificationTimeToNow() {
         $this->vobject->{$this->componenttype}->{'LAST-MODIFIED'} = new \DateTime();
     }
-
+    public function delete() {
+        if (isset($this->objectID)) {
+            $this->ds->setSQL("DELETE from calendarobjects where id=" . $this->objectID);
+        }
+    }
     public function save() {
         debug ("VCALENDAR 'save' method called");
         
