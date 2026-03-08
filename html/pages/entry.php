@@ -27,9 +27,9 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
             $newdata=str_replace("\nBEGIN:VEVENT","\nBEGIN:VJOURNAL",$rrow['calendardata']);
             $newdata=str_replace("\nEND:VEVENT","\nEND:VJOURNAL",$newdata);
             $newdata=str_replace("'","''",$newdata);
-            $sql="update calendarobjects set size=size+4, componenttype='VJOURNAL', calendardata='" . $newdata . "', etag='. md5($newdata) .' where id=" . $journalid;
+            $sql="update calendarobjects set size=size+4, componenttype='VJOURNAL', calendardata='" . $newdata . "', etag='". md5($newdata) ."' where id=" . $journalid;
             $result=$dds->setSQL($sql);
-            $sql="UPDATE calendarinstances SET synctoken=synctoken+1 WHERE id=" . $rrow['calendarid'];
+            $sql="UPDATE calendars SET synctoken=synctoken+1 WHERE id=" . $rrow['calendarid'];
             $result=$dds->setSQL($sql);
         //}
 
