@@ -5,6 +5,10 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "Hydrogen/pages/Login.php";  
 		$pagetitle="Log In";
 	$headline = '<h1>Log In</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'about')==0) {
+	$include= "pages/about.php";  
+	$pagetitle="About";
+	$headline = '<h1>About</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'register')==0) {
 	$include= "Hydrogen/pages/Register.php";  
 	$pagetitle="Register";
