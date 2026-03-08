@@ -86,3 +86,10 @@ td.active {
     margin: 30px;
     max-width: 400px;
 }
+#vobjcategories {
+    margin-bottom: 20px;
+}
+.enlargeonhover:hover {
+    transform: scale(1.2,1.2);
+    background-color: blue;
+}

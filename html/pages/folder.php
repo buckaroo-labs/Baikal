@@ -88,10 +88,12 @@ if (isset($_SESSION['username'])) {
         if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
         if (!array_key_exists($rrow['subfolder_name'],$subfolders)) $subfolders[$rrow['subfolder_name']]=$rrow['subfolder_id'];
         if (!array_key_exists($temp3,$orgs)) $orgs[$temp3]=0;
-        echo ('<tr class="vobject '.str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
+        $hidden="";
+        if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
+        echo ('<tr '. $hidden .'class="vobject '.str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
         
         for ($i=0; $i<count($tdata); $i++) {
-            if(!isset($category) || $category==$temp) {
+            //if(!isset($category) || $category==$temp) {
                 echo '<td>';
                     if($tdata[$i][0]=='Q') {
                         $celldata=$rrow[$tdata[$i][1]];
@@ -117,7 +119,7 @@ if (isset($_SESSION['username'])) {
                 //if(!isset($category) || $category==$temp) 
                     echo $celldata;
                 echo '</td>';
-            }
+            //}
         }
 
         echo ('</tr>' . "\n");
@@ -135,16 +137,20 @@ foreach($categories as $key=>$value) {
 }
 echo '</ul></div>';*/
 
+if (count($categories)>1) {
 echo '<h4 class="datagrouplist">Categories</h4><table id="vobjcategories">
 <tr><th style="padding-right:20px;">Link</th><th>Toggle</th></tr>';
 ksort($categories);
 foreach($categories as $key=>$value) {
     $keyid=str_replace(" ","",$key);
     $keyid=str_replace("&","-",$keyid);
-    if (strlen($key)>0 && !strpos($key,",")) echo '<tr><td><a href="index.php?p='.$pagevar .'&category='. $keyid .'">🔗</a></td><td id="' . $keyid . '" class="vcardcategory active">' . $key . '</td></tr>';
+    $status="active";
+    if(isset($category) && $category!=$key) $status="";
+    if (strlen($key)>0 && !strpos($key,",")) echo '<tr><td><a style="text-decoration:none;" href="index.php?p='.$pagevar .'&category='. $keyid .'"><span class="enlargeonhover">🔗</span></a></td><td id="' . $keyid . '" class="vcardcategory '.$status.'">' . $key . '</td></tr>';
 }
 echo '</table>';
-
+}
+if (!isset($folderid)) {
 echo '<div id="vsubfolders"><h4 class="datagrouplist">Subfolders</h4><ul>';
 ksort($subfolders);
 foreach($subfolders as $key=>$value) {
@@ -157,7 +163,8 @@ foreach($subfolders as $key=>$value) {
     echo '<li '. $liClassAndID .'"><a href="index.php?p='. $pagevar .'&folderid=' . $value . '">' . $key . '</a></li>';
 }
 echo '</ul></div>';
-
+}
+if (count($orgs)>1) {
 echo '<div id="vobjorgs"><h4 class="datagrouplist">Organizations</h4><ul>';
 ksort($orgs);
 foreach($orgs as $key=>$value) {
@@ -167,7 +174,7 @@ foreach($orgs as $key=>$value) {
     if (strlen($key)>0 && !strpos($key,",")) echo '<li id="org_' . $keyid . '" class="vobjorg">' . $key . '</li>';
 }
 echo '</ul></div>';
-
+}
 echo '</div>';
 echo '<script src="js/category-filter.js"></script>';
 } else {
