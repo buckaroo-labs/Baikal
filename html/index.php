@@ -47,17 +47,17 @@ require_once("Hydrogen/db/clsDataSource.php");
 			if (isset($_GET['menu']) && $_GET['menu']=="baikal") {
 				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
-				echo "<p>Use the Dashboard, Users and Config links for Ba&iuml;kal&apos;s management features, logging in as <q>admin</q>.";
+				echo "<p>Use the <dfn>Dashboard</dfn>, <dfn>Users</dfn> and <dfn>Config</dfn> links for Ba&iuml;kal&apos;s management features, logging in as <q>admin</q>.";
 				echo '</div>';
 			} elseif (isset($_GET['menu']) && $_GET['menu']=="sabre") {
 				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
-				echo "<p>Use the DAV Home, Calendars and Contacts links for sabre/dav&apos;s folder navigation interface, logging in with your application credentials.</p>";	
+				echo "<p>Use the <dfn>DAV Home</dfn>, <dfn>Calendars</dfn> and <dfn>Contacts</dfn> links for sabre/dav&apos;s folder navigation interface, logging in with your application credentials.</p>";	
 				echo '</div>';
 			} else {
 				echo "<p>This is " . $settings['appname']. ', a fork of <a href="https://sabre.io/baikal/" target="_blank">Ba&iuml;kal</a>, which is a calendar and contacts server built on <a href="https://sabre.io/dav/" target="_blank">sabre/dav</a>.</p>';
 
-				echo '<p>Use the Admin link for Ba&iuml;kal&apos;s management features. Use the Explorer link for sabre&apos;s folder navigation interface. Use the <dfn>Contacts</dfn>, <dfn>Events</dfn>, <dfn>Tasks</dfn>, <dfn>Journal</dfn> and <dfn>Alarms</dfn> links for viewing your data. This web UI offers limited add/update/delete functionality; most such functions will be most easily accomplished with another DAV client of your choice. See <a href="index.php?p=help">Help</a>.</p>';
+				echo '<p>Use the <dfn>Admin</dfn> link for Ba&iuml;kal&apos;s management features. Use the <dfn>Explorer</dfn> link for sabre&apos;s folder navigation interface. Use the <dfn>Contacts</dfn>, <dfn>Events</dfn>, <dfn>Tasks</dfn>, <dfn>Journal</dfn> and <dfn>Alarms</dfn> links for viewing your data. This web UI offers limited add/update/delete functionality; most such functions will be most easily accomplished with another DAV client of your choice. See <a href="index.php?p=help">Help</a>.</p>';
 
 				echo "<p>Additional applications provided here, also based on the VCALENDAR standard, include:</p><ul>
 				<li><dfn>Reminders</dfn> for enhanced management of recurring tasks. These items are stored as VTODO components in a separate calendar and their recurrence is managed on the server via the web UI. Changes made by external client software to recurrence rules are ignored.</li>

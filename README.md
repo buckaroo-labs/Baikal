@@ -19,7 +19,7 @@ Significant changes in this fork include:
 - Use salted hash for stored passwords (table and column names, auth backend are different)
 - Add Docker files
 - Add color picker input for editing calendar color
-- Add UI for navigating Contact, Event, ToDo and Journal data; allow user to convert VEVENT to VJOURNAL; allow user to mark VTODOs complete/incomplete
+- Add UI for navigating Contact, Event, Task, Alarm and Journal data; allow user to convert VEVENT to VJOURNAL; allow user to mark VTODOs complete/incomplete
 - Add apps for list management, project time tracking
 - Some (new) features depend on having MySQL as the RDBMS; some steps have been taken to continue supporting SQLite and PGSQL as well, but this effort is incomplete and untested.
 
