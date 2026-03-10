@@ -8,7 +8,6 @@ $sql="SELECT " . $columns . $from . $where;
 //mostly this will use the defaults in folder.php
 $pagevar="reminders";
 $pagevar2="reminder";
-$pageheader="Reminders";
 $componenttype='VTODO';
 
 $tdata_xform[0]=array('link','index.php?p=reminder');
