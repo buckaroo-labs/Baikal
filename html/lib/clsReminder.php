@@ -27,7 +27,7 @@ class Reminder extends VTODO {
         $rrow=$dds->getNextRec();
         if (!isnull($rrow[0])) $this->objectID=$rrow[0];
         //This statement will silently fail if a matching record already exists
-        $sql0="INSERT IGNORE INTO recurrence (uid) VALUES ('" . $UID . "')";
+        $sql0="INSERT IGNORE INTO recurrence (uid,sequence) VALUES ('" . $UID . "','" . rand(1,99999999). "')";
 		$result = $dds->setSQL($sql0);
 		$sqlowner=$owner;
 		if (isset($_SESSION['username'])) $sqlowner=$_SESSION['username'];

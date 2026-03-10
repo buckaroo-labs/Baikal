@@ -16,7 +16,7 @@ if (isset($_SESSION['username'])) {
         }
     }
 
-    $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname ";
+    $columns=" c.id, c.uid, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname, i.uri as calendaruri ";
     $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
     $where=" WHERE i.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $reminderid;
     $sql="SELECT count(*) " . $from . $where;
@@ -29,7 +29,6 @@ if (isset($_SESSION['username'])) {
     error_reporting(E_ERROR | E_PARSE);
     while ($rrow=$dds->getNextRow('assoc')) {
         $vcalendar = VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
-
         foreach($vcalendar->VTODO as $vtodo) {
             echo ('<table id="veventtable" class="table" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>End</th></tr>');
             $starttime='';
@@ -50,7 +49,7 @@ if (isset($_SESSION['username'])) {
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);
             echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
 
-            echo '<form method="get" action="index.php" id="conversionform">
+            echo '<div id="rhs"><form method="get" action="index.php" id="conversionform">
             <input type="hidden" name="p" value="reminder">
             <input type="hidden" name="id" value="' . $reminderid . '">';
             if ($completed) {
@@ -61,6 +60,8 @@ if (isset($_SESSION['username'])) {
                     <input type="submit" value="Mark Complete">';
             }
             echo '</form>'; 
+            if ($rrow['calendaruri']=='recurring') include "pages/recurrence.inc.php";
+            echo '</div>';
 
         } 
 
