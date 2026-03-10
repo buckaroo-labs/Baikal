@@ -14,21 +14,19 @@ class RecurrencePlugin extends ServerPlugin {
 
     protected $server;
     private $vobject;
+    private $Reminder;
 
     function getName() {
-
         return 'recurrence';
-
     }
 
     function initialize(Server $server){
-
         $this->server = $server;
         $server->on('beforeWriteContent',[$this,'vtodoUpdateHandler' ]);
-
     }
 
     function vtodoUpdateHandler($path, \Sabre\DAV\IFile $node, &$data, &$modified) {
+        $mod=false;
         if (is_resource($data)) {
             $data = stream_get_contents($data);
         }
@@ -38,7 +36,7 @@ class RecurrencePlugin extends ServerPlugin {
         */
         if (strpos($path,"/recurring/")!=='false') {
             
-            file_put_contents('/tmp/davlog', $path . " is to be updated.\n",FILE_APPEND);
+            //file_put_contents('/tmp/davlog', $path . " is to be updated.\n",FILE_APPEND);
             $this->vobject = VObject\Reader::read($data, VObject\Reader::OPTION_FORGIVING);
 
             if (isset($this->vobject->VTODO)) {
@@ -52,18 +50,13 @@ class RecurrencePlugin extends ServerPlugin {
                     if (isset($oldobject->VTODO->RRULE)) {
                         $this->vobject->VTODO->RRULE=$oldobject->VTODO->RRULE;
                         $data=$this->vobject->serialize();
-                        $modified=true;
+                        $mod=true;
                         //file_put_contents('/tmp/davlog', $path . " RRULE restored.\n",FILE_APPEND);
-                    } else {
-                        $modified=false;
-                    }
+                    }  
                 } else {
-                    //here is where we should check if we need to create a record
-                    // in the recurrence table for the object.
-                    // Given that we don't know if this object has been stored in the database yet, we must match on UID rather than trying to match on the table's primary key.
-                    $uid=$this->vobject->VTODO->UID;
-                    //This statement will silently fail if a matching record already exists
-                    $sql0="INSERT IGNORE INTO recurrence (uid) VALUES ('" . $uid . "')";
+                    //Here is where we should check if we need to create a record in the recurrence table for the object. this will be handled when we instantiate the Reminder class with the object.
+                    $Reminder= new \Reminder($this->vobject);
+
                     // Prep this statement but execute it only if this is a new record. The server and not the client should manage changes to the start date. 
                     $sdMySQL= \DateTimeExt::MySQLDate($this->vobj->VTODO->DTSTART->getDateTime());
                     $sql1="UPDATE recurrence SET start_date='".$sdMySQL ."' WHERE uid='" . $uid . "'";
@@ -79,28 +72,31 @@ class RecurrencePlugin extends ServerPlugin {
 
                     // ...
 
-                    $modified=false;
                 }
                 //Now handle cases when the VTODO status is changed to COMPLETE or CANCELLED
                 if ($this->vobject->VTODO->STATUS=="COMPLETED") {
                     if ($oldobject->VTODO->STATUS!="COMPLETED") {
                         //...un-complete the item and calculate new start/due dates
                         //set status to OPEN
+                        $this->vobject->VTODO->STATUS="OPEN";
                         //unset COMPLETED property
-                        //set new DUE date
-                        //set new DTSTART 
-                        //....
-                        $modified=true;
-                    } else {$modified=false;}
+                        unset($this->vobject->VTODO->COMPLETED);
+                        //set new DUE, DTSTART, and LAST-MODIFIED dates
+                        $this->Reminder->markComplete($this->vobject);
+                        $data=$this->vobject->serialize();
+                        $mod=true;
+                        //last of all, how do we make sure the client see the changes we made to the data it just submitted? testing required
+                    }  
                 } elseif ($this->vobject->VTODO->STATUS=="CANCELLED") {
                     if ($oldobject->VTODO->STATUS!="CANCELLED") {
                         //...any action required here?
-                        $modified=false; //?
-                    } else {$modified=false;}
+                        //$mod=true; //?
+                    }  
                 }
-            } else $modified=false;
+            }  
 
         } 
+        $modified=$mod;
         return true;
     }
 
