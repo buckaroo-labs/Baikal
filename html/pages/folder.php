@@ -9,7 +9,7 @@ x journal.php
 include this file after setting the following:
 $sql for main listing:  must return object primary key as id, principaluri as owner, calendar/book displayname as subfolder_name, calendar/book id as subfolder_id, and calendar/card data as objdata
  ? $tablename for subfolder listing ('calendarinstances' or 'addressbooks')
-$pageheader for H2 content
+$headline for H2 content
 $pagevar for filtering on subfolder
 $pagevar2 for individual vobject display
 $componenttype (only for VCALENDAR objects)
@@ -29,8 +29,8 @@ $tdata_xform two-by-n array for table data transformations
 */
 if (!isset($pagevar)) $pagevar="folder";
 if (!isset($pagevar2)) $pagevar2="file";
-if (!isset($pageheader)) {
-    $pageheader="Folder";
+if (!isset($headline)) {
+    $headline="Folder";
     $componenttype='VEVENT';
 }
 if (!isset($thead)) $thead=array("ID", "Summary", "Start", "Calendar");
@@ -65,7 +65,7 @@ if (isset($_SESSION['username'])) {
     $dds->setMaxRecs(9999);
     $result=$dds->setSQL($sql);
     echo '<div id="folderitemsdiv" class="w3-twothird w3-container" style="overflow:hidden">' . "\n";
-    echo '<h2>'.$pageheader.'</h2>' . "\n";
+    echo '<h2>'.$headline.'</h2>' . "\n";
     echo ('<table id="folderitems" class="table sortable" style="clear:both">' . "\n") ; 
     echo ('<tr><th>'. implode('</th><th>',$thead) .'</th></tr>' . "\n");
 

@@ -69,19 +69,20 @@ if (isset($_SESSION['username'])) {
 
     if(isset($_GET['category'])) {
         $categoryname=htmlspecialchars($_GET['category']);
-        $pageheader=ucwords($categoryname);
+        $headline=ucwords($categoryname);
+        if ($headline=="Groceries") $headline="🛒 Groceries";
         echo '<form id="resetAllListedTasks" method="POST" action="index.php?p=lists&category='.$categoryname .'">
         <input type="hidden" name="action" value="reset">
         <input type="hidden" name="type" value="list">
         <input type="submit" value="Reset all">
         </form>';
     } else {
-        $pageheader="List items";
+        $headline="List items";
     }
 
 
 
-    echo '<h2>'.$pageheader.'</h2>';
+    echo '<h2>'.$headline.'</h2>';
     if (isset($categoryname)) {
         echo newItemForm();
         echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Actions</th></tr>');

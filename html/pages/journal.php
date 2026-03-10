@@ -3,7 +3,6 @@
 //mostly this will use the defaults in folder.php
 $pagevar="journal";
 $pagevar2="entry";
-$pageheader="Journal";
 $componenttype='VJOURNAL';
 
 $tdata_xform[0]=array('link','index.php?p=entry');

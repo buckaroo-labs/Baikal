@@ -2,7 +2,6 @@
 //mostly this will use the defaults in folder.php
 $pagevar="alarms";
 $pagevar2="alarm";
-$pageheader="Alarms";
 //$componenttype='VEVENT';
 
 $thead=array("ID", "Summary", "Start", "Alarm","Calendar");
@@ -39,7 +38,7 @@ if (isset($_SESSION['username'])) {
     $dds->setMaxRecs(9999);
     $result=$dds->setSQL($sql);
     echo '<div id="folderitemsdiv" class="w3-twothird w3-container" style="overflow:hidden">' . "\n";
-    echo '<h2>'.$pageheader.'</h2>' . "\n";
+    echo '<h2>'.$headline.'</h2>' . "\n";
     echo ('<table id="folderitems" class="table sortable" style="clear:both">' . "\n") ; 
     echo ('<tr><th>'. implode('</th><th>',$thead) .'</th></tr>' . "\n");
 
