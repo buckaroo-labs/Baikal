@@ -49,7 +49,7 @@ if (isset($_SESSION['username'])) {
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);
             echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
 
-            echo '<div id="rhs"><form method="get" action="index.php" id="conversionform">
+            echo '<div id="rhs" style="max-width:95%"><form method="get" action="index.php" id="conversionform">
             <input type="hidden" name="p" value="reminder">
             <input type="hidden" name="id" value="' . $reminderid . '">';
             if ($completed) {
@@ -60,7 +60,13 @@ if (isset($_SESSION['username'])) {
                     <input type="submit" value="Mark Complete">';
             }
             echo '</form>'; 
-            if ($rrow['calendaruri']=='recurring') include "pages/recurrence.inc.php";
+            if ($rrow['calendaruri']=='recurring') {
+                echo '<div id="recurrence_view">';
+                include "pages/recurrence.inc.php";
+                echo '</div><div id="recurrence_edit" style="display:none">';
+                include "pages/recurrenceedit.inc.php";
+                echo '</div>';
+            }
             echo '</div>';
 
         } 

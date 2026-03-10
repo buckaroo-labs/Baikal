@@ -8,7 +8,7 @@
 	$starttimestr = date("H:i",strtotime($remdata['start_date']));
 
 	//$implementation_note=false;
-	$output = "<h4>Recurrence</h4><table>";
+	$output = "<h4>Server-side Rules</h4><table>";
 	$output .= "<tr><td>Start: </td><td>$startdatestr at $starttimestr</td><tr>";
 
 	if (isset($remdata['recur_units'])) {
@@ -99,6 +99,8 @@
 	}
 	$output .="</table>";
 	if ($implementation_note) $output .= "<P>(* = not implemented)</P>" ;
-	echo '<p name="reminder_description">' . $output . "</p>" . '<p><a href="edit_recurrence.php?id=' . $remdata['id'] . '">Edit</a></p>';
+	echo '<p name="reminder_description">' . $output . "</p>";
+	//echo '<p><a href="edit_recurrence.php?id=' . $reminderid . '">Edit</a></p>';
+	echo '<button id="editrecurrencebutton" onclick="editrecurrence()">Edit</button>';
 
 	
