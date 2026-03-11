@@ -2,7 +2,7 @@
 require_once "lib/clsVTODO.php";
 require_once "lib/functions.php";
 require_once ("Hydrogen/db/clsDataSource.php");
-require_once ("lib/clsDateTimeExt.php");
+require_once ("Hydrogen/clsDateTimeExt.php");
 class Reminder extends VTODO {
     //This class may only partially be able to call parent methods due to differences in construction.
     //Recurrence management functions apply here

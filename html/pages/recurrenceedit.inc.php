@@ -99,9 +99,11 @@
 	}
 ?>
 	
-	<form class="w3-container" action="index.php?p=reminder&id=<?php echo($rem_id); ?>" method="post">
-		<input name="ID" type="hidden" value="<?php echo($rem_id); ?>">
+	<form class="w3-container" action="index.php?p=reminder&id=<?php echo($reminderid); ?>" method="post">
+		<input name="ID" type="hidden" value="<?php echo($rrow['uid']); ?>">
 		<input name="DIRTY" type="hidden" value="Y">
+		<input name="action" type="hidden" value="update">
+		<input name="type" type="hidden" value="recurrence">
 
 			<!-- The UI max length should be several chars smaller than the database
 			to allow for HTML encoding e.g. "'" to "&rsquo;" -->

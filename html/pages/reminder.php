@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
         } 
 
     }
-
+echo "\n" . '<script src="js/recurrence.js"></script>' ."\n";
 } else {
     //must log in
     echo "You must be logged in to use this page.";

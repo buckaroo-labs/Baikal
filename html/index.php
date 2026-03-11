@@ -20,9 +20,12 @@ require("routes.inc.php");
 
 //Hydrogen/pgTemplate.php handles general page layout, menus, cookies
 require "Hydrogen/pgTemplate.php";
-
+require_once("Hydrogen/lib/Debug.php");
 //this file will handle POST data for performing updates
-if (isset($_POST['action'])) require ("api.php");
+if (isset($_POST['action'])) {
+	debug("requiring 'api.php'");
+	require ("api.php");
+}
 
 require_once("Hydrogen/db/clsDataSource.php");
 ?>

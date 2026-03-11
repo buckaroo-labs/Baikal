@@ -14,7 +14,7 @@ if(isset($_POST['action'])) {
   debug("Responding to POST data");
   if (!isset($_SESSION['username'])) goto errors;
   if (!isset($_POST['type'])) goto errors;
-  if ($_POST['action']!='create' && $_POST['type']!='list' && !isset($_POST['id'])) goto errors;
+  if ($_POST['action']!='create' && $_POST['type']!='list' && !isset($_POST['id']) && !isset($_POST['ID'])) goto errors;
   loadClassHierarchy();
 
   switch ($_POST['action']) {
@@ -73,6 +73,33 @@ if(isset($_POST['action'])) {
       break;
       }
     case 'update':
+            //code block;
+      switch ($_POST['type']) {
+        case 'VTODO':
+          //code
+          //$object=new VTODO($_POST['id']);
+          break;
+        case 'VEVENT':
+          //this needs to be more specific when the VEVENT class is written
+          //$object=new VCALENDAR($_POST['id']);
+          break;
+        case 'VJOURNAL':
+          //this needs to be more specific when the VJOURNAL class is written
+          //$object=new VCALENDAR($_POST['id']);
+          break;
+        case 'recurrence':
+          //expect the following POST data:
+          //StartDate, StartTime, Recurrence, recur_units, recur_scale, recur_float,
+          //EndDate, EndTime, GraceTime, grace_units, grace_scale,
+          //Alarms, alarm_interval_units, alarm_interval_scale, passive_units, passive_scale.
+          //Any further POST data not implemented at this time.
+          include("recurrencepost.inc.php");
+
+          break;
+        default:
+          //code          
+      }
+      break;
     case 'delete':
       //code block;
       switch ($_POST['type']) {
@@ -101,10 +128,12 @@ if(isset($_POST['action'])) {
   }
 
   if ($_POST['action']=='create' || $_POST['action']=='update') {
-    debug("Setting vobject properties");
-    $object->setProperties($_POST);
-    debug("Saving vobject");
-    $object->save();
+    if ($_POST['type']!='recurrence') {
+      debug("Setting vobject properties");
+      $object->setProperties($_POST);
+      debug("Saving vobject");
+      $object->save();
+    }
   } elseif ($_POST['action']=='delete') {
     $object->delete();
   }
@@ -135,9 +164,10 @@ function loadClassHierarchy() {
               
   }
 }
-
+goto noerrors;
 errors:
 debug("Error encountered in POST data");
+noerrors:
 if (!isset($_SESSION['username'])) reject("Unauthenticated user");
 if (!isset($_POST['type'])) reject("Unspecified type");
-if ($_POST['action']!='create' && !isset($_POST['id'])) reject("Unspecified ID");
+ if ($_POST['action']!='create' && $_POST['type']!='list' && !isset($_POST['id']) && !isset($_POST['ID']))  reject("Unspecified ID");
