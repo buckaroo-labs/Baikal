@@ -48,7 +48,9 @@ class VCALENDAR extends DAVObject {
         foreach ($nvp as $key => $value) {
             if ($key==strtoupper($key)) {
                 debug("Setting VCALENDAR property " . $key . " to " . $value);
-                $this->vobject->{$this->componenttype}->add($key,$value);
+                //$this->vobject->{$this->componenttype}->add($key,$value);
+                $this->vobject->{$this->componenttype}->{$key}=$value;
+                $this->modified=true;
             }
         }
     }

@@ -4,6 +4,8 @@
 	$result = $dds->setSQL("SELECT * FROM recurrence WHERE uid='" . $rrow['uid']."'");
 	$remdata = $dds->getNextRow("labeled");
 
+	//$startdatestr = date("Y-m-d",strtotime($dtstart->format('Y-m-d H:i:s')));
+	//$starttimestr = date("H:i",strtotime($dtstart->format('Y-m-d H:i:s')));
 	$startdatestr = date("Y-m-d",strtotime($remdata['start_date']));
 	$starttimestr = date("H:i",strtotime($remdata['start_date']));
 
@@ -17,13 +19,15 @@
 			$temp = decode_scale_and_units($remdata['recur_scale'],$remdata['recur_units']);
 			$temp = "Every $temp after previous $recur_float";
 			
-			if (isset($remdata['end_date'])) {
-				if (!is_null($remdata['end_date'])) {
+			if (isset($dtend)) {
+				if (!is_null($dtend)) {
 
+				//$enddatestr = date("Y-m-d",strtotime($dtend->format('Y-m-d H:i:s')));
+				//$endtimestr = date("H:i",strtotime($dtend->format('Y-m-d H:i:s')));
 				$enddatestr = date("Y-m-d",strtotime($remdata['end_date']));
 				$endtimestr = date("H:i",strtotime($remdata['end_date']));
 				//$output .= " and will not recur after " . $enddatestr  . " at " . $endtimestr;
-				$temp .= " until $enddatestr at $endtimestr";
+				if (!is_null($enddatestr)) $temp .= " until $enddatestr at $endtimestr";
 				}
 			}			
 					

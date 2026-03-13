@@ -159,6 +159,10 @@ function loadClassHierarchy() {
     case 'VEVENT':
       //code
       break;
+    case 'recurrence':
+      //code
+      require_once ("lib/clsReminder.php");
+      break;
     default:
       //code
               

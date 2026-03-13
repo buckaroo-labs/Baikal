@@ -35,44 +35,44 @@
 		$calendar_id=0;
 	} else {
 		echo ('<h4>Edit rules</h4>');
-		//$result = $dds->setSQL("SELECT * FROM recurrence WHERE uid='" . $rrow['uid']  . "'");
-		//$rrow = $dds->getNextRow("labeled");
-		$startdatestr = date("Y-m-d",strtotime($rrow['start_date']));
-		$starttimestr = date("H:i",strtotime($rrow['start_date']));
-		if (isset($rrow['end_date'])) {
-			if (!is_null($rrow['end_date'])) {
-			$enddatestr = date("Y-m-d",strtotime($rrow['end_date']));
-			$endtimestr = date("H:i",strtotime($rrow['end_date']));
+		//$result = $dds->setSQL("SELECT * FROM recurrence WHERE uid='" . $remdata['uid']  . "'");
+		//$remdata = $dds->getNextRow("labeled");
+		$startdatestr = date("Y-m-d",strtotime($remdata['start_date']));
+		$starttimestr = date("H:i",strtotime($remdata['start_date']));
+		if (isset($remdata['end_date'])) {
+			if (!is_null($remdata['end_date'])) {
+			$enddatestr = date("Y-m-d",strtotime($remdata['end_date']));
+			$endtimestr = date("H:i",strtotime($remdata['end_date']));
 			}
 		}
-		$recur_float = $rrow['recur_float'];
-		$recur_units = $rrow['recur_units'];
-		$recur_scale = $rrow['recur_scale'];
-		$grace_units = $rrow['grace_units'];
-		$grace_scale = $rrow['grace_scale'];
-		$passive_units = $rrow['passive_units'];
-		$passive_scale = $rrow['passive_scale'];
-		$alarm_interval_units = $rrow['alarm_interval_units'];
-		$alarm_interval_scale = $rrow['alarm_interval_scale'];
-		$snooze_units = $rrow['snooze_units'];
-		$snooze_scale = $rrow['snooze_scale'];
-		$days_of_week= "_" . $rrow['days_of_week'];
-		if(is_null($rrow['days_of_week'])) $days_of_week="_MTWtFSs";
-		if (!is_null($rrow['season_start'])) {
+		$recur_float = $remdata['recur_float'];
+		$recur_units = $remdata['recur_units'];
+		$recur_scale = $remdata['recur_scale'];
+		$grace_units = $remdata['grace_units'];
+		$grace_scale = $remdata['grace_scale'];
+		$passive_units = $remdata['passive_units'];
+		$passive_scale = $remdata['passive_scale'];
+		$alarm_interval_units = $remdata['alarm_interval_units'];
+		$alarm_interval_scale = $remdata['alarm_interval_scale'];
+		$snooze_units = $remdata['snooze_units'];
+		$snooze_scale = $remdata['snooze_scale'];
+		$days_of_week= "_" . $remdata['days_of_week'];
+		if(is_null($remdata['days_of_week'])) $days_of_week="_MTWtFSs";
+		if (!is_null($remdata['season_start'])) {
 			$blackout_days=true;
-			$season_start= (int) $rrow['season_start'] + 1;
+			$season_start= (int) $remdata['season_start'] + 1;
 		} else {
 			$season_start= "1";
 		}
-		if (!is_null($rrow['season_end'])) {
+		if (!is_null($remdata['season_end'])) {
 			$blackout_days=true;
-			$season_end= (int) $rrow['season_end'] +1;
+			$season_end= (int) $remdata['season_end'] +1;
 		} else {
 			$season_end= "365";
 		}
-		if (!is_null($rrow['day_start'])) {
+		if (!is_null($remdata['day_start'])) {
 			$blackout_hours=true;
-			$temp = (string) $rrow['day_start'];
+			$temp = (string) $remdata['day_start'];
 			$tempmin = substr($temp,1,-2);
 			$temphour = str_replace($tempmin,'',$temp);
 			$tempminute = (int) $tempmin;
@@ -83,9 +83,9 @@
 		} else {
 			$tod_start= "00:00";
 		}
-		if (!is_null($rrow['day_end'])) {
+		if (!is_null($remdata['day_end'])) {
 			$blackout_hours=true;
-			$temp = (string) $rrow['day_end'];
+			$temp = (string) $remdata['day_end'];
 			$tempmin = substr($temp,1,-2);
 			$temphour = str_replace($tempmin,'',$temp);
 			$tempminute = (int) $tempmin;

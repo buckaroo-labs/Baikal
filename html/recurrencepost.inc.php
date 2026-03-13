@@ -54,12 +54,15 @@ function calculate_seasonality() {
 }
 function calculate_enddate() {
 	global $sqlb;
+	global $endDate;
+	global $endDateStr;
 	if (($_POST['EndDate'])!="")  {
-		$endDate=$_POST['EndDate'];
+		$endDateStr=$_POST['EndDate'];
 			if (($_POST['EndTime'])!="") {
-				$endDate .= " " . $_POST['EndTime'];
+				$endDateStr .= " " . $_POST['EndTime'];
 			}
-		$sqlb->addColumn("end_date",$endDate);
+		$sqlb->addColumn("end_date",$endDateStr);
+		$endDate=strtotime($endDateStr);
 	}
 	return 1;
 }		
@@ -67,6 +70,8 @@ function calculate_enddate() {
 function calculate_duedate() {
 	global $sqlb;		
 	global $startDate;
+	global $dueDate;
+	global $dueDateStr;
 	$columns = array('grace_scale','grace_units');
 	if (isset($_POST['GraceTime'])) {
 		if($_POST['GraceTime']=="DueYN") {
@@ -111,6 +116,10 @@ function common_post_proc() {
 	global $sqlb;
 	global $dds;
 	global $startDate;
+	global $endDate;
+	global $dueDate;
+	global $endDateStr;
+	global $dueDateStr;
 	//$sqlb->addColumn("owner",$_SESSION['username']);
 	
 	//process POST variables into sanitized SQL stmt
@@ -143,10 +152,32 @@ function common_post_proc() {
 		$checkOwner="SELECT count(*) FROM calendarobjects o inner join calendarinstances i on o.calendarid=i.id where o.uid='" . $_POST['ID'] . "' and i.principaluri='principals/" . $_SESSION['username'] . "'";
 		$result=$dds->setSQL($checkOwner);
 		$rrow=$dds->getNextRow();
-		if ($rrow[0]==1) 	$dds->setSQL($SQL);
+		if ($rrow[0]==1 && isset($_GET['id']) && is_numeric($_GET['id'])) {
+			$dds->setSQL($SQL);
+			//update DTSTART, DUE and DTEND in the vobject
+			$o=new VTODO($_GET['id']);
+			$f_in='Y-m-d H:i';
+			$f_out='Ymd\THis\Z';
+			$nvp=array();
+			
+			if ($sd=\DateTime::createFromFormat($f_in, $startDateStr)) $nvp['DTSTART']=$sd->format($f_out); else debug("error saving start date: '" . $startDateStr ."'");
+			if (strlen($endDateStr) > 4 && $ed=\DateTime::createFromFormat($f_in,$endDateStr)) $nvp['DTEND']=$ed->format($f_out); else debug("error saving end date: " . $endDateStr);
+			if (strlen($dueDateStr) > 4 && $dd=\DateTime::createFromFormat($f_in,$dueDateStr)) $nvp['DUE']=$dd->format($f_out . ":s"); else debug("error saving due date: " . $dueDateStr);
+
+			/*
+			if ($sd=\DateTime::createFromFormat($f_in, $startDateStr)) $o->VTODO->DTSTART=$sd->format($f_out); else debug("error saving start date: '" . $startDateStr ."'");
+			if (strlen($endDateStr) > 4 && $ed=\DateTime::createFromFormat($f_in,$endDateStr)) $o->VTODO->DTEND=$ed->format($f_out); else debug("error saving end date: " . $endDateStr);
+			if (strlen($dueDateStr) > 4 && $dd=\DateTime::createFromFormat($f_in,$dueDateStr)) $o->VTODO->DUE=$dd->format($f_out . ":s"); else debug("error saving due date: " . $dueDateStr);
+*/
+			$o->setProperties($nvp);
+			$o->save();
+			
+		}	
 	}
 }	
-		
+$endDate=new \DateTime;		
+$endDateStr='';
+$dueDateStr='';
 if ($_POST['ID']=="new") {
 	$timestamp = (string) time();	
 	$sqlb = new SQLBuilder("INSERT");

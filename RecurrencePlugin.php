@@ -8,7 +8,7 @@ use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\VObject;
-require_once("lib/clsDateTimeExt.php");
+require_once("Hydrogen/clsDateTimeExt.php");
 
 class RecurrencePlugin extends ServerPlugin {
 

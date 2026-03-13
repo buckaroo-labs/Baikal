@@ -31,19 +31,19 @@ if (isset($_SESSION['username'])) {
         $vcalendar = VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
         foreach($vcalendar->VTODO as $vtodo) {
             echo ('<table id="veventtable" class="table" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>End</th></tr>');
-            $starttime='';
-            $endtime='';
+            $startdatetime='';
+            $enddatetime='';
             $summary= (string)$vtodo->SUMMARY;
             $dtstart = $vtodo->DTSTART->getDateTime();
-            //$starttime= $dtstart->format(\DateTime::W3C);
-            $starttime=displayFormatDateTime($dtstart);
+            //$startdatetime= $dtstart->format(\DateTime::W3C);
+            $startdatetime=displayFormatDateTime($dtstart);
             if ( $vtodo->DTEND) {
                 $dtend = $vtodo->DTEND->getDateTime();
-                //$endtime= $dtend->format(\DateTime::W3C);
-                $endtime=displayFormatDateTime($dtend);
+                //$enddatetime= $dtend->format(\DateTime::W3C);
+                $enddatetime=displayFormatDateTime($dtend);
             }
             if (isset($vtodo->COMPLETED)) $completed=true; else $completed=false;
-            echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
+            echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
 
             echo "</table>\n";
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);

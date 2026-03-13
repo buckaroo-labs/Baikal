@@ -24,8 +24,8 @@ class Reminder extends VTODO {
 		global $dds;
         $sql="SELECT max(id) FROM calendarobjects WHERE uid='" . $UID . "'";
         $result = $dds->setSQL($sql);
-        $rrow=$dds->getNextRec();
-        if (!isnull($rrow[0])) $this->objectID=$rrow[0];
+        $rrow=$dds->getNextRow();
+        if (!is_null($rrow[0])) $this->objectID=$rrow[0];
         //This statement will silently fail if a matching record already exists
         $sql0="INSERT IGNORE INTO recurrence (uid,sequence) VALUES ('" . $UID . "','" . rand(1,99999999). "')";
 		$result = $dds->setSQL($sql0);
@@ -40,8 +40,8 @@ class Reminder extends VTODO {
 		$result = $dds->setSQL($sql);
 		$result_row = $dds->getNextRow("assoc");
 		$this->reminder = $result_row; 
-        $this->vobject->TODO->{'X-2DOAPP-METADATA'}=$this->get2DoAppMeta();  
-        $this->vobject->TODO->{'X-2DOAPP-METADATA'}['SHARE-SCOPE']='GLOBAL';
+        $this->vobject->VTODO->{'X-2DOAPP-METADATA'}=$this->get2DoAppMeta();  
+        $this->vobject->VTODO->{'X-2DOAPP-METADATA'}['SHARE-SCOPE']='GLOBAL';
     }
     public function delete() {
         global $dds;
