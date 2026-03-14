@@ -68,6 +68,7 @@ if (isset($_SESSION['username'])) {
 //Best to hide most navbar links on smaller screens, or else they overlap the sidebar
 $navbar_links[sizeof($navbar_links)]=array("name"=>"Admin","href"=>"index.php?menu=baikal","class"=>"w3-hide-small " .$settings['color3']);
 $navbar_links[sizeof($navbar_links)]=array("name"=>"Explorer","href"=>"index.php?menu=sabre","class"=>"w3-hide-small " .$settings['color3']);
+$navbar_links[sizeof($navbar_links)]=array("name"=>"Help","href"=>"index.php?p=help","class"=>"w3-hide-small " .$settings['color3']);
 $navbar_links[sizeof($navbar_links)]=array("name"=>"About","href"=>"index.php?p=about","class"=>"w3-hide-small " .$settings['color3']);
 
 //GET variables to persist between page clicks

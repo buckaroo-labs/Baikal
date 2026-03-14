@@ -3,7 +3,7 @@
     if (isset($_SESSION['username'])) $uname=$_SESSION['username']; else $uname='username';
 
 	echo '<div class="w3-twothird w3-container">';
-    echo '<h4>Client Connection</h4>';
+    echo '<h4 class="reverse">Client Connection</h4>';
     if (!isset($_SESSION['username'])) {
         echo '<p>In the example URLs below, replace <q>username</q> with your own username.</p>';
     }
@@ -27,8 +27,8 @@
     echo 'Connect to '. $principalURL .' .</p><br>'; 
     
 
-    echo '<h4>Data management</h4>';
-    echo '<p>WinSCP may be helpful in uploading VCF or ICS file data to the server.</p>'
+    echo '<h4 class="reverse">Data management</h4>';
+    echo '<p>The <a target="_blank" href="https://winscp.net/eng/index.php">WinSCP</a> application (for Windows) may be helpful in uploading VCF or ICS file data to the server. Use any of the URLs above, and select WebDAV as your file protocol.</p>';
     echo '</div>';
     
    
