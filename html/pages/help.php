@@ -4,7 +4,7 @@
 
 	echo '<div class="w3-twothird w3-container">';
     echo '<h4>Client Setup</h4>';
-    if (isset($_SESSION['username'])) {
+    if (!isset($_SESSION['username'])) {
         echo '<p>In the example URLs below, replace <q>username</q> with your own username.</p>';
     }
 
