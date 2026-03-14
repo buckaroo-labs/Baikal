@@ -9,6 +9,10 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "pages/about.php";  
 	$pagetitle="About";
 	$headline = '<h1>About</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'help')==0) {
+	$include= "pages/help.php";  
+	$pagetitle="Help";
+	$headline = '<h1>Help</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'register')==0) {
 	$include= "Hydrogen/pages/Register.php";  
 	$pagetitle="Register";
