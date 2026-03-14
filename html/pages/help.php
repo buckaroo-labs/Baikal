@@ -3,7 +3,7 @@
     if (isset($_SESSION['username'])) $uname=$_SESSION['username']; else $uname='username';
 
 	echo '<div class="w3-twothird w3-container">';
-    echo '<h4>Client Setup</h4>';
+    echo '<h4>Client Connection</h4>';
     if (!isset($_SESSION['username'])) {
         echo '<p>In the example URLs below, replace <q>username</q> with your own username.</p>';
     }
@@ -14,7 +14,8 @@
     $baseURL=$_SERVER['HTTP_HOST'];
     //this is unnecessary
     //if ($_SERVER['SERVER_PORT']!=80 && $_SERVER['SERVER_PORT']!=443) $baseURL .=":" . $_SERVER['SERVER_PORT'];
-    $davfile=strtok($_SERVER['REQUEST_URI'],'index.php') . "dav.php";
+    $davfile=substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],"index.php"));
+    $davfile.= "dav.php";
     $calendarsURL=$protocol . $baseURL . $davfile . '/calendars/' . $uname . '/';
     $addrbooksURL=$protocol . $baseURL . $davfile . '/addressbooks/' . $uname . '/';
     $principalURL=$protocol . $baseURL . $davfile . '/principals/' . $uname . '/';
@@ -23,7 +24,11 @@
     echo '<p>To use your address books, connect to '. $addrbooksURL .' .</p>'; 
     echo '<p> </p>';
      echo '<h5>iOS</h5>';
-    echo 'Connect to '. $principalURL .' .</p>'; 
+    echo 'Connect to '. $principalURL .' .</p><br>'; 
+    
+
+    echo '<h4>Data management</h4>';
+    echo '<p>WinSCP may be helpful in uploading VCF or ICS file data to the server.</p>'
     echo '</div>';
     
    
