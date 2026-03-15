@@ -10,9 +10,10 @@ class Reminder extends VTODO {
     //Class hierarchy: DAVObject->VCALENDAR->VTODO->Reminder
 
 	protected $reminder;
-    protected $vobject;
+    //protected $vobject;
 
 	public function __construct(&$vobject,$owner="") {
+        parent::__construct();
         $this->vobject=$vobject;
         $this->componenttype="VTODO";
         //assuming that ownership has already been checked.
@@ -85,7 +86,7 @@ class Reminder extends VTODO {
 
     public function markComplete() {
         global $dds;
- 
+        $this->modified=true;
         $sql =  "UPDATE recurrence SET complete_date='" . date("Y-m-d H:i:s") . "', ";
         $reminder=$this->reminder;
         //check for recurrence
