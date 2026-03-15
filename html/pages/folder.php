@@ -53,15 +53,19 @@ if (isset($_GET['folderid']) && is_numeric($_GET['folderid'])) {
 if (isset($_GET['category']) && $_GET['category']==htmlspecialchars($_GET['category'])) {
     $category=$_GET['category'];
 }
-$columns=" c.id, c.uri, c.calendardata as objdata, i.principaluri as owner, i.displayname as subfolder_name, i.id as subfolder_id ";
-$from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-$where=" WHERE i.uri NOT IN ('lists','projecttime','recurring')";
-if(isset($componenttype)) $and .=" AND  c.componenttype='".$componenttype."'";
-$and .="  AND i.principaluri='principals/" . $_SESSION['username'] . "'";
-if(!isset($sql)) $sql="SELECT " . $columns . $from . $where . $and;
+
 
 use Sabre\VObject;
 if (isset($_SESSION['username'])) {
+
+
+    $columns=" c.id, c.uri, c.calendardata as objdata, i.principaluri as owner, i.displayname as subfolder_name, i.id as subfolder_id ";
+    $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
+    if(!isset($where)) $where=" WHERE i.uri NOT IN ('lists','projecttime','recurring')";
+    if(isset($componenttype)) $and .=" AND  c.componenttype='".$componenttype."'";
+    $and .="  AND i.principaluri='principals/" . $_SESSION['username'] . "'";
+    if(!isset($sql)) $sql="SELECT " . $columns . $from . $where . $and;
+
     $dds->setMaxRecs(9999);
     $result=$dds->setSQL($sql);
     echo '<div id="folderitemsdiv" class="w3-twothird w3-container" style="overflow:hidden">' . "\n";
