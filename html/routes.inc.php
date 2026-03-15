@@ -21,6 +21,10 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "pages/contacts.php";  
 	$pagetitle="Contacts";
 	$headline = '<h1>🪪 Contacts</h1>' ;
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'time')==0) {
+	$include= "pages/time.php";  
+	$pagetitle="Time";
+	$headline = '<h1>&#128348; Time Entry</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'contact')==0) {
 	$include= "pages/contact.php";  
 	$pagetitle="Contact";
