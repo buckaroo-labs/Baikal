@@ -44,15 +44,19 @@ class VTODO extends VCALENDAR {
 
     public function toggle() {
         if (!isset($this->vobject->VTODO->COMPLETED)) {
-            $this->vobject->VTODO->COMPLETED = new \DateTime();
-            $this->vobject->VTODO->STATUS = 'COMPLETED';
-            $this->modified=true;
-        } else {
-            unset($this->vobject->VTODO->COMPLETED);
-            $this->vobject->VTODO->STATUS = 'OPEN';
-            $this->modified=true;
+            if ($this->parenturi!="recurring") {
+                $this->markComplete();
+            } else {
+                $data=$this->getVObject();
+                $r = new \Reminder($data);
+                $r->markComplete();
+                $r->save();
+            }
+        } else {  
+            $this->markIncomplete();
         }
     }    
 
 } //end class
 
+require_once "lib/clsReminder.php";

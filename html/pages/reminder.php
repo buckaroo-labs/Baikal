@@ -3,17 +3,11 @@ require_once("lib/clsReminder.php");
 //https://sabre.io/vobject/vcard/
 use Sabre\VObject;
 if (isset($_SESSION['username'])) {
+
     if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $reminderid=$_GET['id'];
     } else {
         $reminderid=0;
-    }
-    if (isset($_GET['markcomplete']) || isset($_GET['markincomplete'])) {
-        if(isset($reminderid)) {
-            $r=new Reminder($reminderid);
-            if (isset($_GET['markcomplete'])) $r->markComplete(); else $r->markIncomplete();
-            $r->save();
-        }
     }
 
     $columns=" c.id, c.uid, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname, i.uri as calendaruri ";
@@ -49,15 +43,14 @@ if (isset($_SESSION['username'])) {
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);
             echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
 
-            echo '<div id="rhs" style="max-width:95%"><form method="get" action="index.php" id="conversionform">
-            <input type="hidden" name="p" value="reminder">
+            echo '<div id="rhs" style="max-width:95%"><form method="POST" action="index.php?p=reminder&id=' . $reminderid . '" id="conversionform">
+            <input type="hidden" name="type" value="VTODO">
+            <input type="hidden" value="togglestatus" name="action">
             <input type="hidden" name="id" value="' . $reminderid . '">';
             if ($completed) {
-                echo '<input type="hidden" name="markincomplete" value="1">
-                    <input type="submit" value="Mark Incomplete">';
+                echo '<input type="submit" value="Mark Incomplete">';
             } else {
-                echo '<input type="hidden" name="markcomplete" value="1">
-                    <input type="submit" value="Mark Complete">';
+                echo '<input type="submit" value="Mark Complete">';
             }
             echo '</form>'; 
             if ($rrow['calendaruri']=='recurring') {

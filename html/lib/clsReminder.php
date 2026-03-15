@@ -114,6 +114,8 @@ class Reminder extends VTODO {
             $duetime = strtotime("+" . $reminder['grace_units'] . " " . $gracescale,$starttime);
             $duedate = date("Y-m-d H:i:s",$duetime);
             $this->vobject->VTODO->DUE=\DateTimeExt::CalDAVZFormatFromMySQLDateTime($duedate);
+            $this->vobject->VTODO->STATUS="OPEN";
+            unset ($this->vobject->VTODO->COMPLETED);
             debug("next recurrence due date:" . $duedate);
             debug("next recurrence active: " . "+" . $reminder['passive_units'] . " " . $passivescale);
             $activetime = strtotime("+" . $reminder['passive_units'] . " " . $passivescale,$starttime) ;
@@ -133,7 +135,7 @@ class Reminder extends VTODO {
         $sequence=$reminder['id'] . '000' .  $timestamp ;
         $sql = $sql . " sequence=" . $sequence . ", ";
         $sql = $sql . " last_modified='" . DateTimeExt::zdate() . "' ";
-        $sql = $sql . " WHERE id=" . $reminder['id'] . " AND owner='" . $sqlowner . "' ";
+        $sql = $sql . " WHERE id=" . $reminder['id']  ;
 
         //sql has not yet been executed, and not all vobject changes have been calculated
         $this->vobject->VTODO->{'LAST-MODIFIED'}=\DateTimeExt::zdate();
