@@ -159,7 +159,7 @@ foreach($categories as $key=>$value) {
 }
 echo '</table>';
 }
-if (!isset($folderid)) {
+if (!isset($folderid) && $pagevar!="time") {
 echo '<div id="vsubfolders"><h4 class="datagrouplist">Subfolders</h4><ul>';
 ksort($subfolders);
 foreach($subfolders as $key=>$value) {
@@ -188,5 +188,5 @@ echo '</div>';
 echo '<script src="js/category-filter.js"></script>';
 } else {
     //must log in
-    echo "You must be logged in to use this page.";
+    echo "<p>You must be logged in to use this page.</p>";
 }
