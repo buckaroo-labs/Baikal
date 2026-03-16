@@ -16,8 +16,10 @@
     //if ($_SERVER['SERVER_PORT']!=80 && $_SERVER['SERVER_PORT']!=443) $baseURL .=":" . $_SERVER['SERVER_PORT'];
     $davfile=substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],"index.php"));
     $davfile.= "dav.php";
-    $calendarsURL=$protocol . $baseURL . $davfile . '/calendars/' . $uname . '/';
-    $addrbooksURL=$protocol . $baseURL . $davfile . '/addressbooks/' . $uname . '/';
+    $cardfile.= "card.php";
+    $calfile.= "cal.php";
+    $calendarsURL=$protocol . $baseURL . $calfile . '/calendars/' . $uname . '/';
+    $addrbooksURL=$protocol . $baseURL . $cardfile . '/addressbooks/' . $uname . '/';
     $principalURL=$protocol . $baseURL . $davfile . '/principals/' . $uname . '/';
     echo '<h5>Mozilla Thunderbird</h5>';
     echo '<p>To use your calendars, connect to '. $calendarsURL .' .</p>'; 
