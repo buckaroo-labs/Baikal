@@ -77,6 +77,12 @@ if (isset($_SESSION['username'])) {
     $categories=[];
     $subfolders=[]; //calendars or addressbooks
     $orgs=[];
+    //Adding new variables for PHP sorting of DB results.
+    $sortme=[];
+    $datacount=0;
+    //buffer the TR elements being created row-by-row as SQL results are fetched; possibly throw them away 
+    //  and instead use array elements being created row-by-row
+    ob_start();
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
         $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
@@ -100,51 +106,82 @@ if (isset($_SESSION['username'])) {
         if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
         
         echo ('<tr '. $hidden .'class="vobject ' . $status . " " .str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
-        
+        $sortme[$datacount]['hidden']=$hidden;
+        $sortme[$datacount]['status']=$status;
+        $sortme[$datacount]['categories']=$temp2;
+        $sortme[$datacount]['org']=$temp4;
+
+
         for ($i=0; $i<count($tdata); $i++) {
             //if(!isset($category) || $category==$temp) {
                 echo '<td>';
-                    if($tdata[$i][0]=='Q') {
-                        $celldata=$rrow[$tdata[$i][1]];
-                    } elseif ($tdata[$i][0]=='V') {
-                        if(isset($componenttype)) {
-                            $celldata=$vobj->{$componenttype}->{$tdata[$i][1]};
-                        } else $celldata=$vobj->{$tdata[$i][1]};
-                    } else {
-                    $celldata='';
-                    }
+                if($tdata[$i][0]=='Q') {
+                    $celldata=$rrow[$tdata[$i][1]];
+                } elseif ($tdata[$i][0]=='V') {
+                    if(isset($componenttype)) {
+                        $celldata=$vobj->{$componenttype}->{$tdata[$i][1]};
+                    } else $celldata=$vobj->{$tdata[$i][1]};
+                } else {
+                $celldata='';
+                }
                     
-                    if (count($tdata_xform) >$i) {
-                    if($tdata_xform[$i][0]=="link") {
-                        $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
-                    } elseif ($tdata_xform[$i][0]=="datetimeformat") {
-                        if(isset($celldata)) {
-                            //assuming that $celldata is a Sabre VObject property that supports this
-                            $celldata=$celldata->getDateTime();
-                            $celldata= displayFormatDateTime($celldata);
-                        }
-                    } 
-                    } 
+                if (count($tdata_xform) >$i) {
+                if($tdata_xform[$i][0]=="link") {
+                    $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
+                } elseif ($tdata_xform[$i][0]=="datetimeformat") {
+                    if(isset($celldata)) {
+                        //assuming that $celldata is a Sabre VObject property that supports this
+                        $celldata=$celldata->getDateTime();
+                        $celldata= displayFormatDateTime($celldata);
+                    }
+                } 
+                } 
                 //if(!isset($category) || $category==$temp) 
-                    echo $celldata;
+                echo $celldata;
+                $sortme[$datacount][$tdata[$i][1]]=$celldata;
                 echo '</td>';
             //}
         }
 
         echo ('</tr>' . "\n");
+        $datacount++;
+    }
+/*two options at this point: 
+1) flush the output buffer and display the table HTML already calculated,    or
+2) discard the buffer, sort the array data and output that as HTML instead
+*/
+$content='';
+if (!$resort) {
+    $content=ob_get_contents();
+    ob_end_clean();
+} else {
+    ob_end_clean();
+    $sortorder = SORT_ASC;
+    if(array_key_exists('FN',$sortme[0])) {
+        $array_key_for_multisort="FN";
+    } elseif (array_key_exists('DTSTART',$sortme[0])) {
+        $array_key_for_multisort="DTSTART";
+    } else {
+        $array_key_for_multisort="id";
+    }
+    usort($sortme,"keysort");
+    for ($j=0; $j<$datacount; $j++) {
+
+        echo ('<tr '. $sortme[$j]['hidden'] .'class="vobject ' . $sortme[$j]['status'] . " " .str_replace(","," ",$sortme[$j]['categories']). " " . str_replace(","," ",$sortme[$j]['org']).'">'); 
+        for ($i=0; $i<count($tdata); $i++) {
+            echo "<td>" . $sortme[$j][$tdata[$i][1]] . '</td>';
+        }
+        echo ('</tr>' . "\n");
+
 
     }
+
+}
+
+echo $content;
 echo "</table>\n</div>";
 
 echo '<div id="vobjgroups" class="w3-container" >';
-/*echo '<div id="vobjcategories"><h4 class="datagrouplist">Categories</h4><ul>';
-ksort($categories);
-foreach($categories as $key=>$value) {
-    $keyid=str_replace(" ","",$key);
-    $keyid=str_replace("&","-",$keyid);
-    if (strlen($key)>0 && !strpos($key,",")) echo '<li id="' . $keyid . '" class="vcardcategory active">' . $key . '</li>';
-}
-echo '</ul></div>';*/
 
 if (count($categories)>1) {
 echo '<h4 class="datagrouplist">Categories</h4><table id="vobjcategories">

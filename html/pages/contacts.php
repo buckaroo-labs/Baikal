@@ -11,6 +11,8 @@ $tdata[1]=array('V','FN');
 $tdata[2]=array('V','CATEGORIES');
 $tdata[3]=array('Q','subfolder_name');
 
+$resort=true;
+
 $tdata_xform[0]=array('link','index.php?p=contact');
 
 $sql="SELECT c.id, c.uri, c.carddata as objdata, a.principaluri as owner, a.displayname as subfolder_name, a.id as subfolder_id FROM cards c

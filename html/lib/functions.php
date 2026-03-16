@@ -74,3 +74,10 @@ function decode_scale_and_units ($scale_code, $units, $include_1=false) {
 	if ($units ==1 and $include_1) $retval="1 " . $retval;
 	return $retval;
 }
+
+$array_key_for_multisort="id";
+function keysort($array1,$array2) {
+	global $array_key_for_multisort;
+	$key=$array_key_for_multisort;
+	return strcmp($array1[$key],$array2[$key]);
+}
