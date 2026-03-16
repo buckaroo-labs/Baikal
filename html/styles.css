@@ -72,8 +72,13 @@ td.active {
 .vcardcategory {
     margin: 3px;
 }
+.status_CANCELLED td {
+    color: #4f4f4f;
+    background-color: #111111;
+    text-decoration: line-through;
+}
 .status_COMPLETED td {
-    color: #666666;
+    color: #4f4f4f;
     text-decoration: line-through;
 }
 .status_unknown td {
@@ -81,6 +86,9 @@ td.active {
 }
 .status_OPEN td {
     color: rgb(2, 2, 73);
+}
+.status_IN-PROCESS td {
+    color: rgb(2, 73, 13);
 }
 .status_NEEDS-ACTION td {
     color: rgb(218, 2, 182);
