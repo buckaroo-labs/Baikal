@@ -11,10 +11,10 @@ A German tutorial about installation of Baïkal, using it together with Thunderb
 
 With the same objective, a French guide, about installation on Debian, database maintenance, security and dealing with iOS clients can be found [here][7]. Its focus is also for people with not so much IT experience.
 
-# This fork
+## This fork
 Significant changes in this fork include:
 
-## FEATURES
+### FEATURES
 - Support for a WebDAV per-user home directory
 - Add VJOURNAL support to default calendar for new user
 - Use salted hash for stored passwords (table and column names, auth backend are different)
@@ -24,7 +24,7 @@ Significant changes in this fork include:
 - Add apps for list management, project time tracking
 - Optional server-side recurrence management to prevent various CalDAV clients from erasing each others' recurrence rules on VTODOs.
 
-## DEPENDENCIES
+### DEPENDENCIES
 - Dependence on [Hydrogen](https://github.com/buckaroo-labs/Hydrogen) library v2 or higher. If you install via Docker, this is managed for you.
 - Some (new) features depend on having MySQL as the RDBMS; some steps have been taken to continue supporting SQLite and PGSQL as well, but this effort is incomplete and untested.
 
