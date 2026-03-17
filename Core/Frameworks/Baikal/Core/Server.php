@@ -167,7 +167,7 @@ class Server {
         }
         //buckaroo-labs 2026-03-16 Add Simple DAV
         // see https://sabre.io/dav/per-user-directories/
-        if (!isset($storagePath)) $storagePath='/var/www/DAVUserHome/';
+        if (!isset($storagePath)) $storagePath=$config['system']["dav_user_home"];
         $nodes[] = new \Sabre\DAVACL\FS\HomeCollection($principalBackend, $storagePath);
 
         $this->server = new \Sabre\DAV\Server($nodes);
