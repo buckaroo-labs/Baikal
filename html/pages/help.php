@@ -21,6 +21,7 @@
     $calendarsURL=$protocol . $baseURL . $calfile . '/calendars/' . $uname . '/';
     $addrbooksURL=$protocol . $baseURL . $cardfile . '/addressbooks/' . $uname . '/';
     $principalURL=$protocol . $baseURL . $davfile . '/principals/' . $uname . '/';
+    $davURL=$protocol . $baseURL . $davfile . '/home/' . $uname . '/';
     echo '<h5>Mozilla Thunderbird</h5>';
     echo '<p>To use your calendars, connect to '. $calendarsURL .' .</p>'; 
     echo '<p>To use your address books, connect to '. $addrbooksURL .' .</p>'; 
@@ -29,8 +30,11 @@
     echo 'Connect to '. $principalURL .' .</p><br>'; 
     
 
-    echo '<h4 class="reverse">Data management</h4>';
-    echo '<p>The <a target="_blank" href="https://winscp.net/eng/index.php">WinSCP</a> application (for Windows) may be helpful in uploading VCF or ICS file data to the server. Use any of the URLs above, and select WebDAV as your file protocol.</p>';
+    echo '<h4 class="reverse">Card/Calendar Data Management</h4>';
+    echo '<p>The <a target="_blank" href="https://winscp.net/eng/index.php">WinSCP</a> application (for Windows) may be helpful in uploading VCF or ICS file data to the server. Use any of the URLs above, and select WebDAV as your file protocol.</p><br>';
+
+    echo '<h4 class="reverse">WebDAV File Access</h4>';
+    echo '<p>The <a target="_blank" href="https://winscp.net/eng/index.php">WinSCP</a> application (for Windows) may be helpful in uploading files to the server. Select WebDAV as your file protocol and connect to '. $davURL .'.</p>';
     echo '</div>';
     
    

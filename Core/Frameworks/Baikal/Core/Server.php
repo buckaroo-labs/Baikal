@@ -165,6 +165,10 @@ class Server {
             $carddavBackend = new \Sabre\CardDAV\Backend\PDO($this->pdo);
             $nodes[] = new \Sabre\CardDAV\AddressBookRoot($principalBackend, $carddavBackend);
         }
+        //buckaroo-labs 2026-03-16 Add Simple DAV
+        // see https://sabre.io/dav/per-user-directories/
+        if (!isset($storagePath)) $storagePath='/var/www/DAVUserHome/';
+        $nodes[] = new \Sabre\DAVACL\FS\HomeCollection($principalBackend, $storagePath);
 
         $this->server = new \Sabre\DAV\Server($nodes);
         $this->server->setBaseUri($this->baseUri);
