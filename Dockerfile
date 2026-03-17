@@ -66,7 +66,7 @@ RUN ln -s ../../Frameworks/TwitterBootstrap
 WORKDIR /var/www/html/admin
 RUN rm index.php
 RUN ln -s ../../Core/Frameworks/BaikalAdmin/WWWRoot/index.php
-
+RUN mkdir /var/www/DAVUserHome
 # Make all the copied files accessible by web server
 WORKDIR /var/www 
 RUN chown -R www-data:www-data *
