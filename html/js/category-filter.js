@@ -19,4 +19,13 @@ $(document).ready(function(){
     });
     
   });
+
+
+  $(".vtodostatus").on("click", function() {
+  
+    $(this).toggleClass("active");
+    var todostatus=$(this).attr("id");
+    if ($(this).hasClass("active")) $("#folderitems tbody>tr." + todostatus).show(); else $("#folderitems tbody>tr." + todostatus).hide();
+  });
+
 });

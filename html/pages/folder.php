@@ -54,6 +54,9 @@ if (isset($_GET['category']) && $_GET['category']==htmlspecialchars($_GET['categ
     $category=$_GET['category'];
 }
 
+if (isset($_GET['todostatus']) && $_GET['todostatus']==htmlspecialchars($_GET['todostatus'])) {
+    $todostatus=$_GET['todostatus'];
+}
 
 use Sabre\VObject;
 if (isset($_SESSION['username'])) {
@@ -75,6 +78,7 @@ if (isset($_SESSION['username'])) {
 
     error_reporting(E_ERROR | E_PARSE);
     $categories=[];
+    $todostatuses=[];
     $subfolders=[]; //calendars or addressbooks
     $orgs=[];
     //Adding new variables for PHP sorting of DB results.
@@ -90,7 +94,11 @@ if (isset($_SESSION['username'])) {
         if(isset($componenttype)) {
             if ($componenttype=='VTODO') $status="status_unknown";
             $temp=(string)$vobj->{$componenttype}->CATEGORIES;
-            if ($vobj->{$componenttype}->STATUS) $status="status_" .$vobj->{$componenttype}->STATUS;  
+            if ($vobj->{$componenttype}->STATUS) {
+                $status="status_" .$vobj->{$componenttype}->STATUS; 
+                $k=(string) $vobj->{$componenttype}->STATUS;
+                if (!array_key_exists($k,$todostatuses)) $todostatuses[$k]=0; 
+            }
         } else $temp=(string)$vobj->CATEGORIES;
 
         $temp2=str_replace(" ","",$temp);
@@ -104,6 +112,7 @@ if (isset($_SESSION['username'])) {
         if (!array_key_exists($temp3,$orgs)) $orgs[$temp3]=0;
         $hidden="";
         if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
+        if(isset($todostatus) && $vobj->{$componenttype}->STATUS && $todostatus!=$vobj->{$componenttype}->STATUS) $hidden=' style="display:none" ';
         
         echo ('<tr '. $hidden .'class="vobject ' . $status . " " .str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
         $sortme[$datacount]['hidden']=$hidden;
@@ -196,6 +205,19 @@ foreach($categories as $key=>$value) {
 }
 echo '</table>';
 }
+
+if (count($todostatuses)>1) {
+echo '<h4 class="datagrouplist">Statuses</h4><table id="vobjstatuses">
+<tr><th style="padding-right:20px;">Link</th><th>Toggle</th></tr>';
+ksort($todostatuses);
+foreach($todostatuses as $key=>$value) {
+    $status="active";
+    if(isset($todostatus) && $todostatus!=$key) $status="";
+    if (strlen($key)>0 ) echo '<tr><td><a style="text-decoration:none;" href="index.php?p='.$pagevar .'&todostatus='. $key .'"><span class="enlargeonhover">🔗</span></a></td><td id="status_' . $key . '" class="vtodostatus '.$status.'">' . $key . '</td></tr>';
+}
+echo '</table><br>';
+}
+
 if (!isset($folderid) && $pagevar!="time") {
 echo '<div id="vsubfolders"><h4 class="datagrouplist">Subfolders</h4><ul>';
 ksort($subfolders);
