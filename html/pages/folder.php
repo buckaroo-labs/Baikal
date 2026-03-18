@@ -113,6 +113,9 @@ if (isset($_SESSION['username'])) {
         $hidden="";
         if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
         if(isset($todostatus) && $vobj->{$componenttype}->STATUS && $todostatus!=$vobj->{$componenttype}->STATUS) $hidden=' style="display:none" ';
+        //filter out completed/cancelled items by default
+        if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="COMPLETED") $hidden=' style="display:none" ';
+        if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="CANCELLED") $hidden=' style="display:none" ';
         
         echo ('<tr '. $hidden .'class="vobject ' . $status . " " .str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
         $sortme[$datacount]['hidden']=$hidden;
@@ -213,6 +216,8 @@ ksort($todostatuses);
 foreach($todostatuses as $key=>$value) {
     $status="active";
     if(isset($todostatus) && $todostatus!=$key) $status="";
+    if(!isset($todostatus) && $key=="COMPLETED")  $status="";
+    if(!isset($todostatus) && $key=="CANCELLED")  $status="";
     if (strlen($key)>0 ) echo '<tr><td><a style="text-decoration:none;" href="index.php?p='.$pagevar .'&todostatus='. $key .'"><span class="enlargeonhover">🔗</span></a></td><td id="status_' . $key . '" class="vtodostatus '.$status.'">' . $key . '</td></tr>';
 }
 echo '</table><br>';
