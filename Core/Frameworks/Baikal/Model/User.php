@@ -180,7 +180,7 @@ class User extends \Flake\Core\Model\Db {
                 "Project time tracking"
             )->set(
                 "components",
-                "VJOURNAL"
+                "VTODO"
             );
 
             $oDefaultCalendar->persist();

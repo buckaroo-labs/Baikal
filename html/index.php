@@ -85,7 +85,7 @@ require_once("Hydrogen/db/clsDataSource.php");
 				echo "<p>Additional applications provided here, also based on the VCALENDAR standard, include:</p><ul>
 				<li><dfn>Reminders</dfn> for enhanced management of recurring tasks. These items are stored as VTODO components in a separate calendar and their recurrence is managed on the server via the web UI. Changes made by external client software to recurrence rules are ignored.</li>
 				<li><dfn>Lists</dfn> for managing grouped tasks like shopping lists or packing lists. These are also stored as VTODO components in a separate calendar.</li>
-				<li><dfn>Time</dfn> for recording time spent on projects. Entries are stored as VJOURNAL components in a separate calendar.</li>
+				<li><dfn>Time</dfn> for recording time spent on projects. Entries are stored as VTODO components in a separate calendar.</li>
 				</ul>";
 				echo '</div>';
 			}

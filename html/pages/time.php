@@ -3,7 +3,7 @@
 //mostly this will use the defaults in folder.php
 $pagevar="time";
 $pagevar2="timerecord";
-$componenttype='VJOURNAL';
+$componenttype='VTODO';
 
 $tdata_xform[0]=array('link','index.php?p=timerecord');
 $tdata_xform[1]=array('','');
@@ -15,7 +15,7 @@ $thead=array("ID", "Summary", "Start", "End", "Project");
 $tdata[0]=array('Q','id');
 $tdata[1]=array('V','SUMMARY');
 $tdata[2]=array('V','DTSTART');
-$tdata[3]=array('V','DTEND');
+$tdata[3]=array('V','COMPLETED');
 $tdata[4]=array('V','CATEGORIES');
 
 
