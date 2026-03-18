@@ -20,6 +20,25 @@ require("routes.inc.php");
 
 //Hydrogen/pgTemplate.php handles general page layout, menus, cookies
 require "Hydrogen/pgTemplate.php";
+
+function require_login() {
+	global $include;
+	global $pagetitle;
+	global $headline;
+	global $redirect;
+	global $settings;
+	if (!isset($_SESSION) || !array_key_exists('username',$_SESSION) || !isset($_SESSION['username'])) {
+		//override the values set in routes.inc.php
+		$redirect=str_replace("pages/","index.php%3Fp=",$include);
+		$include= "Hydrogen/pages/Login.php"; 
+		$pagetitle="Log In";
+		$headline = '<h1>Log In</h1>' ;
+		echo '<script>window.location.replace("'.$settings['login_page'] . '&redirect=' . $redirect .'");</script>';
+	} 
+}
+
+if (isset($login_required)) require_login();
+
 require_once("Hydrogen/lib/Debug.php");
 //this file will handle POST data for performing updates
 if (isset($_POST['action'])) {
@@ -28,6 +47,7 @@ if (isset($_POST['action'])) {
 }
 
 require_once("Hydrogen/db/clsDataSource.php");
+
 ?>
 <!-- Main content: shift it to the right when the sidebar is visible -->
 <div class="w3-main">
