@@ -1,5 +1,7 @@
 <?php
-
+//make sure that these settings are available to functions inside (for example) plugin code that sources this file from inside a function 
+global $settings;
+global $dds;
 /*
 If these color settings are not set here, defaults may be assigned elsewhere in the code. These aren't colors per se, but classes assigned to elements, which by default will be colored according to w3.css specs. You can use the w3 color classes or something else defined in your styles.css file. ... or even override the colors of the w3 classes in your css. 
 */
@@ -50,7 +52,7 @@ if (!isset($_GET['menu'])) {
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Users',"href"=>"admin/?/users/","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Config',"href"=>"admin/?/settings/standard/","class"=>$settings['color4']);
 } elseif($_GET['menu']=="sabre") {
-	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'DAV Home',"href"=>"dav.php","class"=>$settings['color4']);
+	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'DAV Home',"href"=>"dav.php/home/","class"=>$settings['color4']);
     $sidebar_links[sizeof($sidebar_links)]=array("name"=>'Calendars',"href"=>"cal.php/calendars/","class"=>$settings['color4']);
 	$sidebar_links[sizeof($sidebar_links)]=array("name"=>'Contacts',"href"=>"card.php/addressbooks/","class"=>$settings['color4']);
 
@@ -74,13 +76,11 @@ $navbar_links[sizeof($navbar_links)]=array("name"=>"About","href"=>"index.php?p=
 //GET variables to persist between page clicks
 $stateVarList=array('menu','id');
 
-
-
 #Not sure what to call this project/product, so going to keep it flexible
 $settings['appname']='Dauriya';
 
 require_once("../vendor/autoload.php");
-define ("PROJECT_PATH_CONFIG","/var/www/config/");
+if (!defined("PROJECT_PATH_CONFIG")) define ("PROJECT_PATH_CONFIG","/var/www/config/");
 use Symfony\Component\Yaml\Yaml;
 $config = Yaml::parseFile(PROJECT_PATH_CONFIG . "baikal.yaml");
 //map Baikal's yaml configuration file to the Hydrogen framework's settings

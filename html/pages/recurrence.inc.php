@@ -2,7 +2,7 @@
 <?php 
 	require_once("lib/functions.php");
 	$result = $dds->setSQL("SELECT * FROM recurrence WHERE uid='" . $rrow['uid']."'");
-	$remdata = $dds->getNextRow("labeled");
+	if ($remdata = $dds->getNextRow("labeled")) {
 
 	//$startdatestr = date("Y-m-d",strtotime($dtstart->format('Y-m-d H:i:s')));
 	//$starttimestr = date("H:i",strtotime($dtstart->format('Y-m-d H:i:s')));
@@ -107,4 +107,4 @@
 	//echo '<p><a href="edit_recurrence.php?id=' . $reminderid . '">Edit</a></p>';
 	echo '<button id="editrecurrencebutton" onclick="editrecurrence()">Edit</button>';
 
-	
+	}

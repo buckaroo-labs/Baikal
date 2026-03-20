@@ -28,9 +28,11 @@ if (isset($_SESSION['username'])) {
             $startdatetime='';
             $enddatetime='';
             $summary= (string)$vtodo->SUMMARY;
-            $dtstart = $vtodo->DTSTART->getDateTime();
-            //$startdatetime= $dtstart->format(\DateTime::W3C);
-            $startdatetime=displayFormatDateTime($dtstart);
+            if ($vtodo->DTSTART) {
+                $dtstart = $vtodo->DTSTART->getDateTime();
+                //$startdatetime= $dtstart->format(\DateTime::W3C);
+                $startdatetime=displayFormatDateTime($dtstart);
+            }
             if ( $vtodo->DTEND) {
                 $dtend = $vtodo->DTEND->getDateTime();
                 //$enddatetime= $dtend->format(\DateTime::W3C);

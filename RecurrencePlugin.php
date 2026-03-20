@@ -1,14 +1,15 @@
 <?php
 //see https://sabre.io/dav/writing-plugins/
 
-//Have I covered cases of both new and updated items?
-
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\VObject;
+require_once("settingsHydrogen.php");
 require_once("Hydrogen/clsDateTimeExt.php");
+require_once("Hydrogen/lib/Debug.php");
+//require_once("Hydrogen/db/clsDataSource.php");
 
 class RecurrencePlugin extends ServerPlugin {
 
@@ -23,8 +24,43 @@ class RecurrencePlugin extends ServerPlugin {
     function initialize(Server $server){
         $this->server = $server;
         $server->on('beforeWriteContent',[$this,'vtodoUpdateHandler' ]);
+        $server->on('beforeCreateFile',[$this,'vtodoCreateHandler' ]);
     }
 
+    //this function handles new files
+    function vtodoCreateHandler($path, &$data, \Sabre\DAV\ICollection $parent, &$modified) {
+        global $dds;
+        $mod=false;
+        if (is_resource($data)) {
+            $data = stream_get_contents($data);
+        }
+        if (strpos($path,"/recurring/")!=='false') {
+            debug ("Recurrence Plugin detects new entry in 'recurring' calendar");
+            //file_put_contents('/tmp/davlog', $path . " is to be created.\n",FILE_APPEND);
+            $this->vobject = VObject\Reader::read($data, VObject\Reader::OPTION_FORGIVING);
+
+            if (isset($this->vobject->VTODO)) {
+
+                //Here is where we create a record in the recurrence table for the object. this will be handled when we instantiate the Reminder class with the object.
+                $Reminder= new \Reminder($this->vobject);
+
+                if ($this->vobject->VTODO->DTSTART) {
+                    $sdMySQL= $this->vobject->VTODO->DTSTART->getDateTime()->format('Y-m-d H:i:s');
+                    $sql1="UPDATE recurrence SET start_date='".$sdMySQL ."' WHERE uid='" . $$this->vobject->VTODO->UID . "'";
+                    $dds->setSQL($sql1);
+                    
+                    // ...
+                }
+
+
+            }
+        }
+        $modified=$mod;
+        return true;
+    }
+
+
+    //this function handles file updates
     function vtodoUpdateHandler($path, \Sabre\DAV\IFile $node, &$data, &$modified) {
         $mod=false;
         if (is_resource($data)) {
@@ -35,32 +71,36 @@ class RecurrencePlugin extends ServerPlugin {
 
         */
         if (strpos($path,"/recurring/")!=='false') {
-            
-            //file_put_contents('/tmp/davlog', $path . " is to be updated.\n",FILE_APPEND);
+            debug ("Recurrence Plugin detects update in 'recurring' calendar");
+            file_put_contents('/tmp/davlog', $path . " is to be updated.\n",FILE_APPEND);
             $this->vobject = VObject\Reader::read($data, VObject\Reader::OPTION_FORGIVING);
 
             if (isset($this->vobject->VTODO)) {
+                debug ("Recurrence Plugin detects VTODO update in 'recurring' calendar: " .$this->vobject->VTODO->UID );      
+                file_put_contents('/tmp/davlog',"Recurrence Plugin detects VTODO update in 'recurring' calendar: " .$this->vobject->VTODO->UID ."\n",FILE_APPEND);          
+                //Here is where we should check if we need to create a record in the recurrence table for the object. this will be handled when we instantiate the Reminder class with the object.
+                $Reminder= new \Reminder($this->vobject);
+
                 //inspect the incoming $data and the $node that it targets; if there was an RRULE but no longer will be, and if this is in the user's 'recurring' calendar URI, restore the RRULE to the $data and set $modified to true.
+
                 if (!isset($this->vobject->VTODO->RRULE)) {
                     //"calendars/username/lists/d704fa812a9e11e51da0e.ics will have no RRULE."
                     //file_put_contents('/tmp/davlog', $path . " will have no RRULE.\n",FILE_APPEND);
-
+                    debug ("Recurrence Plugin detects VTODO update in 'recurring' calendar without RRULE");
                     $olddata=$node->get();
                     $oldobject=VObject\Reader::read($olddata, VObject\Reader::OPTION_FORGIVING);
                     if (isset($oldobject->VTODO->RRULE)) {
                         $this->vobject->VTODO->RRULE=$oldobject->VTODO->RRULE;
                         $data=$this->vobject->serialize();
                         $mod=true;
-                        //file_put_contents('/tmp/davlog', $path . " RRULE restored.\n",FILE_APPEND);
+                        debug("Existing RRULE restored.");
                     }  
                 } else {
-                    //Here is where we should check if we need to create a record in the recurrence table for the object. this will be handled when we instantiate the Reminder class with the object.
-                    $Reminder= new \Reminder($this->vobject);
+                    
+                    debug ("Recurrence Plugin detects VTODO update in 'recurring' calendar with RRULE");
+                    
 
-                    // Prep this statement but execute it only if this is a new record. The server and not the client should manage changes to the start date. 
-                    $sdMySQL= \DateTimeExt::MySQLDate($this->vobj->VTODO->DTSTART->getDateTime());
-                    $sql1="UPDATE recurrence SET start_date='".$sdMySQL ."' WHERE uid='" . $uid . "'";
-                    // Execute $sql0 and $sql1 as appropriate
+
                     
                     // ...
 

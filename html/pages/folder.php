@@ -1,10 +1,5 @@
 <?php 
 /*This file will serve as the basis for pages listing contacts, events, journal entries and tasks 
-o contacts.php
-x events.php
-o reminders.php
-x tasks.php
-x journal.php
 
 include this file after setting the following:
 $sql for main listing:  must return object primary key as id, principaluri as owner, calendar/book displayname as subfolder_name, calendar/book id as subfolder_id, and calendar/card data as objdata
