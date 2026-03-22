@@ -4,6 +4,7 @@ require_once "../vendor/sabre/dav/lib/CalDAV/Backend/PDO.php";
 use Sabre\VObject;
 class VCALENDAR extends DAVObject {
     protected $componenttype;
+    protected $rowdata;
 
     protected function fetch($id,$parenturi='') {
         //this function is called by child classes, which will have set $this->componenttype
@@ -97,19 +98,20 @@ class VCALENDAR extends DAVObject {
         if (isset($this->parentID) && isset($parentCal)) $calIDs=array($parentCal,$this->parentID);
         if (!isset($GLOBALS['DB'])) require_once("server.php");
         $pdo=$GLOBALS['DB']->getPDO();
+        $backend=new Sabre\CalDAV\Backend\PDO($pdo);
         if (isset($this->objectID)) {
             debug ("VCALENDAR object ID is set");
             if (isset($this->modified) && $this->modified) {
                 $this->setModificationTimeToNow();
                 $newdata= $this->vobject->serialize();
-                if (isset($calIDs)) $pdo->updateCalendarObject($calIDs,$this->rowdata['uri'],$newdata);
+                if (isset($calIDs)) $backend->updateCalendarObject($calIDs,$this->rowdata['uri'],$newdata);
                 else debug ("VCALENDAR 'save' method called without valid parent uri");
             }
         } else {
             //create calendarobject
             $this->setModificationTimeToNow();
             $newdata= $this->vobject->serialize();
-            if (isset($calIDs)) $pdo->createCalendarObject($calIDs,$this->vobject->{$this->componenttype}->UID . ".ics",$newdata);
+            if (isset($calIDs)) $backend->createCalendarObject($calIDs,$this->vobject->{$this->componenttype}->UID . ".ics",$newdata);
             else debug ("VCALENDAR 'save' method called without valid parent ID");
         }
     }
