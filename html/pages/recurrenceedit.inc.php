@@ -13,7 +13,7 @@
 	//Collect start, end  
 	//"done" or "more"
 
-
+	if (!isset($new)) $new=false;
 	if ($new) {
 		echo ('<h4>Set rules</h4>'); 
 		$startdatestr = date("Y-m-d");

@@ -102,7 +102,7 @@
 		$tod_end= "23:59";
 	}
 	$output .="</table>";
-	if ($implementation_note) $output .= "<P>(* = not implemented)</P>" ;
+	if (isset($implementation_note)) $output .= "<P>(* = not implemented)</P>" ;
 	echo '<p name="reminder_description">' . $output . "</p>";
 	//echo '<p><a href="edit_recurrence.php?id=' . $reminderid . '">Edit</a></p>';
 	echo '<button id="editrecurrencebutton" onclick="editrecurrence()">Edit</button>';
