@@ -111,20 +111,25 @@ class Reminder extends VTODO {
             $startdate = date("Y-m-d H:i:s",$starttime);
             $this->vobject->VTODO->DTSTART=\DateTimeExt::CalDAVZFormatFromMySQLDateTime($startdate);
             debug("next recurrence date:" . $startdate);
-            debug("next recurrence due: " . "+" . $reminder['grace_units'] . " " . $gracescale);
-            $duetime = strtotime("+" . $reminder['grace_units'] . " " . $gracescale,$starttime);
-            $duedate = date("Y-m-d H:i:s",$duetime);
-            $this->vobject->VTODO->DUE=\DateTimeExt::CalDAVZFormatFromMySQLDateTime($duedate);
+            if (!is_null($reminder['grace_units'])) {
+                debug("next recurrence due: " . "+" . $reminder['grace_units'] . " " . $gracescale);
+                $duetime = strtotime("+" . $reminder['grace_units'] . " " . $gracescale,$starttime);
+                $duedate = date("Y-m-d H:i:s",$duetime);
+                $this->vobject->VTODO->DUE=\DateTimeExt::CalDAVZFormatFromMySQLDateTime($duedate);
+                debug("next recurrence due date:" . $duedate);
+                $sql = $sql . " due_date='" . $duedate . "', ";	
+             } else {
+                unset($this->vobject->VTODO->DUE);
+             }
             $this->vobject->VTODO->STATUS="OPEN";
             unset ($this->vobject->VTODO->COMPLETED);
-            debug("next recurrence due date:" . $duedate);
+            
             debug("next recurrence active: " . "+" . $reminder['passive_units'] . " " . $passivescale);
             $activetime = strtotime("+" . $reminder['passive_units'] . " " . $passivescale,$starttime) ;
             $activedate = date("Y-m-d H:i:s",$activetime);
             debug("next recurrence active date:" . $activedate);
             
             $sql = $sql . " start_date='" . $startdate . "', ";				
-            $sql = $sql . " due_date='" . $duedate . "', ";	
             $sql = $sql . " active_date='" . $activedate . "', ";	
             debug($sql);
             
