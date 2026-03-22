@@ -25,40 +25,13 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use Symfony\Component\Yaml\Yaml;
+/*
+2026-MAR-22 buckaroo-labs centralize code into server.php
+*/
+require_once("server.php");
 
-ini_set("session.cookie_httponly", 1);
-ini_set("display_errors", 0);
-ini_set("log_errors", 1);
-
-define("BAIKAL_CONTEXT", true);
-define("PROJECT_CONTEXT_BASEURI", "/");
-
-if (file_exists(getcwd() . "/Core")) {
-    # Flat FTP mode
-    define("PROJECT_PATH_ROOT", getcwd() . "/");    #./
-} else {
-    # Dedicated server mode
-    define("PROJECT_PATH_ROOT", dirname(getcwd()) . "/");    #../
-}
-
-if (!file_exists(PROJECT_PATH_ROOT . 'vendor/')) {
-    exit('<h1>Incomplete installation</h1><p>Ba&iuml;kal dependencies have not been installed. If you are a regular user, this means that you probably downloaded the wrong zip file.</p><p>To install the dependencies manually, execute "<strong>composer install</strong>" in the Ba&iuml;kal root folder.</p>');
-}
-require PROJECT_PATH_ROOT . 'vendor/autoload.php';
-
-# Bootstrapping Flake
-\Flake\Framework::bootstrap();
-
-# Bootstrapping Baïkal
-\Baikal\Framework::bootstrap();
-
-try {
-    $config = Yaml::parseFile(PROJECT_PATH_CONFIG . "baikal.yaml");
-} catch (\Exception $e) {
-    exit('<h1>Incomplete installation</h1><p>Ba&iuml;kal is missing its configuration file, or its configuration file is unreadable.');
-}
-
+$server=getServer($config,$GLOBALS['DB'],PROJECT_BASEURI . 'dav.php/');
+/*
 $server = new \Baikal\Core\Server(
     $config['system']["cal_enabled"],
     $config['system']["card_enabled"],
@@ -67,4 +40,5 @@ $server = new \Baikal\Core\Server(
     $GLOBALS['DB']->getPDO(),
     PROJECT_BASEURI . 'dav.php/'
 );
+*/
 $server->start();

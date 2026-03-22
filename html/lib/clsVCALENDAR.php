@@ -1,10 +1,12 @@
 <?php
 require_once "lib/clsDAVObject.php";
+require_once "../vendor/sabre/dav/lib/CalDAV/Backend/PDO.php";
 use Sabre\VObject;
 class VCALENDAR extends DAVObject {
     protected $componenttype;
 
     protected function fetch($id,$parenturi='') {
+        //this function is called by child classes, which will have set $this->componenttype
         $columns=" c.id, c.uri, c.calendardata, i.displayname as calendarname, i.uri as parenturi, i.id as calendarid ";
         $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
         $where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $id;
@@ -59,11 +61,63 @@ class VCALENDAR extends DAVObject {
         $this->vobject->{$this->componenttype}->{'LAST-MODIFIED'} = new \DateTime();
     }
     public function delete() {
-        if (isset($this->objectID)) {
-            $this->ds->setSQL("DELETE from calendarobjects where id=" . $this->objectID);
+        //former logic:
+        //if (isset($this->objectID)) $this->ds->setSQL("DELETE from calendarobjects where id=" . $this->objectID);
+
+        debug ("VCALENDAR 'delete' method called");
+        //Bootstrap the frameworks to use ../vendor/sabre/dav/lib/CalDAV/Backend/PDO.php
+        if (!isset($GLOBALS['DB'])) require_once("server.php");
+        $pdo=$GLOBALS['DB']->getPDO();
+
+        if (isset($this->parenturi)) {
+            //The value passed to $calendarId is expected to be an array with a calendarId and an instanceId; don't they always match?
+            $sql0="SELECT id, calendarid FROM calendarinstances WHERE uri='" . $this->parenturi . "'";
+            $this->ds->setSQL($sql0);
+            if ($rrow=$this->ds->getNextRow()) {
+                list($this->parentID,$parentCal)=$rrow;
+                $calIDs=array($parentCal,$this->parentID);
+                $pdo->deleteCalendarObject($calIDs,$this->rowdata['uri']);
+            } else {
+                debug ("VCALENDAR 'delete' method called without valid parent uri");
+            }
         }
     }
+    
     public function save() {
+        //should use ../vendor/sabre/dav/lib/CalDAV/Backend/PDO.php
+        //public function updateCalendarObject($calendarId, $objectUri, $calendarData)
+        //public function createCalendarObject($calendarId, $objectUri, $calendarData)
+        debug ("VCALENDAR 'save' method called");
+        if (isset($this->parenturi)) {
+            $sql0="SELECT id, calendarid FROM calendarinstances WHERE uri='" . $this->parenturi . "'";
+            $this->ds->setSQL($sql0);
+            if ($rrow=$this->ds->getNextRow()) list($this->parentID,$parentCal)=$rrow;
+        }
+        //The value passed to $calendarId is expected to be an array with a calendarId and an instanceId 
+        if (isset($this->parentID) && isset($parentCal)) $calIDs=array($parentCal,$this->parentID);
+        if (!isset($GLOBALS['DB'])) require_once("server.php");
+        $pdo=$GLOBALS['DB']->getPDO();
+        if (isset($this->objectID)) {
+            debug ("VCALENDAR object ID is set");
+            if (isset($this->modified) && $this->modified) {
+                $this->setModificationTimeToNow();
+                $newdata= $this->vobject->serialize();
+                if (isset($calIDs)) $pdo->updateCalendarObject($calIDs,$this->rowdata['uri'],$newdata);
+                else debug ("VCALENDAR 'save' method called without valid parent uri");
+            }
+        } else {
+            //create calendarobject
+            $this->setModificationTimeToNow();
+            $newdata= $this->vobject->serialize();
+            if (isset($calIDs)) $pdo->createCalendarObject($calIDs,$this->vobject->{$this->componenttype}->UID . ".ics",$newdata);
+            else debug ("VCALENDAR 'save' method called without valid parent ID");
+        }
+    }
+
+    public function deprecated_save() {
+        //should use ../vendor/sabre/dav/lib/CalDAV/Backend/PDO.php instead
+        //public function updateCalendarObject($calendarId, $objectUri, $calendarData)
+        //public function createCalendarObject($calendarId, $objectUri, $calendarData)
         debug ("VCALENDAR 'save' method called");
         
         if (isset($this->objectID)) {
