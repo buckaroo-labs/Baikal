@@ -26,7 +26,10 @@ class Reminder extends VTODO {
         $sql="SELECT max(id) FROM calendarobjects WHERE uid='" . $UID . "'";
         $result = $dds->setSQL($sql);
         $rrow=$dds->getNextRow();
-        if (!is_null($rrow[0])) $this->objectID=$rrow[0];
+        if (!is_null($rrow[0])) {
+            $this->objectID=$rrow[0];
+            $this->fetch($rrow[0]);
+        }
         //This statement will silently fail if a matching record already exists
         $sql0="INSERT IGNORE INTO recurrence (uid,sequence) VALUES ('" . $UID . "','" . rand(1,99999999). "')";
 		$result = $dds->setSQL($sql0);
@@ -37,6 +40,7 @@ class Reminder extends VTODO {
 	}
     private function refresh() {
         global $dds;
+        
       	$sql= "SELECT * FROM recurrence WHERE uid='". $this->vobject->VTODO->UID . "'";
 		$result = $dds->setSQL($sql);
 		$result_row = $dds->getNextRow("assoc");
@@ -48,8 +52,9 @@ class Reminder extends VTODO {
         global $dds;
         $sql="DELETE FROM recurrence WHERE uid='" . $this->vobject->TODO->UID . "'";
         $result = $dds->setSQL($sql);
-        $sql="DELETE FROM calendarobjects WHERE uid='" . $this->vobject->TODO->UID . "'";
-        $result = $dds->setSQL($sql);
+        parent::delete();
+        //$sql="DELETE FROM calendarobjects WHERE uid='" . $this->vobject->TODO->UID . "'";
+        //$result = $dds->setSQL($sql);
     }
   
 	public function get2DoAppMeta ($verbose=false) {
