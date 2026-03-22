@@ -13,7 +13,7 @@ CREATE TABLE cards (
     addressbookid INT CHECK (addressbookid > 0) NOT NULL,
     carddata TEXT,
     uri TEXT,
-    lastmodified INT CHECK (lastmodified > 0),
+    lastmodified BIGINT CHECK (lastmodified > 0),
     etag TEXT,
     size INT CHECK (size > 0) NOT NULL
 );
@@ -33,12 +33,12 @@ CREATE TABLE calendarobjects (
     calendardata TEXT,
     uri TEXT,
     calendarid INTEGER CHECK (calendarid > 0) NOT NULL,
-    lastmodified INT CHECK (lastmodified > 0),
+    lastmodified BIGINT CHECK (lastmodified > 0),
     etag TEXT,
     size INT CHECK (size > 0) NOT NULL,
     componenttype TEXT,
-    firstoccurence INT CHECK (firstoccurence > 0),
-    lastoccurence INT CHECK (lastoccurence > 0),
+    firstoccurence BIGINT CHECK (firstoccurence > 0),
+    lastoccurence BIGINT CHECK (lastoccurence > 0),
     uid TEXT
 );
 
@@ -87,7 +87,7 @@ CREATE TABLE calendarsubscriptions (
     striptodos SMALLINT NULL,
     stripalarms SMALLINT NULL,
     stripattachments SMALLINT NULL,
-    lastmodified INT CHECK (lastmodified > 0)
+    lastmodified BIGINT CHECK (lastmodified > 0)
 );
 
 CREATE TABLE schedulingobjects (
@@ -95,7 +95,7 @@ CREATE TABLE schedulingobjects (
     principaluri TEXT,
     calendardata TEXT,
     uri TEXT,
-    lastmodified INT CHECK (lastmodified > 0),
+    lastmodified BIGINT CHECK (lastmodified > 0),
     etag TEXT,
     size INT CHECK (size > 0) NOT NULL
 );

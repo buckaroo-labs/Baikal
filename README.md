@@ -15,6 +15,7 @@ With the same objective, a French guide, about installation on Debian, database 
 Significant changes in this fork include:
 
 ### FEATURES
+- Support for CalDAV events beyond January 2038 (Using 8-byte BIGINT in place of 4-byte INT for MySQL or PGSQL storage of integer dates)
 - Support for a WebDAV per-user home directory
 - Add VJOURNAL support to default calendar for new user
 - Use salted hash for stored passwords (table and column names, auth backend are different)
@@ -27,7 +28,7 @@ Significant changes in this fork include:
 ### DEPENDENCIES
 - Dependence on [Hydrogen](https://github.com/buckaroo-labs/Hydrogen) library v2 or higher. If you install via Docker, this is managed for you.
 - Some (new) features depend on having MySQL as the RDBMS; some steps have been taken to continue supporting SQLite and PGSQL as well, but this effort is incomplete and untested.
-
+- [buckaroo-labs/dav](https://github.com/buckaroo-labs/dav) fork of [sabre/dav](https://github.com/sabre-io/dav) for date support beyond 2038; see [Pull Request 1631](https://github.com/sabre-io/dav/pull/1631) 
 
 
 Upgrading
