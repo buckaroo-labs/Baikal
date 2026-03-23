@@ -124,7 +124,7 @@
 				<div id="Recurrence" class="w3-container w3-card-4 w3-pale-green">
 					<h4>Recurrence</h4>
 					<p> 
-						<input name="Recurrence" value="RecurYN" type="checkbox" <?php if(!$new AND $recur_units!="") echo ' checked';  ?> > This item will recur every<br>
+						<input name="Recurrence" value="RecurYN" type="checkbox" <?php if(!$new && $recur_units!="") echo ' checked';  ?> > This item will recur every<br>
 						<input name="recur_units" class=" w3-border" type="number"  <?php if($recur_units!="") echo ('value="'. $recur_units . '"'); else echo('value="1"');  ?> required>
 						<select name="recur_scale" class=" w3-border" value="<?php echo $recur_scale; ?>" required>
 							<option value="0" <?php if ($recur_scale==0)echo ' selected'; ?> >hours</option>
