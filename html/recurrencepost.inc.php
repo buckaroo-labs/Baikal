@@ -112,6 +112,31 @@ function calculate_alarms() {
 	return 1;
 }	
 
+function calculate_rrule() {
+	$rrule='';
+	if($_POST['Recurrence']=="RecurYN" && isset($_POST['recur_scale']) && isset($_POST['recur_units'])) {
+		if (is_numeric($_POST['recur_scale']) && is_numeric($_POST['recur_units']) ) {
+			switch ($_POST['recur_scale']) {
+				case 1:
+					$rrule='FREQ=DAILY;INTERVAL=' .$_POST['recur_units'];
+					break;
+				case 2:
+					$rrule='FREQ=WEEKLY;INTERVAL=' .$_POST['recur_units'];
+					break;
+				case 3:
+					$rrule='FREQ=MONTHLY;INTERVAL=' .$_POST['recur_units'];
+					break;	
+				case 4:
+					$rrule='FREQ=YEARLY;INTERVAL=' .$_POST['recur_units'];
+					break;
+				default:
+					$rrule='FREQ=HOURLY;INTERVAL=' .$_POST['recur_units'];
+			}
+		}
+	}
+	return $rrule;
+}
+
 function common_post_proc() {
 	global $sqlb;
 	global $dds;
@@ -120,6 +145,7 @@ function common_post_proc() {
 	global $dueDate;
 	global $endDateStr;
 	global $dueDateStr;
+
 	//$sqlb->addColumn("owner",$_SESSION['username']);
 	
 	//process POST variables into sanitized SQL stmt
@@ -145,6 +171,7 @@ function common_post_proc() {
 	$return=calculate_blackout_hours();
 	$return=calculate_enddate();		
 	$return=calculate_weekdays();
+	$rrule=calculate_rrule();
 	
 	$SQL=$sqlb->getSQL();
 	//final security check before committing changes:
@@ -165,6 +192,8 @@ function common_post_proc() {
 			if (strlen($endDateStr) > 4 && $ed=\DateTime::createFromFormat($f_in,$endDateStr)) $nvp['DTEND']=$ed->format($f_out); else debug("error saving end date: " . $endDateStr);
 
 			if (strlen($dueDateStr) > 4 && $dd=\DateTime::createFromFormat($f_in.":s",$dueDateStr)) $nvp['DUE']=$dd->format($f_out); else debug("error saving due date: " . $dueDateStr);
+
+			if (strlen($rrule) > 1 ) $nvp['RRULE']=$rrule;
 
 			/*
 			if ($sd=\DateTime::createFromFormat($f_in, $startDateStr)) $o->VTODO->DTSTART=$sd->format($f_out); else debug("error saving start date: '" . $startDateStr ."'");
