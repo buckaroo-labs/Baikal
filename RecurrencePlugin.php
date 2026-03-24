@@ -87,7 +87,7 @@ class RecurrencePlugin extends ServerPlugin {
         $server->on('beforeCreateFile',[$this,'vtodoCreateHandler' ]);
     }
 
-    //this function handles new files
+    //This function handles new files. Will create a matching record in the recurrence table for the 'recurring' calendar. Will read and store some properties in the RRULE
     function vtodoCreateHandler($path, &$data, \Sabre\DAV\ICollection $parent, &$modified) {
         global $dds;
         $mod=false;
@@ -131,7 +131,7 @@ class RecurrencePlugin extends ServerPlugin {
     }
 
 
-    //this function handles file updates
+    //This function handles file updates. Will disallow removal of RRULE from items in 'recurring' calendar. When recurring items are marked complete, change the start and due dates rather than simply marking complete.
     function vtodoUpdateHandler($path, \Sabre\DAV\IFile $node, &$data, &$modified) {
         $mod=false;
         if (is_resource($data)) {
