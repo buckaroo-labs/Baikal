@@ -185,8 +185,9 @@ class RecurrencePlugin extends ServerPlugin {
                         //unset COMPLETED property
                         unset($this->vobject->VTODO->COMPLETED);
                         //set new DUE, DTSTART, and LAST-MODIFIED dates
-                        $this->Reminder->markComplete($this->vobject);
-                        $data=$this->vobject->serialize();
+                        $this->Reminder= new \Reminder($this->vobject);
+                        $this->Reminder->markComplete();
+                        $data=$this->Reminder->serialize();
                         $mod=true;
                         //last of all, how do we make sure the client see the changes we made to the data it just submitted? testing required
                     }  
