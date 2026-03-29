@@ -19,5 +19,9 @@ $sql="SELECT c.id, c.uri, c.carddata as objdata, i.principaluri as owner, i.disp
     INNER JOIN addressbooks i on c.addressbookid=i.id
     WHERE i.principaluri='principals/" . $_SESSION['username'] . "'";
 
+if (isset($_GET['folderid']) && is_numeric($_GET['folderid'])) {
+    $folderid=$_GET['folderid'];
+    $sql .=" AND i.id=" . $folderid;
+}
 include("pages/folder.php");
 
