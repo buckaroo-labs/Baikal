@@ -206,6 +206,27 @@ class User extends \Flake\Core\Model\Db {
 
             $oDefaultCalendar->persist();
 
+            # 2026-MAR-29 Creating 'recurring' calendar for user
+            $oDefaultCalendar = new \Baikal\Model\Calendar();
+            $oDefaultCalendar->set(
+                "principaluri",
+                "principals/" . $this->get("username")
+            )->set(
+                "displayname",
+                "Recurring"
+            )->set(
+                "uri",
+                "recurring"
+            )->set(
+                "description",
+                "Server-managed recurrence"
+            )->set(
+                "components",
+                "VTODO"
+            );
+
+            $oDefaultCalendar->persist();
+
             # Creating default address book for user
             $oDefaultAddressBook = new \Baikal\Model\AddressBook();
             $oDefaultAddressBook->set(
