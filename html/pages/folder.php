@@ -84,74 +84,80 @@ if (isset($_SESSION['username'])) {
     ob_start();
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
-        $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
-        $status="";
-        if(isset($componenttype)) {
-            if ($componenttype=='VTODO') $status="status_unknown";
-            $temp=(string)$vobj->{$componenttype}->CATEGORIES;
-            if ($vobj->{$componenttype}->STATUS) {
-                $status="status_" .$vobj->{$componenttype}->STATUS; 
-                $k=(string) $vobj->{$componenttype}->STATUS;
-                if (!array_key_exists($k,$todostatuses)) $todostatuses[$k]=0; 
-            }
-        } else $temp=(string)$vobj->CATEGORIES;
-
-        $temp2=str_replace(" ","",$temp);
-        $temp2=str_replace("&","-",$temp2);
-        $temp3=(string)$vobj->ORG;
-        $temp4=str_replace(" ","",$temp3);
-        $temp4=str_replace("'","",$temp4);
-        $temp4="org_" . str_replace("&","-",$temp4);
-        if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
-        if (!array_key_exists($rrow['subfolder_name'],$subfolders)) $subfolders[$rrow['subfolder_name']]=$rrow['subfolder_id'];
-        if (!array_key_exists($temp3,$orgs)) $orgs[$temp3]=0;
-        $hidden="";
-        if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
-        if(isset($todostatus) && $vobj->{$componenttype}->STATUS && $todostatus!=$vobj->{$componenttype}->STATUS) $hidden=' style="display:none" ';
-        //filter out completed/cancelled items by default
-        if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="COMPLETED") $hidden=' style="display:none" ';
-        if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="CANCELLED") $hidden=' style="display:none" ';
-        
-        echo ('<tr '. $hidden .'class="vobject ' . $status . " " .str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
-        $sortme[$datacount]['hidden']=$hidden;
-        $sortme[$datacount]['status']=$status;
-        $sortme[$datacount]['categories']=$temp2;
-        $sortme[$datacount]['org']=$temp4;
-
-
-        for ($i=0; $i<count($tdata); $i++) {
-            //if(!isset($category) || $category==$temp) {
-                echo '<td>';
-                if($tdata[$i][0]=='Q') {
-                    $celldata=$rrow[$tdata[$i][1]];
-                } elseif ($tdata[$i][0]=='V') {
-                    if(isset($componenttype)) {
-                        $celldata=$vobj->{$componenttype}->{$tdata[$i][1]};
-                    } else $celldata=$vobj->{$tdata[$i][1]};
-                } else {
-                $celldata='';
-                }
-                    
-                if (count($tdata_xform) >$i) {
-                if($tdata_xform[$i][0]=="link") {
-                    $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
-                } elseif ($tdata_xform[$i][0]=="datetimeformat") {
-                    if(isset($celldata)) {
-                        //assuming that $celldata is a Sabre VObject property that supports this
-                        $celldata=$celldata->getDateTime();
-                        $celldata= displayFormatDateTime($celldata);
-                    }
-                } 
-                } 
-                //if(!isset($category) || $category==$temp) 
-                echo $celldata;
-                $sortme[$datacount][$tdata[$i][1]]=$celldata;
-                echo '</td>';
-            //}
+        try {
+            $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
+        } catch (Exception $e) {
+            debug("Vobject reader exception: " . $e->getMessage());
         }
+        if (isset($vobj)) {
+            $status="";
+            if(isset($componenttype)) {
+                if ($componenttype=='VTODO') $status="status_unknown";
+                $temp=(string)$vobj->{$componenttype}->CATEGORIES;
+                if ($vobj->{$componenttype}->STATUS) {
+                    $status="status_" .$vobj->{$componenttype}->STATUS; 
+                    $k=(string) $vobj->{$componenttype}->STATUS;
+                    if (!array_key_exists($k,$todostatuses)) $todostatuses[$k]=0; 
+                }
+            } else $temp=(string)$vobj->CATEGORIES;
 
-        echo ('</tr>' . "\n");
-        $datacount++;
+            $temp2=str_replace(" ","",$temp);
+            $temp2=str_replace("&","-",$temp2);
+            $temp3=(string)$vobj->ORG;
+            $temp4=str_replace(" ","",$temp3);
+            $temp4=str_replace("'","",$temp4);
+            $temp4="org_" . str_replace("&","-",$temp4);
+            if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
+            if (!array_key_exists($rrow['subfolder_name'],$subfolders)) $subfolders[$rrow['subfolder_name']]=$rrow['subfolder_id'];
+            if (!array_key_exists($temp3,$orgs)) $orgs[$temp3]=0;
+            $hidden="";
+            if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
+            if(isset($todostatus) && $vobj->{$componenttype}->STATUS && $todostatus!=$vobj->{$componenttype}->STATUS) $hidden=' style="display:none" ';
+            //filter out completed/cancelled items by default
+            if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="COMPLETED") $hidden=' style="display:none" ';
+            if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="CANCELLED") $hidden=' style="display:none" ';
+            
+            echo ('<tr '. $hidden .'class="vobject ' . $status . " " .str_replace(","," ",$temp2). " " . str_replace(","," ",$temp4).'">'); 
+            $sortme[$datacount]['hidden']=$hidden;
+            $sortme[$datacount]['status']=$status;
+            $sortme[$datacount]['categories']=$temp2;
+            $sortme[$datacount]['org']=$temp4;
+
+
+            for ($i=0; $i<count($tdata); $i++) {
+                //if(!isset($category) || $category==$temp) {
+                    echo '<td>';
+                    if($tdata[$i][0]=='Q') {
+                        $celldata=$rrow[$tdata[$i][1]];
+                    } elseif ($tdata[$i][0]=='V') {
+                        if(isset($componenttype)) {
+                            $celldata=$vobj->{$componenttype}->{$tdata[$i][1]};
+                        } else $celldata=$vobj->{$tdata[$i][1]};
+                    } else {
+                    $celldata='';
+                    }
+                        
+                    if (count($tdata_xform) >$i) {
+                    if($tdata_xform[$i][0]=="link") {
+                        $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
+                    } elseif ($tdata_xform[$i][0]=="datetimeformat") {
+                        if(isset($celldata)) {
+                            //assuming that $celldata is a Sabre VObject property that supports this
+                            $celldata=$celldata->getDateTime();
+                            $celldata= displayFormatDateTime($celldata);
+                        }
+                    } 
+                    } 
+                    //if(!isset($category) || $category==$temp) 
+                    echo $celldata;
+                    $sortme[$datacount][$tdata[$i][1]]=$celldata;
+                    echo '</td>';
+                //}
+            }
+
+            echo ('</tr>' . "\n");
+            $datacount++;
+        } //reader success
     }
 /*two options at this point: 
 1) flush the output buffer and display the table HTML already calculated,    or
