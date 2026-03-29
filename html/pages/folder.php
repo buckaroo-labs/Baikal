@@ -164,9 +164,9 @@ if (!$resort) {
 } else {
     ob_end_clean();
     $sortorder = SORT_ASC;
-    if(array_key_exists('FN',$sortme[0])) {
+    if(isset($sortme[0]) && array_key_exists('FN',$sortme[0])) {
         $array_key_for_multisort="FN";
-    } elseif (array_key_exists('DTSTART',$sortme[0])) {
+    } elseif (isset($sortme[0]) && array_key_exists('DTSTART',$sortme[0])) {
         $array_key_for_multisort="DTSTART";
     } else {
         $array_key_for_multisort="id";
