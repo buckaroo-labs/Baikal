@@ -15,9 +15,9 @@ $resort=true;
 
 $tdata_xform[0]=array('link','index.php?p=contact');
 
-$sql="SELECT c.id, c.uri, c.carddata as objdata, a.principaluri as owner, a.displayname as subfolder_name, a.id as subfolder_id FROM cards c
-    INNER JOIN addressbooks a on c.addressbookid=a.id
-    WHERE a.principaluri='principals/" . $_SESSION['username'] . "'";
+$sql="SELECT c.id, c.uri, c.carddata as objdata, i.principaluri as owner, i.displayname as subfolder_name, i.id as subfolder_id FROM cards c
+    INNER JOIN addressbooks i on c.addressbookid=a.id
+    WHERE i.principaluri='principals/" . $_SESSION['username'] . "'";
 
 include("pages/folder.php");
 
