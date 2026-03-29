@@ -80,7 +80,7 @@ $stateVarList=array('menu','id');
 $settings['appname']='Dauriya';
 
 require_once("../vendor/autoload.php");
-if (!defined("PROJECT_PATH_CONFIG")) define ("PROJECT_PATH_CONFIG","/var/www/config/");
+if (!defined("PROJECT_PATH_CONFIG")) define ("PROJECT_PATH_CONFIG","../config/");
 use Symfony\Component\Yaml\Yaml;
 $config = Yaml::parseFile(PROJECT_PATH_CONFIG . "baikal.yaml");
 //map Baikal's yaml configuration file to the Hydrogen framework's settings
