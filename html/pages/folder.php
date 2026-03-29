@@ -85,6 +85,7 @@ if (isset($_SESSION['username'])) {
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
         try {
+            unset ($vobj);
             $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
         } catch (Exception $e) {
             debug("Vobject reader exception: " . $e->getMessage());
