@@ -24,7 +24,9 @@ if (isset($_SESSION['username'])) {
     while ($rrow=$dds->getNextRow('assoc')) {
         $vcalendar = VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
         foreach($vcalendar->VTODO as $vtodo) {
-            echo ('<table id="veventtable" class="table" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>End</th></tr>');
+            //28-MAR-2026: only show one VTODO from each file
+
+            //echo ('<table id="veventtable" class="table" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>End</th></tr>');
             $startdatetime='';
             $enddatetime='';
             $summary= (string)$vtodo->SUMMARY;
@@ -39,16 +41,18 @@ if (isset($_SESSION['username'])) {
                 $enddatetime=displayFormatDateTime($dtend);
             }
             if (isset($vtodo->COMPLETED)) $completed=true; else $completed=false;
-            echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
+            //echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
 
-            echo "</table>\n";
+            //echo "</table>\n";
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);
-            echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
+            //echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
 
+            /*
             echo '<div id="rhs" style="max-width:95%"><form method="POST" action="index.php?p=reminder&id=' . $reminderid . '" id="conversionform">
             <input type="hidden" name="type" value="VTODO">
             <input type="hidden" value="togglestatus" name="action">
             <input type="hidden" name="id" value="' . $reminderid . '">';
+
             if ($completed) {
                 echo '<input type="submit" value="Mark Incomplete">';
             } else {
@@ -63,8 +67,32 @@ if (isset($_SESSION['username'])) {
                 echo '</div>';
             }
             echo '</div>';
-
+            */
         } 
+        //28-MAR-2026: only show one VTODO from each file
+        echo ('<table id="veventtable" class="table" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>End</th></tr>');
+        echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
+        echo "</table>\n";
+        echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
+
+        echo '<div id="rhs" style="max-width:95%"><form method="POST" action="index.php?p=reminder&id=' . $reminderid . '" id="conversionform">
+        <input type="hidden" name="type" value="VTODO">
+        <input type="hidden" value="togglestatus" name="action">
+        <input type="hidden" name="id" value="' . $reminderid . '">';
+        if ($completed) {
+            echo '<input type="submit" value="Mark Incomplete">';
+        } else {
+            echo '<input type="submit" value="Mark Complete">';
+        }
+        echo '</form>'; 
+        if ($rrow['calendaruri']=='recurring') {
+            echo '<div id="recurrence_view">';
+            include "pages/recurrence.inc.php";
+            echo '</div><div id="recurrence_edit" style="display:none">';
+            include "pages/recurrenceedit.inc.php";
+            echo '</div>';
+        }
+        echo '</div>';
 
     }
 echo "\n" . '<script src="js/recurrence.js"></script>' ."\n";

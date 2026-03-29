@@ -145,8 +145,13 @@ class RecurrencePlugin extends ServerPlugin {
             debug ("Recurrence Plugin detects update in 'recurring' calendar");
             //file_put_contents('/tmp/davlog', $path . " is to be updated.\n",FILE_APPEND);
             $this->vobject = VObject\Reader::read($data, VObject\Reader::OPTION_FORGIVING);
-
-            if (isset($this->vobject->VTODO)) {
+            if (is_array($this->vobject->VTODO)) {
+                    debug ("Recurrence Plugin: Multiple VTODOs in updated node: " . $path);
+            }
+            if (isset($this->vobject->VTODO) && !is_array($this->vobject->VTODO)) {
+                if (is_array($this->vobject->VTODO)) {
+                    debug ("Recurrence Plugin: Multiple VTODOs in updated node");
+                }
                 debug ("Recurrence Plugin detects VTODO update in 'recurring' calendar: " .$this->vobject->VTODO->UID );      
                 //file_put_contents('/tmp/davlog',"Recurrence Plugin detects VTODO update in 'recurring' calendar: " .$this->vobject->VTODO->UID ."\n",FILE_APPEND);        
 

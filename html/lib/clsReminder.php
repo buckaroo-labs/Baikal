@@ -20,7 +20,8 @@ class Reminder extends VTODO {
         //this class will create a row in the recurrence table if one does not already exist for the $vobject UID
 
         // Given that we don't know if this object has been stored in the database yet, we must match on UID rather than trying to match on the table's primary key.
-        $UID=$vobject->VTODO->UID;
+        if (is_array($vobject->VTODO)) $UID=$vobject->VTODO[0]->UID;
+        else $UID=$vobject->VTODO->UID;
         $this->objectID=0;
 		global $dds;
         $sql="SELECT max(id) FROM calendarobjects WHERE uid='" . $UID . "'";
