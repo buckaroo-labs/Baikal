@@ -85,7 +85,6 @@ if (isset($_SESSION['username'])) {
     echo '<h2>'.$headline.'</h2>';
     if (isset($categoryname)) {
         echo newItemForm();
-        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Actions</th></tr>');
         //04-APR-2026
         //echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Actions</th></tr>');
         echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th id="blank"></th><th>Actions</th></tr>');
