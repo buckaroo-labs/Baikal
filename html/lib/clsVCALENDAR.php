@@ -20,7 +20,6 @@ class VCALENDAR extends DAVObject {
             $columns="i.displayname as calendarname, i.uri as parenturi, i.id as calendarid ";
             $from=" FROM calendarinstances i ";
             $where=" WHERE i.principaluri='principals/" . $owner . "' ";
-            $where .=" and c.id=" . $id;
         }
         if (strlen($parenturi)>0) $where .= " AND i.uri='" . $parenturi . "'";
         $sql="SELECT " . $columns . $from . $where;
