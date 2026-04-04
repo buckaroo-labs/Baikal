@@ -13,23 +13,30 @@ class VCALENDAR extends DAVObject {
         //this function is called by child classes, which will have set $this->componenttype
         $columns=" c.id, c.uri, c.calendardata, i.displayname as calendarname, i.uri as parenturi, i.id as calendarid ";
         $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-        $where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $owner . "' and c.id=" . $id;
+        //$where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $owner . "' and c.id=" . $id;
+        $where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $owner . "' ";
+        //we're going to fudge so we can use all this code to determine the parent ID for a new item too
+        if ($id!=0) $where .=" and c.id=" . $id;
         if (strlen($parenturi)>0) $where .= " AND i.uri='" . $parenturi . "'";
         $sql="SELECT " . $columns . $from . $where;
         $result=$this->ds->setSQL($sql);
         if ($rrow=$this->ds->getNextRow('assoc')) {
-            $this->objectID=$id; 
-            $this->rowdata=$rrow;
-            $this->vobject = VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
-            $this->parenturi=$rrow['parenturi'];
-            $this->parentID=$rrow['calendarid'];
-            $this->modified=false;
-           debug ("Fetched VCALENDAR component from database to rowdata"); 
+            if ($id!=0) {
+                $this->objectID=$id; 
+                $this->rowdata=$rrow;
+                $this->vobject = VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
+                $this->parenturi=$rrow['parenturi'];
+                $this->modified=false;
+                debug ("Fetched VCALENDAR component from database to rowdata"); 
+            }
+            $this->parentID=$rrow['calendarid'];           
+        } elseif ($id!=0) {
+            debug ("Error fetching VCALENDAR component from database");  
+            return false;
         } else {
-            debug ("Error fetching VCALENDAR component from database");
+            debug ("Error fetching VCALENDAR parent ID from database");  
             return false;
         } //end row fetch
-
     }
 
     public function __construct($id=0,$summary="New vcalendar",$parenturi="") {
@@ -43,6 +50,7 @@ class VCALENDAR extends DAVObject {
         if ($id==0) {
             //make a new one
             $this->vobject = new VObject\Component\VCalendar();
+
             //child object will have to add component VTODO, VEVENT or VJOURNAL
         } //else: child object will have to fetch, based on component type
 

@@ -12,6 +12,8 @@ class VTODO extends VCALENDAR {
                 'STATUS' => 'OPEN',
                 'DTSTART' => new \DateTime()
             ]);
+            //set the ParentID
+            $this->fetch(0,$parenturi);
         } else {
             //look up an existing one
             $this->fetch($id,$parenturi);
