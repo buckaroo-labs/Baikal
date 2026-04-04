@@ -86,6 +86,9 @@ if (isset($_SESSION['username'])) {
     if (isset($categoryname)) {
         echo newItemForm();
         echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Actions</th></tr>');
+        //04-APR-2026
+        //echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>Actions</th></tr>');
+        echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th id="blank"></th><th>Actions</th></tr>');
     } else {
         echo ('<table id="vtodotable" class="table sortable" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Category</th><th>Actions</th></tr>');
     }
@@ -124,7 +127,9 @@ if (isset($_SESSION['username'])) {
                 $echo=true;
                 }
             $field3=$category;
-            if (isset($categoryname)) $field3=$starttime;
+            //04-APR-2026
+            //if (isset($categoryname)) $field3=$starttime;
+            if (isset($categoryname)) $field3='';
             if ($echo) echo ('<tr class="' . $status . ' listitem_tr '. $category .'"><td><a href="index.php?p=reminder&id='.$rrow['id'].'">' .$rrow['id']. '</a></td><td>'.$summary.'</td><td>'.$field3.' </td><td><form style="float:left" method="POST" action="index.php?p=lists'.$append .'" id="taskstatusform_'.$rrow['id'].'"><input type="hidden" name="type" value="VTODO"><input type="hidden" name="action" value="togglestatus"><input type="hidden" name="id" value="'.$rrow['id'].'"><input onChange="this.form.submit()" id="taskstatus_'.$rrow['id'].'" class="taskstatusbox" type="checkbox" ' .$checked .' /></form> <form method="POST" action="index.php?p=lists'.$append .'" onClick="this.submit()" class="itemdeleteform" id="deletetask_'.$rrow['id'].'"><input type="hidden" name="type" value="VTODO"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="'.$rrow['id'].'"><label >🗑️</label></form></td></tr>'); 
        
         } 
