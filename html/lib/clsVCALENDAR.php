@@ -76,15 +76,18 @@ class VCALENDAR extends DAVObject {
         $pdo=$GLOBALS['DB']->getPDO();
         $backend=new Sabre\CalDAV\Backend\PDO($pdo);
         if (isset($this->parenturi)) {
-            //The value passed to $calendarId is expected to be an array with a calendarId and an instanceId; don't they always match?
-            $sql0="SELECT id, calendarid FROM calendarinstances WHERE uri='" . $this->parenturi . "'";
-            $this->ds->setSQL($sql0);
-            if ($rrow=$this->ds->getNextRow()) {
-                list($this->parentID,$parentCal)=$rrow;
-                $calIDs=array($parentCal,$this->parentID);
+
+            //04-APR-2026 this SQL was not specific enough
+            //$sql0="SELECT id, calendarid FROM calendarinstances WHERE uri='" . $this->parenturi . "'";
+            //The value passed to $backend->deleteCalendarObject($calendarId) is expected to be an array with a calendarId and an instanceId; don't they always match?
+            if (isset($this->parentID)) {
+            //if ($rrow=$this->ds->getNextRow()) {
+                //list($this->parentID,$parentCal)=$rrow;
+                $calIDs=array($this->parentID,$this->parentID);
                 $backend->deleteCalendarObject($calIDs,$this->rowdata['uri']);
             } else {
-                debug ("VCALENDAR 'delete' method called without valid parent uri");
+                //debug ("VCALENDAR 'delete' method called without valid parent uri");
+                debug ("VCALENDAR 'delete' method called without valid parent ID");
             }
         }
     }
@@ -94,13 +97,19 @@ class VCALENDAR extends DAVObject {
         //public function updateCalendarObject($calendarId, $objectUri, $calendarData)
         //public function createCalendarObject($calendarId, $objectUri, $calendarData)
         debug ("VCALENDAR 'save' method called");
+
+/* 04-APR-2026 change all this
         if (isset($this->parenturi)) {
             $sql0="SELECT id, calendarid FROM calendarinstances WHERE uri='" . $this->parenturi . "'";
             $this->ds->setSQL($sql0);
             if ($rrow=$this->ds->getNextRow()) list($this->parentID,$parentCal)=$rrow;
         }
-        //The value passed to $calendarId is expected to be an array with a calendarId and an instanceId 
-        if (isset($this->parentID) && isset($parentCal)) $calIDs=array($parentCal,$this->parentID);
+*/
+
+
+        //The value passed to $backend->updateCalendarObject($calendarId) is expected to be an array with a calendarId and an instanceId 
+        //if (isset($this->parentID) && isset($parentCal)) $calIDs=array($parentCal,$this->parentID);
+        if (isset($this->parentID)) $calIDs=array($this->parentID,$this->parentID);
         if (!isset($GLOBALS['DB'])) require_once("server.php");
         $pdo=$GLOBALS['DB']->getPDO();
         $backend=new Sabre\CalDAV\Backend\PDO($pdo);
@@ -111,7 +120,7 @@ class VCALENDAR extends DAVObject {
                 $newdata= $this->vobject->serialize();
                 if (!isset($this->rowdata))  debug ("VCALENDAR 'save' method called without valid rowdata");
                 if (isset($calIDs)) $backend->updateCalendarObject($calIDs,$this->rowdata['uri'],$newdata);
-                else debug ("VCALENDAR 'save' method called without valid parent uri");
+                else debug ("VCALENDAR 'save' method called without valid parent ID");
             }
         } else {
             //create calendarobject
