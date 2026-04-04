@@ -9,14 +9,19 @@ class VCALENDAR extends DAVObject {
     protected function fetch($id,$parenturi='') {
         $owner='nobody';
         if (isset($_SESSION['username'])) $owner=$_SESSION['username']; elseif (isset($_SERVER['PHP_AUTH_USER'])) $owner=$_SERVER['PHP_AUTH_USER'];
-
-        //this function is called by child classes, which will have set $this->componenttype
-        $columns=" c.id, c.uri, c.calendardata, i.displayname as calendarname, i.uri as parenturi, i.id as calendarid ";
-        $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
-        //$where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $owner . "' and c.id=" . $id;
-        $where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $owner . "' ";
         //we're going to fudge so we can use all this code to determine the parent ID for a new item too
-        if ($id!=0) $where .=" and c.id=" . $id;
+        if ($id!=0) {
+            //this function is called by child classes, which will have set $this->componenttype
+            $columns=" c.id, c.uri, c.calendardata, i.displayname as calendarname, i.uri as parenturi, i.id as calendarid ";
+            $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
+            //$where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $owner . "' and c.id=" . $id;
+            $where=" WHERE c.componenttype='".$this->componenttype."' and i.principaluri='principals/" . $owner . "' and c.id=" . $id;
+        } else {        
+            $columns="i.displayname as calendarname, i.uri as parenturi, i.id as calendarid ";
+            $from=" FROM calendarinstances i ";
+            $where=" WHERE i.principaluri='principals/" . $owner . "' ";
+            $where .=" and c.id=" . $id;
+        }
         if (strlen($parenturi)>0) $where .= " AND i.uri='" . $parenturi . "'";
         $sql="SELECT " . $columns . $from . $where;
         $result=$this->ds->setSQL($sql);
