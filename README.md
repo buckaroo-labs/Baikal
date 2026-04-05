@@ -20,7 +20,7 @@ Significant changes in this fork include:
 - Add VJOURNAL support to default calendar for new user
 - Use salted hash for stored passwords (table and column names, auth backend are different)
 - Add Docker files
-- Add color picker input for editing calendar color
+- Add color picker input for editing calendar color; show colors on calendar list
 - Add UI for navigating Contact, Event, Task, Alarm and Journal data; allow user to convert VEVENT to VJOURNAL; allow user to mark VTODOs complete/incomplete
 - Add apps for list management, project time tracking
 - Optional server-side recurrence management to prevent various CalDAV clients from erasing each others' recurrence rules on VTODOs.
