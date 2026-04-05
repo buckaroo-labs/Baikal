@@ -50,7 +50,9 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
             $starttime='';
             $endtime='';
             $summary= (string)$vjournal->SUMMARY;
-            $dtstart = $vjournal->DTSTART->getDateTime();
+            //05-APR-2026: DTSTART is not required per RFC5545. DTSTAMP is.
+            if ($vjournal->DTSTART) $dtstart = $vjournal->DTSTART->getDateTime(); 
+            else $dtstart=$vjournal->DTSTAMP->getDateTime(); 
             //$starttime= $dtstart->format(\DateTime::W3C);
             $starttime=displayFormatDateTime($dtstart);
             if ( $vjournal->DTEND) {
