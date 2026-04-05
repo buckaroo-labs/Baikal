@@ -47,50 +47,56 @@ if (isset($_SESSION['username'])) {
     $subfolders=[]; //calendars or addressbooks
     while ($rrow=$dds->getNextRow('assoc')) {
         $owner=str_replace('principals/','',$rrow['owner']);
-        $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
-
-        if(isset($componenttype)) {
-            $temp=(string)$vobj->{$componenttype}->CATEGORIES;
-        } else $temp=(string)$vobj->CATEGORIES;
-
-        $temp2=str_replace(" ","",$temp);
-        $temp2=str_replace("&","-",$temp2);
-        if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
-        if (!array_key_exists($rrow['subfolder_name'],$subfolders)) $subfolders[$rrow['subfolder_name']]=$rrow['subfolder_id'];
-        $hidden="";
-        if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
-        echo ('<tr '. $hidden .'class="vobject '.str_replace(","," ",$temp2). '">'); 
-        
-        for ($i=0; $i<count($tdata); $i++) {
-            if(isset($vobj->{$rrow['componenttype']}->VALARM) ) {
-                echo '<td>';
-                    if($tdata[$i][0]=='Q') {
-                        $celldata=$rrow[$tdata[$i][1]];
-                    } elseif ($tdata[$i][0]=='V') {
-                        $celldata=$vobj->{$rrow['componenttype']}->{$tdata[$i][1]};
-                    } else {
-                        $celldata=$vobj->{$rrow['componenttype']}->VALARM->{$tdata[$i][1]};
-                    }
-                    
-                    if (count($tdata_xform) >$i) {
-                        if($tdata_xform[$i][0]=="link") {
-                            $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
-                        } elseif ($tdata_xform[$i][0]=="datetimeformat") {
-                            if(isset($celldata)) {
-                                //assuming that $celldata is a Sabre VObject property that supports this
-                                $celldata=$celldata->getDateTime();
-                                $celldata= displayFormatDateTime($celldata);
-                            }
-                        } 
-                    } 
-                //if(!isset($category) || $category==$temp) 
-                    echo $celldata;
-                echo '</td>';
-            }
+        try {
+            unset ($vobj);
+            $vobj = VObject\Reader::read($rrow['objdata'], VObject\Reader::OPTION_FORGIVING);
+        } catch (Exception $e) {
+            debug("(alarms.php) Vobject reader exception: " . $e->getMessage());
         }
+        if (isset($vobj)) {
+                
+            if(isset($componenttype)) {
+                $temp=(string)$vobj->{$componenttype}->CATEGORIES;
+            } else $temp=(string)$vobj->CATEGORIES;
 
-        echo ('</tr>' . "\n");
+            $temp2=str_replace(" ","",$temp);
+            $temp2=str_replace("&","-",$temp2);
+            if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
+            if (!array_key_exists($rrow['subfolder_name'],$subfolders)) $subfolders[$rrow['subfolder_name']]=$rrow['subfolder_id'];
+            $hidden="";
+            if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
+            echo ('<tr '. $hidden .'class="vobject '.str_replace(","," ",$temp2). '">'); 
+            
+            for ($i=0; $i<count($tdata); $i++) {
+                if(isset($vobj->{$rrow['componenttype']}->VALARM) ) {
+                    echo '<td>';
+                        if($tdata[$i][0]=='Q') {
+                            $celldata=$rrow[$tdata[$i][1]];
+                        } elseif ($tdata[$i][0]=='V') {
+                            $celldata=$vobj->{$rrow['componenttype']}->{$tdata[$i][1]};
+                        } else {
+                            $celldata=$vobj->{$rrow['componenttype']}->VALARM->{$tdata[$i][1]};
+                        }
+                        
+                        if (count($tdata_xform) >$i) {
+                            if($tdata_xform[$i][0]=="link") {
+                                $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
+                            } elseif ($tdata_xform[$i][0]=="datetimeformat") {
+                                if(isset($celldata)) {
+                                    //assuming that $celldata is a Sabre VObject property that supports this
+                                    $celldata=$celldata->getDateTime();
+                                    $celldata= displayFormatDateTime($celldata);
+                                }
+                            } 
+                        } 
+                    //if(!isset($category) || $category==$temp) 
+                        echo $celldata;
+                    echo '</td>';
+                }
+            }
 
+            echo ('</tr>' . "\n");
+        }
     }
 echo ("</table>\n</div>");
 }
