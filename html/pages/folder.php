@@ -150,8 +150,8 @@ if (isset($_SESSION['username'])) {
                     if($tdata_xform[$i][0]=="link") {
                         $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
                     } elseif ($tdata_xform[$i][0]=="datetimeformat") {
-                        if(isset($celldata)) {
-                            //Hoping that $celldata is a Sabre VObject property that supports this
+                        if(isset($celldata) && is_object($celldata)) {
+                            //If $celldata is a Sabre VObject property that supports this
                             try {
                                 $celldata=$celldata->getDateTime();
                                 $celldata= displayFormatDateTime($celldata);
