@@ -152,8 +152,13 @@ if (isset($_SESSION['username'])) {
                     } elseif ($tdata_xform[$i][0]=="datetimeformat") {
                         if(isset($celldata)) {
                             //Hoping that $celldata is a Sabre VObject property that supports this
-                            $celldata=$celldata->getDateTime();
-                            $celldata= displayFormatDateTime($celldata);
+                            try {
+                                $celldata=$celldata->getDateTime();
+                                $celldata= displayFormatDateTime($celldata);
+                            } catch (Exception $e) {
+                                debug("(folder.php) unable to parse cell data for '" .  $tdata_xform[$i][1] . "': " . $e->getMessage());
+                                $celldata="#ERROR";
+                            }
                         }
                     } 
                     } 
