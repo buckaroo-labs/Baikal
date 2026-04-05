@@ -211,7 +211,7 @@ foreach($categories as $key=>$value) {
 echo '</table>';
 }
 
-if (count($todostatuses)>1) {
+if (count($todostatuses)>0) {
 echo '<h4 class="datagrouplist">Statuses</h4><table id="vobjstatuses">
 <tr><th style="padding-right:20px;">Link</th><th>Toggle</th></tr>';
 ksort($todostatuses);
