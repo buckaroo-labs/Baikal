@@ -161,8 +161,13 @@ if (isset($_SESSION['username'])) {
                             }
                         } elseif (isset($celldata)) {
                             //reformat it
-                            $celldata=  DateTimeExt::DateTimeFromCalDAVZFormat($celldata);
-                            $celldata= displayFormatDateTime($celldata);
+                            if (strpos($celldata,'Z')) {
+                                $celldata=  DateTimeExt::DateTimeFromCalDAVZFormat($celldata);
+                                $celldata= displayFormatDateTime($celldata);
+                            } elseif (strlen($celldata)==4) {
+                                $celldata=substr($celldata,0,4) . '-' . substr($celldata,4,2)  . substr($celldata,6,2);
+
+                            }
                         }
                     } 
                     } 
