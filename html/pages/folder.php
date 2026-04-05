@@ -164,7 +164,7 @@ if (isset($_SESSION['username'])) {
                             if (strpos($celldata,'Z')) {
                                 $celldata=  DateTimeExt::DateTimeFromCalDAVZFormat($celldata);
                                 $celldata= displayFormatDateTime($celldata);
-                            } elseif (strlen($celldata)==4) {
+                            } elseif (strlen($celldata)==8) {
                                 $celldata=substr($celldata,0,4) . '-' . substr($celldata,4,2)  . substr($celldata,6,2);
 
                             }
