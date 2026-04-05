@@ -161,7 +161,7 @@ if (isset($_SESSION['username'])) {
                             }
                         } elseif (isset($celldata)) {
                             //reformat it
-                            $celldata= displayFormatDateTime($celldata);
+                            $celldata=  DateTimeExt::DateTimeFromCalDAVZFormat($celldata);
                         }
                     } 
                     } 
