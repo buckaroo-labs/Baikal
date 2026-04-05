@@ -238,7 +238,7 @@ if (!isset($folderid) && $pagevar!="time" && count($subfolders)>0) {
 echo '<div id="vsubfolders"><h4 class="datagrouplist">Subfolders</h4><ul>';
 ksort($subfolders);
 foreach($subfolders as $key=>$value) {
-    $keyid=str_replace(" ","-",$key);
+    $keyid=str_replace(" ","",$key);
     $keyid=str_replace("&","-",$keyid);
     $liClassAndID=' class="subfoldername"';
     if(isset($folderid) && $folderid==$rrow['id'])  {
@@ -252,7 +252,7 @@ if (count($orgs)>1) {
 echo '<div id="vobjorgs"><h4 class="datagrouplist">Organizations</h4><ul>';
 ksort($orgs);
 foreach($orgs as $key=>$value) {
-    $keyid=str_replace(" ","",$key);
+    $keyid=str_replace(" ","-",$key);
     $keyid=str_replace("'","",$keyid);
     $keyid=str_replace("&","-",$keyid);
     if (strlen($key)>0 && !strpos($key,",")) echo '<li id="org_' . $keyid . '" class="vobjorg">' . $key . '</li>';
