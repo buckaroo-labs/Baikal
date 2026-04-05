@@ -84,7 +84,7 @@ if (isset($_SESSION['username'])) {
             }
             $addresses .= ": " . str_replace(";","|",$adr) . "<BR>\n";
         }
-        echo ('<tr><td>'.$rrow['id'].'</td><td>'.rtrim($vcard->CATEGORIES,";").'</td><td class="bold">'.rtrim((string) $vcard->ORG,",").'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
+        echo ('<tr><td>'.$rrow['id'].'</td><td>'.rtrim($vcard->CATEGORIES,";").'</td><td class="bold">'.rtrim((string) $vcard->ORG,";").'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
 
         echo "</table>\n";
         $data=$vcardsm->serialize();
