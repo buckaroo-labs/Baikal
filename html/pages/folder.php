@@ -144,7 +144,7 @@ if (isset($_SESSION['username'])) {
                     } else {
                         $celldata='';
                     }
-                        
+                    $celldata=rtrim($celldata,";");
                     if (count($tdata_xform) >$i) {
                     if($tdata_xform[$i][0]=="link") {
                         $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
