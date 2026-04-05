@@ -161,11 +161,11 @@ if (isset($_SESSION['username'])) {
                             }
                         } elseif (isset($celldata)) {
                             //reformat it
-                            if (strpos($celldata,'Z')) {
+                            if (strpos($celldata,'T')) {
                                 $celldata=  DateTimeExt::DateTimeFromCalDAVZFormat($celldata);
                                 $celldata= displayFormatDateTime($celldata);
                             } elseif (strlen($celldata)==8) {
-                                $celldata=substr($celldata,0,4) . '-' . substr($celldata,4,2)  . substr($celldata,6,2);
+                                $celldata=substr($celldata,0,4) . '-' . substr($celldata,4,2)  . '-' . substr($celldata,6,2);
 
                             }
                         }
