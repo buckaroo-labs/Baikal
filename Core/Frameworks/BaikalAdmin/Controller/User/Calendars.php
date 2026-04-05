@@ -59,6 +59,13 @@ class Calendars extends \Flake\Core\Controller {
         $oCalendars = $this->oUser->getCalendarsBaseRequester()->execute();
         $aCalendars = [];
 
+        /*2026-APR-04 buckaroo-labs
+        to add the calendar color to the summary page, edit this template:
+           Baikal\Core\Frameworks\BaikalAdmin\Resources\Templates\User\Calendars.html
+        and add a calendarcolor element below to the aCalendars array items for the template to 
+        pull from.  
+        */
+
         foreach ($oCalendars as $calendar) {
             $aCalendars[] = [
                 "linkedit"    => $this->linkEdit($calendar),
@@ -69,6 +76,8 @@ class Calendars extends \Flake\Core\Controller {
                 "instanced"   => $calendar->hasInstances(),
                 "events"      => $calendar->getEventsBaseRequester()->count(),
                 "description" => $calendar->get("description"),
+                //2026-APR-04
+                "calendarcolor" => $calendar->get("calendarcolor"),
             ];
         }
 

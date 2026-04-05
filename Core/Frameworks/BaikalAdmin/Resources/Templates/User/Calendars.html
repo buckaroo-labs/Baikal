@@ -10,6 +10,7 @@
 	<thead>
 		<tr>
 			<th>Display name</th>
+			<th>Color</th>
 			<th>Events</th>
 			<th>Description</th>
 			<th class="no-border-left"></th>
@@ -19,6 +20,7 @@
 		{% for calendar in calendars %}
 		<tr>
 			<td class="col-displayname"><i class="{{ calendar.icon }}"></i> {{ calendar.label|escape }}{%if calendar.instanced%} <span class="label label-info label-intext">Has instances</span>{% endif %}</td>
+			<td class="col-color" style="background-color:{{calendar.calendarcolor|escape }};">{{ calendar.calendarcolor|escape }}</td>
 			<td class="col-events">{{ calendar.events|escape }}</td>
 			<td class="col-description">{{ calendar.description|escape }}</td>
 			<td class="col-actions no-border-left">
