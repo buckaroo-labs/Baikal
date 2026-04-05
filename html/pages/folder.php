@@ -159,6 +159,9 @@ if (isset($_SESSION['username'])) {
                                 debug("(folder.php) unable to parse cell data for '" .  $tdata_xform[$i][1] . "': " . $e->getMessage());
                                 $celldata="#ERROR";
                             }
+                        } elseif (isset($celldata)) {
+                            //reformat it
+                            $celldata= displayFormatDateTime($celldata);
                         }
                     } 
                     } 
