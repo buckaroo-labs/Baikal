@@ -162,8 +162,9 @@ if (isset($_SESSION['username'])) {
                         } elseif (isset($celldata)) {
                             //reformat it
                             if (strpos($celldata,'T')) {
-                                $celldata=  DateTimeExt::DateTimeFromCalDAVZFormat($celldata);
-                                $celldata= displayFormatDateTime($celldata);
+                                //$celldata=  DateTimeExt::DateTimeFromCalDAVZFormat($celldata);
+                                //$celldata= displayFormatDateTime($celldata);
+                                 $celldata=substr($celldata,0,4) . '-' . substr($celldata,4,2)  . '-' . substr($celldata,6,2) . " " .  substr($celldata,9,2) . ":" .  substr($celldata,11,2);
                             } elseif (strlen($celldata)==8) {
                                 $celldata=substr($celldata,0,4) . '-' . substr($celldata,4,2)  . '-' . substr($celldata,6,2);
 
