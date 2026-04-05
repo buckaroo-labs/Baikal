@@ -107,8 +107,8 @@ if (isset($_SESSION['username'])) {
             $temp3=(string)$vobj->ORG;
             $temp3=rtrim($temp3,";");
             $temp3=rtrim($temp3," ");
-            $temp4=str_replace(" ","",$temp3);
-            $temp4=str_replace("'","",$temp4);
+            $temp4=str_replace(" ","-",$temp3);
+            $temp4=str_replace("'","-",$temp4);
             $temp4="org_" . str_replace("&","-",$temp4);
             if (!array_key_exists($temp,$categories)) $categories[$temp]=0;
             if (!array_key_exists($rrow['subfolder_name'],$subfolders)) $subfolders[$rrow['subfolder_name']]=$rrow['subfolder_id'];
