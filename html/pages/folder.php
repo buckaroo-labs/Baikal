@@ -225,7 +225,7 @@ foreach($todostatuses as $key=>$value) {
 echo '</table><br>';
 }
 
-if (!isset($folderid) && $pagevar!="time") {
+if (!isset($folderid) && $pagevar!="time" && count($subfolders)>0) {
 echo '<div id="vsubfolders"><h4 class="datagrouplist">Subfolders</h4><ul>';
 ksort($subfolders);
 foreach($subfolders as $key=>$value) {
