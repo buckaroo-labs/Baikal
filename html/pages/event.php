@@ -39,7 +39,7 @@ if (isset($_SESSION['username'])) {
                 //$endtime= $dtend->format(\DateTime::W3C);
                 $endtime=displayFormatDateTime($dtend);
             }
-            $url='cal.php/calendars/' . $SESSION['username']  .'/' . $rrow['caluri']. '/' $rrow['uri'];
+            $url='cal.php/calendars/' . $SESSION['username']  .'/' . $rrow['caluri']. '/' . $rrow['uri'];
             echo ('<tr><td><a href="' .$url .'">&darr;</a> <a href="' .$url .'?sabreAction=info">&#128712;</a> '.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
 
             $tempobj=VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
