@@ -101,10 +101,11 @@ if (isset($_SESSION['username'])) {
                     if (!array_key_exists($k,$todostatuses)) $todostatuses[$k]=0; 
                 }
             } else $temp=(string)$vobj->CATEGORIES;
-
+            $temp=rtrim($temp,";");
             $temp2=str_replace(" ","",$temp);
             $temp2=str_replace("&","-",$temp2);
             $temp3=(string)$vobj->ORG;
+            $temp3=rtrim($temp3,";");
             $temp4=str_replace(" ","",$temp3);
             $temp4=str_replace("'","",$temp4);
             $temp4="org_" . str_replace("&","-",$temp4);
