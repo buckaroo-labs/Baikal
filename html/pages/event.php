@@ -42,9 +42,15 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
 
             echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
 
+            $tempobj=VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
+            unset($tempobj->VTIMEZONE);
+            $tempdata=$tempobj->serialize();
+            $tempdata=str_replace("\n","<br>\n",$tempdata);
+
+
             echo "</table>\n";
-            $data=str_replace("\n","<br>\n",$rrow['calendardata']);
-            echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
+            //$data=str_replace("\n","<br>\n",$rrow['calendardata']);
+            echo '<p><span class="vcarddata">'.$tempdata.'</span></p></div>';
 
             echo '<form method="get" action="index.php" id="conversionform">
             <input type="hidden" name="convert" value="1">
