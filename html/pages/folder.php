@@ -132,10 +132,16 @@ if (isset($_SESSION['username'])) {
                         $celldata=$rrow[$tdata[$i][1]];
                     } elseif ($tdata[$i][0]=='V') {
                         if(isset($componenttype)) {
-                            $celldata=$vobj->{$componenttype}->{$tdata[$i][1]};
+
+                            //05-APR-2026: DTSTART is not required per RFC5545. DTSTAMP is.
+                            //We will compensate here for VJOURNAL items having no DTSTART
+                            if($componenttype=='VJOURNAL' && $tdata[$i][1]=='DTSTART'  && !($vobj->VJOURNAL->DTSTART)) {
+                                $celldata=$vobj->VJOURNAL->DTSTAMP;
+                            } else $celldata=$vobj->{$componenttype}->{$tdata[$i][1]};
+
                         } else $celldata=$vobj->{$tdata[$i][1]};
                     } else {
-                    $celldata='';
+                        $celldata='';
                     }
                         
                     if (count($tdata_xform) >$i) {
@@ -143,7 +149,7 @@ if (isset($_SESSION['username'])) {
                         $celldata= '<a href="'. $tdata_xform[$i][1] . '&id=' . $rrow['id'] . '">' . $celldata . '</a>'; 
                     } elseif ($tdata_xform[$i][0]=="datetimeformat") {
                         if(isset($celldata)) {
-                            //assuming that $celldata is a Sabre VObject property that supports this
+                            //Hoping that $celldata is a Sabre VObject property that supports this
                             $celldata=$celldata->getDateTime();
                             $celldata= displayFormatDateTime($celldata);
                         }
