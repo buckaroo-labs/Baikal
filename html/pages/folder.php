@@ -238,7 +238,7 @@ if (!isset($folderid) && $pagevar!="time" && count($subfolders)>0) {
 echo '<div id="vsubfolders"><h4 class="datagrouplist">Subfolders</h4><ul>';
 ksort($subfolders);
 foreach($subfolders as $key=>$value) {
-    $keyid=str_replace(" ","",$key);
+    $keyid=str_replace(" ","-",$key);
     $keyid=str_replace("&","-",$keyid);
     $liClassAndID=' class="subfoldername"';
     if(isset($folderid) && $folderid==$rrow['id'])  {
