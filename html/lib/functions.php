@@ -78,6 +78,8 @@ function decode_scale_and_units ($scale_code, $units, $include_1=false) {
 $array_key_for_multisort="id";
 function keysort($array1,$array2) {
 	global $array_key_for_multisort;
+	global $sortorder;
 	$key=$array_key_for_multisort;
-	return strcmp($array1[$key],$array2[$key]);
+	if isset($sortorder && $sortorder==SORT_DESC) return  strcmp($array2[$key],$array1[$key]);
+	else return strcmp($array1[$key],$array2[$key]);
 }
