@@ -74,6 +74,12 @@ if (isset($_SESSION['username'])) {
         $url='cal.php/calendars/' . $_SESSION['username']  .'/' . $rrow['calendaruri']. '/' . $rrow['uri'];
         echo ('<tr><td><a target="_blank" href="' .$url .'">&darr;</a> <a target="_blank" href="' .$url .'?sabreAction=info">&#128712;</a>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
         echo "</table>\n";
+
+        $tempobj=VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
+        unset($tempobj->VTIMEZONE);
+        $tempdata=$tempobj->serialize();
+        $data=str_replace("\n","<br>\n",$tempdata);
+
         echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
 
         echo '<div id="rhs" style="max-width:95%"><form method="POST" action="index.php?p=reminder&id=' . $reminderid . '" id="conversionform">
