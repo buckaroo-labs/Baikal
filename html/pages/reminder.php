@@ -71,7 +71,8 @@ if (isset($_SESSION['username'])) {
         } 
         //28-MAR-2026: only show one VTODO from each file
         echo ('<table id="veventtable" class="table" style="clear:both"><tr><th>ID</th><th>Summary</th><th>Start</th><th>End</th></tr>');
-        echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
+        $url='cal.php/calendars/' . $_SESSION['username']  .'/' . $rrow['caluri']. '/' . $rrow['uri'];
+        echo ('<tr><td><a target="_blank" href="' .$url .'">&darr;</a> <a target="_blank" href="' .$url .'?sabreAction=info">&#128712;</a>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
         echo "</table>\n";
         echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
 
