@@ -45,7 +45,7 @@ if (isset($_SESSION['username'])) {
     } else {
         $contactid=0;
     }
-    $columns=" c.id, c.uri, c.carddata, a.principaluri as owner, a.displayname as book_name ";
+    $columns=" c.id, c.uri, c.carddata, a.principaluri as owner, a.displayname as book_name, a.uri as bookuri ";
     $from=" FROM cards c INNER JOIN addressbooks a on c.addressbookid=a.id ";
     $where=" WHERE a.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $contactid;
     $sql="SELECT " . $columns . $from . $where;
@@ -84,7 +84,8 @@ if (isset($_SESSION['username'])) {
             }
             $addresses .= ": " . str_replace(";","|",$adr) . "<BR>\n";
         }
-        echo ('<tr><td>'.$rrow['id'].'</td><td>'.rtrim($vcard->CATEGORIES,";").'</td><td class="bold">'.rtrim((string) $vcard->ORG,";").'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
+        $url='card.php/addressbooks/' . $_SESSION['username']  .'/' . $rrow['bookuri']. '/' . $rrow['uri'];
+        echo ('<tr><td><a target="_blank" href="' .$url .'">&darr;</a> <a target="_blank" href="' .$url .'?sabreAction=info">&#128712;</a> '.$rrow['id'].'</td><td>'.rtrim($vcard->CATEGORIES,";").'</td><td class="bold">'.rtrim((string) $vcard->ORG,";").'</td><td>'.$rrow['book_name'].'</td></tr>' . "\n");
 
         echo "</table>\n";
         $data=$vcardsm->serialize();
