@@ -9,7 +9,7 @@ if (isset($_SESSION['username'])) {
         $journalid=0;
     }
 
-$columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname ";
+    $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname as calendarname, i.uri as caluri ";
     $from=" FROM calendarobjects c INNER JOIN calendarinstances i on c.calendarid=i.id ";
     $where=" WHERE i.principaluri='principals/" . $_SESSION['username'] . "' and c.id=" . $journalid;
     $sql="SELECT count(*) " . $from . $where;
@@ -60,8 +60,8 @@ $columns=" c.id, c.uri, c.calendardata, i.principaluri as owner, i.displayname a
                 //$endtime= $dtend->format(\DateTime::W3C);
                 $endtime=displayFormatDateTime($dtend);
             }
-
-            echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
+            $url='cal.php/calendars/' . $_SESSION['username']  .'/' . $rrow['caluri']. '/' . $rrow['uri'];
+            echo ('<tr><td><a target="_blank" href="' .$url .'">&darr;</a> <a target="_blank" href="' .$url .'?sabreAction=info">&#128712;</a>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
 
             echo "</table>\n";
             $data=str_replace("\n","<br>\n",$rrow['calendardata']);
