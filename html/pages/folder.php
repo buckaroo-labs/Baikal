@@ -198,7 +198,7 @@ if (!$resort) {
         $array_key_for_multisort="FN";
     } elseif (isset($sortme[0]) && array_key_exists('DTSTART',$sortme[0])) {
         $array_key_for_multisort="DTSTART";
-        $sortorder = SORT_DESC;
+        if ($pagevar!="reminders") $sortorder = SORT_DESC;
     } else {
         $array_key_for_multisort="id";
     }
