@@ -183,7 +183,7 @@ class RecurrencePlugin extends ServerPlugin {
                 }
                 //Now handle cases when the VTODO status is changed to COMPLETE or CANCELLED
                 if ($this->vobject->VTODO->STATUS=="COMPLETED") {
-                    if ($oldobject->VTODO->STATUS!="COMPLETED") {
+                    if (!$oldobject->VTODO->STATUS || $oldobject->VTODO->STATUS!="COMPLETED") {
                         //...un-complete the item and calculate new start/due dates
                         //set status to OPEN
                         $this->vobject->VTODO->STATUS="OPEN";
