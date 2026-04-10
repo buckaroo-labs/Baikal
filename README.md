@@ -21,9 +21,10 @@ Significant changes in this fork include:
 - Use salted hash for stored passwords (table and column names, auth backend are different)
 - Add Docker files
 - Add color picker input for editing calendar color; show colors on calendar list
-- Add UI for navigating Contact, Event, Task, Alarm and Journal data; allow user to convert VEVENT to VJOURNAL; allow user to mark VTODOs complete/incomplete
-- Add apps for list management, project time tracking
-- Optional server-side recurrence management to prevent various CalDAV clients from erasing each others' recurrence rules on VTODOs.
+- Add UI for navigating Contact, Event, Task, Alarm and Journal data; 
+- Limited editing/client functionality: allow user to convert VEVENT to VJOURNAL; allow user to mark VTODOs complete/incomplete
+- Add fully functional apps for list management, project time tracking
+- Optional server-side recurrence management to prevent various CalDAV clients from erasing each other's recurrence rules on VTODOs.
 
 ### DEPENDENCIES
 - Dependence on [Hydrogen](https://github.com/buckaroo-labs/Hydrogen) library v2 or higher. If you install via Docker, this is managed for you.

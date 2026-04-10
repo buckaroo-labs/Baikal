@@ -28,10 +28,14 @@
 namespace Baikal\Core;
 
 use RecurrencePlugin;
+use CompliancePlugin;
 use Symfony\Component\Yaml\Yaml;
 
 # 2026-03-04 buckaroo-labs add RecurrencePlugin
 require_once("../RecurrencePlugin.php");
+
+# 2026-04-09 buckaroo-labs add CompliancePlugin
+require_once("../CompliancePlugin.php");
 
 /**
  * The Baikal Server.
