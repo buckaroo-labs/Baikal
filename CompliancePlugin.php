@@ -36,7 +36,7 @@ class CompliancePlugin extends ServerPlugin {
     function CreateHandler($path, &$data, \Sabre\DAV\ICollection $parent, &$modified) {
         $mod=false;
 
-        if (strpos($path,"/calendars/")!=='false' && 
+        if (strpos($path,"calendars/")!=='false' && 
             strpos($data,"BEGIN:VEVENT")!=='false' &&
             strpos($data,"X-BUSYMAC-EVENT-TYPE:JOURNAL")!=='false'
             ) {
