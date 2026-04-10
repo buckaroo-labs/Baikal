@@ -35,7 +35,10 @@ class CompliancePlugin extends ServerPlugin {
     //This function handles new files.  
     function CreateHandler($path, &$data, \Sabre\DAV\ICollection $parent, &$modified) {
         $mod=false;
-
+        $mod=false;
+        if (is_resource($data)) {
+            $data = stream_get_contents($data);
+        }
         if (strpos($path,"calendars/")!=='false' && 
             strpos($data,"BEGIN:VEVENT")!=='false' &&
             strpos($data,"X-BUSYMAC-EVENT-TYPE:JOURNAL")!=='false'
