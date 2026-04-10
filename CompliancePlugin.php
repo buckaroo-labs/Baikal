@@ -43,6 +43,7 @@ class CompliancePlugin extends ServerPlugin {
             strpos($data,"BEGIN:VEVENT")!=='false' &&
             strpos($data,"X-BUSYMAC-EVENT-TYPE:JOURNAL")!=='false'
             ) {
+                debug ("Compliance plugin detects non-compliant BusyCal entry");
                 $data=str_replace("BEGIN:VEVENT","BEGIN:VJOURNAL",$data);
                 $data=str_replace("END:VEVENT","END:VJOURNAL",$data);
                 $mod=true;
@@ -61,11 +62,13 @@ class CompliancePlugin extends ServerPlugin {
         if (is_resource($data)) {
             $data = stream_get_contents($data);
         }
+        debug("Compliance plugin updated file path: " . $path);
         //this should not be necessary, but maybe BusyCal is creating an incomplete file and then updating it witht the EVENT-TYPE:JOURNAL attribute
-        if (strpos($path,"calendars/")!=='false' && 
+        if (strpos($path,"calendars/")===0 && 
             strpos($data,"BEGIN:VEVENT")!=='false' &&
             strpos($data,"X-BUSYMAC-EVENT-TYPE:JOURNAL")!=='false'
             ) {
+                debug ("Compliance plugin detects non-compliant BusyCal update");
                 $data=str_replace("BEGIN:VEVENT","BEGIN:VJOURNAL",$data);
                 $data=str_replace("END:VEVENT","END:VJOURNAL",$data);
                 $mod=true;
