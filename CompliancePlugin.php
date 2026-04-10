@@ -35,7 +35,7 @@ class CompliancePlugin extends ServerPlugin {
     //This function handles new files.  
     function CreateHandler($path, &$data, \Sabre\DAV\ICollection $parent, &$modified) {
         $mod=false;
-        $mod=false;
+        debug("Compliance plugin incoming file path: " . $path);
         if (is_resource($data)) {
             $data = stream_get_contents($data);
         }
