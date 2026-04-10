@@ -200,6 +200,10 @@ class Server {
             # 2026-03-04 buckaroo-labs add RecurrencePlugin
             $recurrencePlugin = new \RecurrencePlugin();
             $this->server->addPlugin($recurrencePlugin);
+
+            # 2026-04-09 buckaroo-labs add CompliancePlugin
+            $compliancePlugin = new \CompliancePlugin();
+            $this->server->addPlugin($compliancePlugin);
         }
         if ($this->enableCardDAV) {
             $this->server->addPlugin(new \Sabre\CardDAV\Plugin());
