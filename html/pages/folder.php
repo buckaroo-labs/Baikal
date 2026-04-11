@@ -116,6 +116,7 @@ if (isset($_SESSION['username'])) {
             $hidden="";
             if(isset($category) && $category!=$temp) $hidden=' style="display:none" ';
             if(isset($todostatus) && $vobj->{$componenttype}->STATUS && $todostatus!=$vobj->{$componenttype}->STATUS) $hidden=' style="display:none" ';
+            if(isset($todostatus) && !isset($vobj->{$componenttype}->STATUS) ) $hidden=' style="display:none" ';
             //filter out completed/cancelled items by default
             if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="COMPLETED") $hidden=' style="display:none" ';
             if(!isset($todostatus) && $vobj->{$componenttype}->STATUS && $vobj->{$componenttype}->STATUS=="CANCELLED") $hidden=' style="display:none" ';
