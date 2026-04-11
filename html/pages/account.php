@@ -4,10 +4,11 @@ if (isset($_SESSION['username'])) {
 
 
     $columns=" c.id, c.components, i.displayname as calendarname, i.uri as calendaruri, i.calendarcolor ";
+    $group='c.id, c.components, i.displayname , i.uri , i.calendarcolor ';
     $from=" FROM calendars c INNER JOIN calendarinstances i on c.id=i.calendarid ";
     $from .= " LEFT JOIN calendarobjects o on i.id=o.calendarid ";
     $where=" WHERE i.principaluri='principals/" . $_SESSION['username'] . "'";
-    $sql="SELECT count(*) as itemcount," . $columns . $from . $where . " GROUP BY " . $columns;
+    $sql="SELECT count(*) as itemcount," . $columns . $from . $where . " GROUP BY " . $group;
     $result=$dds->setSQL($sql);
 
     echo '<h3>Calendars</h3>' . '
