@@ -17,6 +17,7 @@ $(document).ready(function(){
     if ($(this).hasClass("activeorg")) $("#folderitems tbody tr").filter(function() {
       $(this).toggle($(this).hasClass(category));
     });
+    window.scrollTo(0,0);
     
   });
 
