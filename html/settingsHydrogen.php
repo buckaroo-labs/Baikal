@@ -1,4 +1,8 @@
 <?php
+
+//No admin functions in this application rely on this framework.
+$user_is_admin=false;
+
 //make sure that these settings are available to functions inside (for example) plugin code that sources this file from inside a function 
 global $settings;
 global $dds;
