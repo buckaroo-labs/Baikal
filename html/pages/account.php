@@ -11,7 +11,7 @@ if (isset($_SESSION['username'])) {
     $result=$dds->setSQL($sql);
 
     echo '<div id="Calendars"><h3>Calendars</h3>' . '
-    <table>
+    <table class="table sortable">
     <tr><th>URI</th><th>Display name</th><th>Types</th><th>Item Count</th></tr>
     ';
 
