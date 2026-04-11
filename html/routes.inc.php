@@ -18,7 +18,7 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$pagetitle="Register";
 	$headline = '<h1>Register</h1>' ;
 } elseif (isset($_GET['p']) && strcmp($_GET['p'],'Account')==0) {
-	$include= "Hydrogen/pages/account.php";  
+	$include= "pages/account.php";  
 	$pagetitle="Account";
 	$headline = '<h1>Account</h1>' ;
 	$login_required=true;
