@@ -39,9 +39,9 @@ class CompliancePlugin extends ServerPlugin {
         if (is_resource($data)) {
             $data = stream_get_contents($data);
         }
-        if (strpos($path,"calendars/")!=='false' && 
-            strpos($data,"BEGIN:VEVENT")!=='false' &&
-            strpos($data,"X-BUSYMAC-EVENT-TYPE:JOURNAL")!=='false'
+        if (strpos($path,"calendars/")!==false && 
+            strpos($data,"BEGIN:VEVENT")!==false &&
+            strpos($data,"X-BUSYMAC-EVENT-TYPE:JOURNAL")!==false
             ) {
                 debug ("Compliance plugin detects non-compliant BusyCal entry");
                 $data=str_replace("BEGIN:VEVENT","BEGIN:VJOURNAL",$data);
