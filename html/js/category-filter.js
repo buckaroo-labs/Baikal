@@ -14,7 +14,7 @@ $(document).ready(function(){
     var category=$(this).attr("id");
     //category = category.replace(/ /g, '');
     //category = category.replace(/&/g, '-');
-    if ($(this).hasClass("activeorg")) $("#folderitems tr").filter(function() {
+    if ($(this).hasClass("activeorg")) $("#folderitems tbody tr").filter(function() {
       $(this).toggle($(this).hasClass(category));
     });
     

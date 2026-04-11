@@ -61,6 +61,11 @@ li.active {
     background-color: rgb(99, 6, 6);  
         border-radius: 5px;
 }
+li.activeorg {
+     color: white;
+    background-color: rgb(9, 99, 6);  
+        border-radius: 5px;
+}
 td.active {
      color: white;
     background-color: rgb(99, 6, 6);  
