@@ -138,7 +138,7 @@ class Reminder extends VTODO {
                 unset ($this->vobject->VTODO->COMPLETED);
             } else {
                 $this->vobject->VTODO->STATUS="COMPLETED";
-                //$this->vobject->VTODO->COMPLETED=$this->vobject->VTODO->DTEND;
+                $this->vobject->VTODO->COMPLETED=(string) $this->vobject->VTODO->DTEND;
             }
 
             
