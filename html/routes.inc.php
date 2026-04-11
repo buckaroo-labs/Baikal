@@ -17,7 +17,12 @@ if (isset($_GET['p']) && strcmp($_GET['p'],'login')==0) {
 	$include= "Hydrogen/pages/Register.php";  
 	$pagetitle="Register";
 	$headline = '<h1>Register</h1>' ;
-} elseif (isset($_GET['p']) && strcmp($_GET['p'],'contacts')==0) {
+} elseif (isset($_GET['p']) && strcmp($_GET['p'],'Account')==0) {
+	$include= "Hydrogen/pages/account.php";  
+	$pagetitle="Account";
+	$headline = '<h1>Account</h1>' ;
+	$login_required=true;
+}elseif (isset($_GET['p']) && strcmp($_GET['p'],'contacts')==0) {
 	$include= "pages/contacts.php";  
 	$pagetitle="Contacts";
 	$headline = '<h1>🪪 Contacts</h1>' ;
