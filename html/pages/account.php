@@ -10,7 +10,7 @@ if (isset($_SESSION['username'])) {
     $sql="SELECT count(*) as itemcount," . $columns . $from . $where . " GROUP BY " . $columns;
     $result=$dds->setSQL($sql);
 
-    echo '<h3>Calendars</h3>' . '
+    echo '<div id="Calendars"><h3>Calendars</h3>' . '
     <table>
     <tr><th>URI</th><th>Display name</th><th>Types</th><th>Item Count</th></tr>
     ';
@@ -21,7 +21,7 @@ if (isset($_SESSION['username'])) {
         ';
 
     }
-    echo '</table>';
+    echo '</table></div>';
 
 } else {
     //must log in
