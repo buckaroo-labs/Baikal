@@ -28,7 +28,7 @@ class CompliancePlugin extends ServerPlugin {
 
     function initialize(Server $server){
         $this->server = $server;
-        //$server->on('beforeWriteContent',[$this,'UpdateHandler' ]);
+        $server->on('beforeWriteContent',[$this,'UpdateHandler' ]);
         $server->on('beforeCreateFile',[$this,'CreateHandler' ]);
     }
 
@@ -56,7 +56,7 @@ class CompliancePlugin extends ServerPlugin {
     }
 
 
-    //This function handles file updates. Not yet implemented 
+    //This function handles file updates.  
     function UpdateHandler($path, \Sabre\DAV\IFile $node, &$data, &$modified) {
         $mod=false;
         if (is_resource($data)) {
