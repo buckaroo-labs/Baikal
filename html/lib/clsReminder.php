@@ -93,6 +93,7 @@ class Reminder extends VTODO {
     public function markComplete() {
         global $dds;
         $this->modified=true;
+        unset ($this->vobject->VTODO->{'PERCENT-COMPLETE'});
         $sql =  "UPDATE recurrence SET complete_date='" . date("Y-m-d H:i:s") . "', ";
         $reminder=$this->reminder;
         //check for recurrence

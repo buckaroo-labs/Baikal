@@ -23,6 +23,7 @@ class VTODO extends VCALENDAR {
     public function markIncomplete() {
         if (isset($this->vobject->VTODO->COMPLETED)) {
             unset($this->vobject->VTODO->COMPLETED);
+            unset($this->vobject->VTODO->{'PERCENT-COMPLETE'});
             $this->vobject->VTODO->STATUS = 'OPEN';
             $this->modified=true;
         }
@@ -30,6 +31,7 @@ class VTODO extends VCALENDAR {
 
     public function markComplete() {
         if (!isset($this->vobject->VTODO->COMPLETED)) {
+            unset ($this->vobject->VTODO->{'PERCENT-COMPLETE'});
             $this->vobject->VTODO->COMPLETED = new \DateTime();
             $this->vobject->VTODO->STATUS = 'COMPLETED';
             $this->modified=true;
