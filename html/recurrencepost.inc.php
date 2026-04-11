@@ -186,8 +186,6 @@ function common_post_proc() {
 			$f_in='Y-m-d H:i';
 			$f_out='Ymd\THis\Z';
 			$nvp=array();
-			
-			if ($sd=\DateTime::createFromFormat($f_in, $startDateStr)) $nvp['DTSTART']=$sd->format($f_out); else debug("error saving start date: '" . $startDateStr ."'");
 
 			if (strlen($endDateStr) ==10 && strpos($endDateStr,':')===false) $endDateStr .= " 00:00";
 
@@ -195,7 +193,13 @@ function common_post_proc() {
 
 			// error saving end date: 2026-04-10
 
-			if (strlen($dueDateStr) > 4 && $dd=\DateTime::createFromFormat($f_in.":s",$dueDateStr)) $nvp['DUE']=$dd->format($f_out); else debug("error saving due date: " . $dueDateStr);
+			if ($sd=\DateTime::createFromFormat($f_in, $startDateStr)){
+				if (!isset($ed) || $ed>$sd) $nvp['DTSTART']=$sd->format($f_out);
+			}  else debug("error saving start date: '" . $startDateStr ."'");
+
+			if (strlen($dueDateStr) > 4 && $dd=\DateTime::createFromFormat($f_in.":s",$dueDateStr)) {
+				if (!isset($ed) || $ed>$dd) $nvp['DUE']=$dd->format($f_out);
+			} else debug("error saving due date: " . $dueDateStr);
 
 			if (strlen($rrule) > 1 ) $nvp['RRULE']=$rrule;
 
