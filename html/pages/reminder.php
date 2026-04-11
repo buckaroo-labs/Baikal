@@ -44,7 +44,7 @@ if (isset($_SESSION['username'])) {
             //echo ('<tr><td>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$startdatetime.'</td><td>'.$enddatetime.'</td></tr>'); 
 
             //echo "</table>\n";
-            $data=str_replace("\n","<br>\n",$rrow['calendardata']);
+
             //echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
 
             /*
@@ -78,6 +78,9 @@ if (isset($_SESSION['username'])) {
         $tempobj=VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
         unset($tempobj->VTIMEZONE);
         $tempdata=$tempobj->serialize();
+        
+        $tempdata=str_replace("\n ","",$tempdata);
+
         $data=str_replace("\n","<br>\n",$tempdata);
 
         echo '<p><span class="vcarddata">'.$data.'</span></p></div>';

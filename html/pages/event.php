@@ -45,6 +45,7 @@ if (isset($_SESSION['username'])) {
             $tempobj=VObject\Reader::read($rrow['calendardata'], VObject\Reader::OPTION_FORGIVING);
             unset($tempobj->VTIMEZONE);
             $tempdata=$tempobj->serialize();
+            $tempdata=str_replace("\n ","",$tempdata);
             $tempdata=str_replace("\n","<br>\n",$tempdata);
 
 

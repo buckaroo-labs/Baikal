@@ -64,7 +64,8 @@ if (isset($_SESSION['username'])) {
             echo ('<tr><td><a target="_blank" href="' .$url .'">&darr;</a> <a target="_blank" href="' .$url .'?sabreAction=info">&#128712;</a>'.$rrow['id'].'</td><td>'.$summary.'</td><td>'.$starttime.'</td><td>'.$endtime.'</td></tr>'); 
 
             echo "</table>\n";
-            $data=str_replace("\n","<br>\n",$rrow['calendardata']);
+            $data=str_replace("\n ","",$rrow['calendardata']);
+            $data=str_replace("\n","<br>\n",$data);
             echo '<p><span class="vcarddata">'.$data.'</span></p></div>';
         } 
 
