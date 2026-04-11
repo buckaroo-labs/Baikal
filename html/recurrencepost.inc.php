@@ -189,7 +189,11 @@ function common_post_proc() {
 			
 			if ($sd=\DateTime::createFromFormat($f_in, $startDateStr)) $nvp['DTSTART']=$sd->format($f_out); else debug("error saving start date: '" . $startDateStr ."'");
 
-			if (strlen($endDateStr) > 4 && $ed=\DateTime::createFromFormat($f_in,$endDateStr)) $nvp['DTEND']=$ed->format($f_out); else debug("error saving end date: " . $endDateStr);
+			if (strlen($endDateStr) ==10 && strpos($endDateStr,':')===false) $endDateStr .= " 00:00";
+
+			if (strlen($endDateStr) > 4 && $ed=\DateTime::createFromFormat($f_in,$endDateStr)) $nvp['DTEND']=$ed->format($f_out); elseif (strlen($endDateStr) > 4 ) debug("error saving end date: " . $endDateStr);
+
+			// error saving end date: 2026-04-10
 
 			if (strlen($dueDateStr) > 4 && $dd=\DateTime::createFromFormat($f_in.":s",$dueDateStr)) $nvp['DUE']=$dd->format($f_out); else debug("error saving due date: " . $dueDateStr);
 
