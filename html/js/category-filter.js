@@ -10,14 +10,17 @@ $(document).ready(function(){
   });
     $(".vobjorg").on("click", function() {
   
-    $(this).toggleClass("activeorg");
+    //$(this).toggleClass("activeorg");
     var category=$(this).attr("id");
     //category = category.replace(/ /g, '');
     //category = category.replace(/&/g, '-');
-    if ($(this).hasClass("activeorg")) $("#folderitems tbody tr").filter(function() {
+    //if ($(this).hasClass("activeorg")) 
+    $("#folderitems tbody tr").filter(function() {
       $(this).toggle($(this).hasClass(category));
     });
-    document.documentElement.scrollTop = 0; 
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    window.scrollTo(0, 0);
     
   });
 
