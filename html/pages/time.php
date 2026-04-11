@@ -107,7 +107,11 @@ if (isset($_SESSION['username'])) {
             $starttime='';
             $endtime='';
             $summary= (string)$vtodo->SUMMARY;
-            $dtstart = $vtodo->DTSTART->getDateTime();
+            if ($vtodo->DTSTART) {
+                $dtstart = $vtodo->DTSTART->getDateTime();
+            } else {
+                $dtstart = $vtodo->DTSTAMP->getDateTime();
+            }
             //$starttime= $dtstart->format(\DateTime::W3C);
             $starttime=displayFormatDateTime($dtstart);
             if ( $vtodo->DTEND) {
