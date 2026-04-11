@@ -136,6 +136,9 @@ class Reminder extends VTODO {
             if (!$alldone) {
                 $this->vobject->VTODO->STATUS="OPEN";
                 unset ($this->vobject->VTODO->COMPLETED);
+            } else {
+                $this->vobject->VTODO->STATUS="COMPLETED";
+                //$this->vobject->VTODO->COMPLETED=
             }
 
             
