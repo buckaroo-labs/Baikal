@@ -21,13 +21,13 @@ function calculate_weekdays() {
 function calculate_blackout_hours () {
 	global $sqlb;
 	if (isset($_POST['SilentHoursYN'])) {
-		if (isset(_POST['TimeOfDayStart'])) {  
+		if (isset($_POST['TimeOfDayStart'])) {  
 			$startTime=$_POST['TimeOfDayStart'];
 			$startTime=str_replace($startTime,":","");
 			$startTime=substr($startTime,1,4);
 			$sqlb->addColumn("day_start",$startTime);
 		}
-		if (isset(_POST['TimeOfDayEnd'])) {  
+		if (isset($_POST['TimeOfDayEnd'])) {  
 			$endTime=$_POST['TimeOfDayEnd'];
 			$endTime=str_replace($endTime,":","");
 			$endTime=substr($endTime,1,4);
@@ -41,11 +41,11 @@ function calculate_seasonality() {
 	global $sqlb;
 	//UI year starts at day 1; DB year starts at day zero
 	if (isset($_POST['SilentDaysYN'])) {
-		if (isset(_POST['season_start'])) {  
+		if (isset($_POST['season_start'])) {  
 			$startday= (int) $_POST['season_start'] -1;
 			$sqlb->addColumn("day_start",$startday);
 		}
-		if (isset(_POST['season_end'])) {  
+		if (isset($_POST['season_end'])) {  
 			$endday= (int) $_POST['season_end'] -1;
 			$sqlb->addColumn("day_end",$endday);
 		}

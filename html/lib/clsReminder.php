@@ -93,6 +93,7 @@ class Reminder extends VTODO {
     public function markComplete() {
         global $dds;
         $this->modified=true;
+        $alldone=false;
         unset ($this->vobject->VTODO->{'PERCENT-COMPLETE'});
         $sql =  "UPDATE recurrence SET complete_date='" . date("Y-m-d H:i:s") . "', ";
         $reminder=$this->reminder;
@@ -116,9 +117,13 @@ class Reminder extends VTODO {
             $starttime = strtotime("+" . $reminder['recur_units'] . " " . $recurscale, $initdate );
             //Format startdate for MySQL
             $startdate = date("Y-m-d H:i:s",$starttime);
-            $this->vobject->VTODO->DTSTART=\DateTimeExt::CalDAVZFormatFromMySQLDateTime($startdate);
-            debug("next recurrence date:" . $startdate);
-            if (!is_null($reminder['grace_units'])) {
+            $zStart=\DateTimeExt::CalDAVZFormatFromMySQLDateTime($startdate);
+            if (isset($this->vobject->VTODO->DTEND) && strcmp($zStart,$this->vobject->VTODO->DTEND)>0) $alldone=true;
+            if (!$alldone) {
+                $this->vobject->VTODO->DTSTART=$zStart;
+                debug("next recurrence date:" . $startdate);
+            } 
+            if (!is_null($reminder['grace_units'] && !$alldone)) {
                 debug("next recurrence due: " . "+" . $reminder['grace_units'] . " " . $gracescale);
                 $duetime = strtotime("+" . $reminder['grace_units'] . " " . $gracescale,$starttime);
                 $duedate = date("Y-m-d H:i:s",$duetime);
@@ -128,16 +133,23 @@ class Reminder extends VTODO {
              } else {
                 unset($this->vobject->VTODO->DUE);
              }
-            $this->vobject->VTODO->STATUS="OPEN";
-            unset ($this->vobject->VTODO->COMPLETED);
+            if (!$alldone) {
+                $this->vobject->VTODO->STATUS="OPEN";
+                unset ($this->vobject->VTODO->COMPLETED);
+            }
+
             
             debug("next recurrence active: " . "+" . $reminder['passive_units'] . " " . $passivescale);
             $activetime = strtotime("+" . $reminder['passive_units'] . " " . $passivescale,$starttime) ;
             $activedate = date("Y-m-d H:i:s",$activetime);
-            debug("next recurrence active date:" . $activedate);
-            
-            $sql = $sql . " start_date='" . $startdate . "', ";				
-            $sql = $sql . " active_date='" . $activedate . "', ";	
+
+            if (!$alldone) {
+                debug("next recurrence active date:" . $activedate);
+                
+                $sql = $sql . " start_date='" . $startdate . "', ";				
+                $sql = $sql . " active_date='" . $activedate . "', ";
+            }
+	
             debug($sql);
             
         } else {
