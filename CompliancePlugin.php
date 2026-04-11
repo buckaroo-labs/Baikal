@@ -62,7 +62,7 @@ class CompliancePlugin extends ServerPlugin {
         if (is_resource($data)) {
             $data = stream_get_contents($data);
         }
-
+        debug("Compliance plugin updating file path: " . $path);
         if (strpos($path,"calendars/")!==false && 
             strpos($data,"BEGIN:VEVENT")!==false &&
             strpos($data,"X-BUSYMAC-EVENT-TYPE:JOURNAL")!==false
