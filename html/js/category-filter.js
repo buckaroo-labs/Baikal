@@ -20,6 +20,7 @@ $(document).ready(function(){
     });
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    window.focus();
     window.scrollTo(0, 0);
     
   });
