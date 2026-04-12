@@ -16,8 +16,8 @@
     //if ($_SERVER['SERVER_PORT']!=80 && $_SERVER['SERVER_PORT']!=443) $baseURL .=":" . $_SERVER['SERVER_PORT'];
     $davfile=substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],"index.php"));
     $davfile.= "dav.php";
-    $cardfile.= "card.php";
-    $calfile.= "cal.php";
+    $cardfile.= "/card.php";
+    $calfile.= "/cal.php";
     $calendarsURL=$protocol . $baseURL . $calfile . '/calendars/' . $uname . '/';
     $addrbooksURL=$protocol . $baseURL . $cardfile . '/addressbooks/' . $uname . '/';
     $principalURL=$protocol . $baseURL . $davfile . '/principals/' . $uname . '/';
