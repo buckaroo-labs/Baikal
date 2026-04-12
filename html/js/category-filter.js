@@ -11,8 +11,6 @@ $(document).ready(function(){
   });
   $(".vobjorg").on("click", function() {
     console.log("scrolling to top");
-    //$('body').scrollTop(0);
-    //$(this).toggleClass("activeorg");
     var category=$(this).attr("id");
     //category = category.replace(/ /g, '');
     //category = category.replace(/&/g, '-');
@@ -20,14 +18,6 @@ $(document).ready(function(){
     $("#folderitems tbody tr").filter(function() {
       $(this).toggle($(this).hasClass(category));
     });
-    /*
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
-    window.focus();
-    window.scrollTo(0, 0);
-    console.log("scrolling");
-    */
     window.scroll({
     top: 0, 
     left: 0, 
