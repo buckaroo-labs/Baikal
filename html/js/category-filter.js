@@ -8,8 +8,9 @@ $(document).ready(function(){
     if ($(this).hasClass("active")) $("#folderitems tr." + category).show(); else $("#folderitems tr." + category).hide();
     
   });
-    $(".vobjorg").on("click", function() {
-  
+  $(".vobjorg").on("click", function() {
+    console.log("scrolling to top");
+    //$('body').scrollTop(0);
     //$(this).toggleClass("activeorg");
     var category=$(this).attr("id");
     //category = category.replace(/ /g, '');
@@ -21,12 +22,16 @@ $(document).ready(function(){
     /*
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     window.focus();
     window.scrollTo(0, 0);
     console.log("scrolling");
     */
-    console.log("scrolling to top");
-    $('body').scrollTop(0);
+    window.scroll({
+    top: 0, 
+    left: 0, 
+    behavior: 'smooth' 
+    });
     
   });
 
