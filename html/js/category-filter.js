@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  console.log("document ready");
   $(".vcardcategory").on("click", function() {
   
     $(this).toggleClass("active");
@@ -41,6 +42,7 @@ $(document).ready(function(){
     $(this).toggleClass("active");
     var todostatus=$(this).attr("id");
     if ($(this).hasClass("active")) $("#folderitems tbody>tr." + todostatus).show(); else $("#folderitems tbody>tr." + todostatus).hide();
+    console.log("status clicked: " + todostatus);
   });
 
 });
